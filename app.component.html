@@ -1,0 +1,22 @@
+<mat-divider class="header-devider"></mat-divider>
+<mat-divider class="header-devider"></mat-divider>
+
+<mat-toolbar color="primary">
+  <button mat-button (loginEvent)="closeDialog()" (click)="openDialog()" *ngIf="!isVisible()" class="mainButton">ورود</button>
+  <button mat-button (click)="logout()" *ngIf="isVisible()" class="mainButton">خروج</button>
+  <span class="toolbar">
+  		<button mat-button [routerLink]="['/home']" class="mainButton">خانه</button>
+  		<button mat-button [routerLink]="['/bitcoin']" class="mainButton">بیت کوین</button>
+  		<button mat-button [routerLink]="['/account']" *ngIf="isVisible()" class="mainButton">حساب کاربری</button>
+  		<button mat-button [routerLink]="['/contact']" class="mainButton">تماس با ما</button>  		
+  </span>  
+</mat-toolbar>
+<mat-divider class="header-devider"></mat-divider>
+<mat-divider class="header-devider"></mat-divider>
+<mat-divider class="header-devider"></mat-divider>
+
+
+
+<router-outlet></router-outlet>
+
+ 

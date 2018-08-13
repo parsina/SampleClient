@@ -1,0 +1,24 @@
+div.message
+{
+  font-weight:    bold;
+  padding-left:   25px;
+  padding-right:  25px;
+  padding-bottom: 0px;
+  padding-top: 10px;
+}
+
+div.info
+{
+  padding-left:   25px;
+  padding-right:  25px;
+  padding-top:    0px;
+  padding-bottom: 0px;
+  font-size:      12pt;
+}
+
+.content
+{
+  font-weight: bold;
+  font-size:medium;
+  font-family: 'Vazir', sans-serif;
+}

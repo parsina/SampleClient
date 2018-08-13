@@ -1,0 +1,79 @@
+
+<div class="content">
+	<div class="content-header">
+		<span class="title">خرید و فروش ارزهای دیجیتال</span>
+		<mat-divider class="title-devider"></mat-divider>
+		<mat-form-field>
+	  		<input matInput (keyup)="applyFilter($event.target.value)" placeholder="جستجو">
+		</mat-form-field>
+	</div>
+	<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+	
+	  <!--- Note that these columns can be defined in any order.
+	        The actual rendered columns are set as a property on the row definition" -->
+	
+	  <!-- Symbol Column -->
+	  <ng-container matColumnDef="symbol">
+	    <th mat-header-cell *matHeaderCellDef mat-sort-header="symbol">ارز دیحیتال</th>
+	    <td mat-cell *matCellDef="let element" title="{{element.symbol.toUpperCase()}}"> <img alt="" src="../../assets/crypto/svg/color/{{element.symbol}}.svg"></td>
+	    
+	  </ng-container>
+	  
+	
+	  <!-- ASK Price Column -->
+	  <ng-container matColumnDef="askPrice">
+	  	<th mat-header-cell *matHeaderCellDef mat-sort-header>قیمت خرید</th>
+	    <td mat-cell *matCellDef="let element" class="numberFormat"> {{element.askPrice}} </td>
+	  </ng-container>
+	  
+	  <!-- Buy Button Column -->
+	  <ng-container matColumnDef="buyButton">
+	  	<th mat-header-cell *matHeaderCellDef></th>
+	    <td mat-cell class="leftAlign" *matCellDef="let element"> 
+	    	<button mat-button [routerLink]="['/home']" class="buyButton" [disabled]="isDisabled()">خرید</button> 
+	    </td>
+	  </ng-container>
+	  
+	  <!-- Sell Button Column -->
+	  <ng-container matColumnDef="sellButton" mat-sort-header>
+	    <th mat-header-cell *matHeaderCellDef></th>
+	    <td mat-cell class="rightAlign" *matCellDef="let element"> 
+	    	<button mat-button [routerLink]="['/home']" class="sellButton" [disabled]="isDisabled()">فروش</button> 
+	    </td>
+	  </ng-container>
+	
+	  <!-- BID Price Column -->
+	  <ng-container matColumnDef="bidPrice">
+	    <th mat-header-cell *matHeaderCellDef>قیمت فروش</th>
+	    <td mat-cell *matCellDef="let element" class="numberFormat"> {{element.bidPrice}} </td>
+	  </ng-container>
+	
+	  <!-- Market Capital Column -->
+	  <ng-container matColumnDef="marketValue">
+	    <th mat-header-cell *matHeaderCellDef class="leftAlign" mat-sort-header>سرمایه</th>
+	    <td mat-cell *matCellDef="let element" class="leftAlign numberFormat"> {{element.marketValue}} </td>
+	  </ng-container>
+	  
+	  <!-- Volume Column -->
+	  <ng-container matColumnDef="marketVolume">
+	    <th mat-header-cell *matHeaderCellDef class="leftAlign" mat-sort-header>حجم بازار (24 ساعت)</th>
+	    <td mat-cell *matCellDef="let element" class="leftAlign numberFormat"> {{element.marketVolume}} </td>
+	  </ng-container>
+	  
+	  <!-- Price Change Percent Column -->
+	  <ng-container matColumnDef="changePercent">
+	    <th mat-header-cell *matHeaderCellDef class="leftAlign" mat-sort-header>میزان تغییر(24 ساعت)</th>
+	    <td mat-cell *matCellDef="let element" class="leftAlign numberFormat leftMargin" [ngClass]="{'negative' : element.changePercent < 0, 'positive' : element.changePercent > 0}"> 
+	    	% {{element.changePercent.replace('-','')}} 
+	    </td>
+	  </ng-container>
+	
+	  <tr mat-header-row class="header" *matHeaderRowDef="displayedColumns"></tr>
+	  <tr mat-row [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1}" *matRowDef="let row; columns: displayedColumns; let index = index"></tr>
+	  
+	</table>
+	
+	<br/>
+	<br/>
+	
+</div>
