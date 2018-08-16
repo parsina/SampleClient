@@ -22,6 +22,7 @@ import { LoginComponent } from './component/login/login.component';
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MessageService } from "./service/message.service";
 import { SimpleDialogComponent } from './component/simple-dialog/simple-dialog.component';
+import { ConfirmRegistrationComponent } from './component/confirm-registration/confirm-registration.component';
 
 
 const appRoutes: Routes = [
@@ -29,6 +30,10 @@ const appRoutes: Routes = [
     path: '',
     redirectTo: '/home',
     pathMatch: 'full'
+  },
+  {
+    path: 'confirm',
+    component:ConfirmRegistrationComponent
   },
   {
     path: 'home',
@@ -70,7 +75,8 @@ const appRoutes: Routes = [
     AccountComponent,
     ContactComponent,
     LoginComponent,
-    SimpleDialogComponent
+    SimpleDialogComponent,
+    ConfirmRegistrationComponent
   ],
   entryComponents: [
     SimpleDialogComponent

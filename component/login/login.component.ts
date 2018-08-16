@@ -49,19 +49,19 @@ export class LoginComponent implements OnInit
       repeatedPassword: ['']
     });
 
-//      this.loginForm = this.formBuilder.group({
-//            username: ['', [Validators.required, EmailValidator.validEmail]],
-//            password: ['', Validators.required]
-//        });
-//
-//        this.registerForm = this.formBuilder.group({
-//            username: ['', [Validators.required, EmailValidator.validEmail]],
-//            password: ['', [Validators.required, PasswordValidator.strong]],
-//            repeatedPassword: ['', Validators.required]
-//        },
-//        {
-//          validator: PasswordValidator.match.bind(this)
-//        });
+    this.loginForm = this.formBuilder.group({
+      username: ['', [Validators.required, EmailValidator.validEmail]],
+      password: ['', Validators.required]
+    });
+
+    this.registerForm = this.formBuilder.group({
+        username: ['', [Validators.required, EmailValidator.validEmail]],
+        password: ['', [Validators.required, PasswordValidator.strong]],
+        repeatedPassword: ['', Validators.required]
+      },
+      {
+        validator: PasswordValidator.match.bind(this)
+      });
 
     // reset login status
     this.authenticationService.logout();
@@ -121,31 +121,42 @@ export class LoginComponent implements OnInit
     this.loading = true;
     this.userService.register(this.registerForm.value)
       .pipe(first())
-      .subscribe(
-        data =>
+      .subscribe(data =>
         {
+          let title = 'ثبت نام';
+          let message;
+          let info = 'تا چند دقیقه دیگر، لینک فعال سازی به آدرس ایمیل شما ارسال خواهد شد.';
 
           const result = JSON.parse(JSON.stringify(data));
           if (result.success)
           {
-            let title = "ثبت نام";
-            let message = "ثبت نام شما با موفقیت انجام گردید.";
-            let info = "تا چند دقیقه دیگر، لینک فعال سازی به آدرس ایمیل شما ارسال خواهد شد.";
+            message = 'ثبت نام شما با موفقیت انجام گردید.';
             MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
+              .subscribe(results =>
+              {
+                this.userService.sendActivationEmail(result.properties.userEmail)
+                  .subscribe(
+                    result =>
+                    {
+                      console.log('Send !!!!');
+                      this.router.navigate(['/home']);
+                    },
+                    errors =>
+                    {
+                      console.log('Error !!!!');
+                    });
+              });
+          }
+          else
+          {
+            message = 'خطا در ثبت نام';
+            MessageBox.show(this.dialog, message, title, result.message, 0, false, 1, '30%')
               .subscribe(results =>
               {
                 console.log(results);
               });
-
           }
-          else
-          {
-            alert('NOk');
-          }
-
-          this.router.navigate(['/home']);
-        },
-        error =>
+        },error =>
         {
 //                    this.alertService.error(error);
           alert('Error');
