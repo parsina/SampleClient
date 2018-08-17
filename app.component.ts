@@ -30,7 +30,7 @@ export class AppComponent
   
   isVisible()
   {
-    return (localStorage.getItem('currentUser') != null);  
+    return (sessionStorage.getItem('currentUser') != null);
   }
   
   logout(): void

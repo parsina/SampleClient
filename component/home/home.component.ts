@@ -37,6 +37,6 @@ export class HomeComponent implements OnInit
   
   isDisabled()
   {    
-    return (localStorage.getItem('currentUser') == null || localStorage.getItem('currentUser') === null);  
+    return (sessionStorage.getItem('currentUser') == null || sessionStorage.getItem('currentUser') === null);
   }
 }

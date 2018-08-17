@@ -1,27 +1,23 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {map} from 'rxjs/operators';
+import {User} from '../auth/model/user';
 
 @Injectable({providedIn: 'root'})
-export class AuthenticationService 
+export class AuthenticationService
 {
-  constructor(private http: HttpClient) { }
- 
-    login(username: string, password: string) 
-    {
-        return this.http.post<any>('/api/authenticate', { username: username, password: password })
-            .pipe(map((res:any) => 
-            {
-                // login successful if there's a jwt token in the response
-                if (res && res.token) {
-                    // store username and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({ username, token: res.token }));
-                }
-            }));
-    }
- 
-    logout() 
-    { 
-      localStorage.removeItem('currentUser');
-    }
+  constructor(private http: HttpClient)
+  {
+  }
+
+  login(user: User)
+  {
+    return this.http.post<any>('//localhost:8090/api/authenticate/', {username: user.username, password: user.password});
+  }
+
+  logout()
+  {
+    this.http.post<any>('//localhost:8090/api/logout/', {user: sessionStorage.getItem('currentUser')});
+    sessionStorage.removeItem('currentUser');
+  }
 }

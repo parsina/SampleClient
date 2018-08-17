@@ -3,9 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { AuthGuard } from "./auth/guard/authguard";
-import { ErrorInterceptor } from "./auth/helper/error.interceptor";
-import { fakeBackendProvider, FakeBackentInterceptor } from "./auth/helper/fakebackent";
-import { JwtInterceptor } from "./auth/helper/jwt.interceptor";
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatTableModule, MatIconModule, MatPaginatorModule, MatPaginatorIntl, MatPaginator, MatProgressSpinnerModule, MatGridListModule, MatDialogModule, MatTabsModule, MAT_DIALOG_DATA } from '@angular/material';
@@ -103,20 +100,8 @@ const appRoutes: Routes = [
   providers: [
     MarketService,
     BitcointradeService,
-    { 
-      provide: HTTP_INTERCEPTORS, 
-      useClass: JwtInterceptor, 
-      multi: true 
-    },
-    { 
-      provide: HTTP_INTERCEPTORS, 
-      useClass: ErrorInterceptor, 
-      multi: true 
-    },
     {provide: MAT_DIALOG_DATA, useValue: {}},
-    MessageService,
-    // provider used to create fake backend
-    fakeBackendProvider   
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

@@ -8,7 +8,7 @@ import {Component, OnInit, Inject} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
-import {first} from 'rxjs/operators';
+import {first, map} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +23,8 @@ export class LoginComponent implements OnInit
   loginSubmitted = false;
   registerSubmitted = false;
   returnUrl: string;
-  error = '';
+  loginError = '';
+  registerError = '';
 
   constructor(
     public dialogRef: MatDialogRef<LoginComponent>,
@@ -92,20 +93,28 @@ export class LoginComponent implements OnInit
     }
 
     this.loading = true;
-    this.authenticationService.login(this.lForm.username.value, this.lForm.password.value)
+    this.authenticationService.login(this.loginForm.value)
       .pipe(first())
-      .subscribe(
-        data =>
+      .subscribe(data =>
+      {
+        const result = JSON.parse(JSON.stringify(data));
+        if (result.success)
         {
+          // store username and jwt token in local storage to keep user logged in between page refreshes
+          sessionStorage.setItem('currentUser', JSON.stringify({userId: result.id, username: result.email, userInfo: result.info, token: ''}));
           this.dialogRef.close();
           this.router.navigate([this.returnUrl]);
-        },
-        error =>
+        }
+        else
         {
-          this.error = error;
+          this.loginError = result.message;
           this.loading = false;
-        });
-
+        }
+      },error =>
+      {
+        this.loginError = error;
+        this.loading = false;
+      });
   }
 
   onRegister()
