@@ -148,7 +148,7 @@ export class LoginComponent implements OnInit
                     result =>
                     {
                       console.log('Send !!!!');
-                      this.router.navigate(['/home']);
+                      this.router.navigate(['/crypto-home']);
                     },
                     errors =>
                     {

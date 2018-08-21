@@ -52,7 +52,7 @@ export class ConfirmRegistrationComponent implements OnInit
             .subscribe(results =>
             {
               console.log(results);
-              this.router.navigate(['/home']);
+              this.router.navigate(['/crypto-home']);
             });
         },
         error =>

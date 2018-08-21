@@ -1,42 +1,27 @@
-import { MarketService } from '../../service/market.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import {MatTableDataSource, MatPaginator, MatSort} from '@angular/material';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit 
+export class HomeComponent implements OnInit
 {
-  displayedColumns: string[] = ['symbol', 'buyButton', 'askPrice', 'bidPrice', 'sellButton', 'marketValue', 'marketVolume', 'changePercent'];
-  dataSource: MatTableDataSource<any>;
-  
-  constructor(private marketService: MarketService) 
-  { 
-    this.dataSource = new MatTableDataSource(); 
-  }  
+  selectedValue: string;
 
-  ngOnInit() 
-  {     
-    this.marketService.getMarketData().subscribe(data => 
-    { 
-      this.dataSource.data = data;
-    });
-    
+  foods: any[] =
+    [
+      {value: 'steak-0', viewValue: 'Steak'},
+      {value: 'pizza-1', viewValue: 'Pizza'},
+      {value: 'tacos-2', viewValue: 'Tacos'}
+    ];
+
+  constructor()
+  {
   }
-    
-  applyFilter(filterValue: string) 
-  { 
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    if (this.dataSource.paginator) 
-    {
-      this.dataSource.paginator.firstPage();
-    }
+
+  ngOnInit()
+  {
   }
-  
-  isDisabled()
-  {    
-    return (sessionStorage.getItem('currentUser') == null || sessionStorage.getItem('currentUser') === null);
-  }
+
 }

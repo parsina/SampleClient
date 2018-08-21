@@ -5,10 +5,27 @@ import { AppComponent } from './app.component';
 import { AuthGuard } from "./auth/guard/authguard";
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule, MatTableModule, MatIconModule, MatPaginatorModule, MatPaginatorIntl, MatPaginator, MatProgressSpinnerModule, MatGridListModule, MatDialogModule, MatTabsModule, MAT_DIALOG_DATA } from '@angular/material';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatInputModule,
+  MatListModule,
+  MatToolbarModule,
+  MatTableModule,
+  MatIconModule,
+  MatPaginatorModule,
+  MatPaginatorIntl,
+  MatPaginator,
+  MatProgressSpinnerModule,
+  MatGridListModule,
+  MatDialogModule,
+  MatTabsModule,
+  MAT_DIALOG_DATA,
+  MatSelectModule
+} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './component/home/home.component';
+import { CryptoHomeComponent } from './component/crypto-home/crypto-home.component';
 import { AccountComponent } from './component/account/account.component';
 import { BitcoinComponent } from './component/bitcoin/bitcoin.component';
 import { ContactComponent } from './component/contact/contact.component';
@@ -20,6 +37,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MessageService } from "./service/message.service";
 import { SimpleDialogComponent } from './component/simple-dialog/simple-dialog.component';
 import { ConfirmRegistrationComponent } from './component/confirm-registration/confirm-registration.component';
+import { HomeComponent } from './component/home/home.component';
 
 
 const appRoutes: Routes = [
@@ -67,13 +85,14 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    CryptoHomeComponent,
     BitcoinComponent,
     AccountComponent,
     ContactComponent,
     LoginComponent,
     SimpleDialogComponent,
-    ConfirmRegistrationComponent
+    ConfirmRegistrationComponent,
+    HomeComponent
   ],
   entryComponents: [
     SimpleDialogComponent
@@ -95,6 +114,7 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatTabsModule,
     MatPaginatorModule,
+    MatSelectModule,
     MatGridListModule
   ],
   providers: [
