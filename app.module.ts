@@ -14,14 +14,11 @@ import {
   MatTableModule,
   MatIconModule,
   MatPaginatorModule,
-  MatPaginatorIntl,
-  MatPaginator,
-  MatProgressSpinnerModule,
   MatGridListModule,
   MatDialogModule,
   MatTabsModule,
   MAT_DIALOG_DATA,
-  MatSelectModule
+  MatSelectModule, MatCheckboxModule, MatPaginatorIntl
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
@@ -31,13 +28,13 @@ import { BitcoinComponent } from './component/bitcoin/bitcoin.component';
 import { ContactComponent } from './component/contact/contact.component';
 import { BitcointradeService } from "./service/bitcointrade.service";
 import { MarketService } from './service/market.service';
-import { CustomPaginator } from './utils/custompaginator';
 import { LoginComponent } from './component/login/login.component';
-import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { MessageService } from "./service/message.service";
 import { SimpleDialogComponent } from './component/simple-dialog/simple-dialog.component';
 import { ConfirmRegistrationComponent } from './component/confirm-registration/confirm-registration.component';
 import { HomeComponent } from './component/home/home.component';
+import { FormCreateComponent } from './component/form-create/form-create.component';
+import {MatPaginatorFarsi} from './utils/mat-paginator-farsi';
 
 
 const appRoutes: Routes = [
@@ -67,6 +64,10 @@ const appRoutes: Routes = [
     path: 'contact',
     component: ContactComponent,
   },
+  {
+    path: 'formCreate',
+    component: FormCreateComponent,
+  },
   { 
     path: 'login', 
     component: LoginComponent 
@@ -92,7 +93,8 @@ const appRoutes: Routes = [
     LoginComponent,
     SimpleDialogComponent,
     ConfirmRegistrationComponent,
-    HomeComponent
+    HomeComponent,
+    FormCreateComponent
   ],
   entryComponents: [
     SimpleDialogComponent
@@ -115,11 +117,13 @@ const appRoutes: Routes = [
     MatTabsModule,
     MatPaginatorModule,
     MatSelectModule,
+    MatCheckboxModule,
     MatGridListModule
   ],
   providers: [
     MarketService,
     BitcointradeService,
+    {provide: MatPaginatorIntl, useClass: MatPaginatorFarsi},
     {provide: MAT_DIALOG_DATA, useValue: {}},
     MessageService
   ],
