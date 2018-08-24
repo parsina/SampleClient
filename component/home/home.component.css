@@ -7,7 +7,7 @@
 .content-header
 {
   font-weight:   bold;
-  font-size:     x-large;
+  font-size:     large;
   font-family:   'Vazir', sans-serif;
   text-align:    right;
   padding-right: 10%;
@@ -26,19 +26,34 @@
   border-color: #ac98f2;
 }
 
+::ng-deep .mat-select-value
+{
+  color: red;
+}
+
 .mat-select
 {
   width:      10%;
-  text-align: right;
+  padding:       8px;
+  direction:  rtl;
+  text-align: center;
+  background-color: #e6faff;
+  border: 1px solid;
+  border-color:   #e5e6e9 #dfe0e4 #d0d1d5;
+  border-radius: 10px;
   font-size:  small;
-  color:      gray;
-  direction:  ltr;
+  font-weight: bold;
+  font-family: 'Vazir', sans-serif;
 }
 
-.mat-option
+::ng-deep .mat-select-content
 {
-  text-align: right;
-  direction:  ltr;
+  border-color:   #e5e6e9 #dfe0e4 #d0d1d5;
+  border-radius: 10px;
+  font-size:  small;
+  font-weight: bold;
+  font-family: 'Vazir', sans-serif;
+  background-color: #e6faff;
 }
 
 .mat-table
@@ -146,7 +161,6 @@
   border-image-width:  initial;
   border-image-outset: initial;
   border-image-repeat: initial;
-  border-radius:       4px;
 }
 
 .row1
@@ -154,7 +168,7 @@
   content:             "";
   /*     width: 100%; */
   /*     height: 100%; */
-  background-color:    rgba(237, 237, 237, 0.3);
+  background-color:    rgba(220, 220, 220, 0.3);
   top:                 0;
   left:                0;
   -webkit-transition:  background 0.25s;
@@ -180,7 +194,6 @@
   border-image-width:  initial;
   border-image-outset: initial;
   border-image-repeat: initial;
-  border-radius:       4px;
 }
 
 .buyButton
@@ -209,3 +222,17 @@
   font-family: 'Vazir', sans-serif;
 }
 
+.mat-paginator
+{
+  text-align:  center;
+  padding:     10px;
+  font-weight: bold;
+  font-family: 'Vazir', sans-serif;
+}
+
+.centerAlign
+{
+  display:         inline-flex;
+  flex-direction:  row;
+  justify-content: space-between;
+}

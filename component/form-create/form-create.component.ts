@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
 import {FormService} from '../../service/form.service';
 import {MessageBox} from '../../utils/messagebox';
@@ -16,7 +16,7 @@ export class FormCreateComponent implements OnInit
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private formService: FormService, private dialog: MatDialog)
+  constructor(private formService: FormService, private dialog: MatDialog, private changeDetectorRefs: ChangeDetectorRef)
   {
     this.dataSource = new MatTableDataSource();
   }
@@ -91,6 +91,7 @@ export class FormCreateComponent implements OnInit
     this.formService.getMatchesData().subscribe(data =>
     {
       this.dataSource.data = data;
+      this.changeDetectorRefs.detectChanges();
     });
   }
 
@@ -102,8 +103,8 @@ export class FormCreateComponent implements OnInit
     this.formService.loadMatches().subscribe(data =>
     {
       this.dataSource.data = data;
+      this.changeDetectorRefs.detectChanges();
     });
-
     MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%');
   }
 }
