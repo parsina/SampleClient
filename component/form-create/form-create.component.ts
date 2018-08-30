@@ -10,7 +10,7 @@ import {MessageBox} from '../../utils/messagebox';
 })
 export class FormCreateComponent implements OnInit
 {
-  displayedColumns: string[] = ['checkbox', 'date', 'time', 'country', 'league', 'home', 'away', 'location'];
+  displayedColumns: string[] = ['checkbox', 'date', 'time', 'league', 'homeCountry', 'homeLogo', 'homeTeam', 'awayTeam', 'awayLogo', 'awayCountry'];
   dataSource: MatTableDataSource<any>;
   counter: number = 0;
 
@@ -69,23 +69,29 @@ export class FormCreateComponent implements OnInit
 
     if (ids.length == 10)
     {
-      let title = 'ثبت فرم';
-      let message;
-      let info = 'فرم ثبت شد.';
 
-      MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-        .subscribe(results =>
-        {
-          this.formService.createForm(ids)
-            .subscribe(
-              result =>
+      this.formService.createFormTemplate(ids)
+        .subscribe(
+          result =>
+          {
+            let title = 'ثبت فرم';
+            let message;
+            let info = 'فرم ثبت شد.';
+
+            MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
+              .subscribe(messageResult =>
               {
-              },
-              errors =>
-              {
-                console.log('Form Creation Error !!!!');
+                this.dataSource.data = result;
+                this.counter = 0;
               });
-        });
+          },
+          errors =>
+          {
+            console.log('Form Creation Error !!!!');
+          });
+
+
+
     }
 
     this.formService.getMatchesData().subscribe(data =>
@@ -93,18 +99,5 @@ export class FormCreateComponent implements OnInit
       this.dataSource.data = data;
       this.changeDetectorRefs.detectChanges();
     });
-  }
-
-  loadMatches()
-  {
-    let title = 'بارگزاری';
-    let message;
-    let info = 'بارگزاری شد.';
-    this.formService.loadMatches().subscribe(data =>
-    {
-      this.dataSource.data = data;
-      this.changeDetectorRefs.detectChanges();
-    });
-    MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%');
   }
 }

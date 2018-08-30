@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatTableDataSource} from '@angular/material';
 import {FormService} from '../../service/form.service';
 import { ViewEncapsulation } from '@angular/core';
+import {ajax} from 'rxjs/ajax';
+import {ajaxGet} from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,7 @@ import { ViewEncapsulation } from '@angular/core';
 export class HomeComponent implements OnInit
 {
   encapsulation: ViewEncapsulation.None
-  displayedColumns: string[] = ['date', 'country', 'league', 'home', 'liveScore', 'away'];
+  displayedColumns: string[] = ['index', 'date', 'time', 'league', 'homeCountry', 'homeCountryFlag', 'homeName', 'homeLogo', 'liveScore', 'awayLogo', 'awayName', 'awayCountryFlag', 'awayCountry'];
   formList: any[];
   dataSource: MatTableDataSource<any>;
   counter: number = 0;
@@ -55,13 +57,15 @@ export class HomeComponent implements OnInit
         });
       }
     });
+
+
   }
 
-  change(food: any)
+  change()
   {
-    this.formService.getFormTemplateData(this.formId).subscribe(data1 =>
+    this.formService.getFormTemplateData(this.formId).subscribe(data =>
     {
-      this.dataSource.data = data1.properties.matches;
+      this.dataSource.data = data.properties.matches;
     });
   }
 
