@@ -19,10 +19,8 @@ export class HomeComponent implements OnInit
   counter: number = 0;
   formId: number;
   formName: string;
-  formNumber: number;
-  formScore: number;
   formValue: number;
-  formType: string;
+
 
   foods: any[] =
     [
@@ -46,19 +44,18 @@ export class HomeComponent implements OnInit
       if (this.formList.length > 0)
       {
         this.formId = this.formList[0].properties.id;
-        this.formService.getFormTemplateData(this.formId).subscribe(formData =>
+        this.formService.getFormTemplateData(this.formId).subscribe(data =>
         {
-          this.formName = formData.name;
-          this.formValue = formData.value;
-          this.formNumber = formData.number;
-          this.formScore = formData.score;
-          this.formType = formData.type;
-          this.dataSource.data = formData.properties.matches;
+          let source = this.formService.getSource();
+          source.addEventListener('message', message =>
+          {
+            this.formName = JSON.parse(message.data).properties.name;
+            this.formValue = JSON.parse(message.data).properties.value;
+            this.dataSource.data = JSON.parse(message.data).properties.matches;
+          });
         });
       }
     });
-
-
   }
 
   change()

@@ -1,13 +1,20 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '../../../node_modules/@angular/common/http';
-import {Observable} from 'rxjs';
+import {Injectable, NgZone} from '@angular/core';
+import {HttpClient, HttpParams} from '../../../node_modules/@angular/common/http';
+import {BehaviorSubject, observable, Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormService
 {
-  constructor(private http: HttpClient)
+  private source;
+
+  getSource() : any
+  {
+    return this.source;
+  }
+
+  constructor(private http: HttpClient, private zone:NgZone)
   {
   }
 
@@ -21,9 +28,12 @@ export class FormService
     return this.http.get('//localhost:8090/formTemplates');
   }
 
-  getFormTemplateData(id:number): Observable<any>
+  getFormTemplateData(id:number):Observable<any>
   {
-    return this.http.post('//localhost:8090/formTemplateData', {'id': id});
+    const params = new HttpParams().set("id",String(id));
+    let observable = this.http.get('//localhost:8090/formTemplateData', {params: params});
+    this.source = new EventSource('//localhost:8090/updateFormTemplate?id=' + id);
+    return observable;
   }
 
   createFormTemplate(ids:any): Observable<any>
