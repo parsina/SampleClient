@@ -12,12 +12,31 @@ import {ajaxGet} from 'rxjs/internal-compatibility';
 })
 export class HomeComponent implements OnInit
 {
-  encapsulation: ViewEncapsulation.None
-  displayedColumns: string[] = ['index', 'date', 'time', 'league', 'homeCountry', 'homeCountryFlag', 'homeName', 'homeLogo', 'liveScore', 'awayLogo', 'awayName', 'awayCountryFlag', 'awayCountry'];
+  encapsulation: ViewEncapsulation.None;
+  displayedColumns: string[] =
+    [
+      'index',
+      'date',
+      'time',
+      'league',
+      // 'homeCountry',
+      // 'homeCountryFlag',
+      'homeName',
+      'homeLogo',
+      'liveScore',
+      'awayLogo',
+      'awayName',
+      // 'awayCountryFlag',
+      // 'awayCountry',
+      'minute',
+      'status'
+    ];
+
   formList: any[];
   dataSource: MatTableDataSource<any>;
   counter: number = 0;
   formId: number;
+  formTemplateId: number;
   formName: string;
   formValue: number;
 
@@ -51,7 +70,15 @@ export class HomeComponent implements OnInit
           {
             this.formName = JSON.parse(message.data).properties.name;
             this.formValue = JSON.parse(message.data).properties.value;
-            this.dataSource.data = JSON.parse(message.data).properties.matches;
+            this.dataSource.data.splice(0, this.dataSource.data.length);
+            const data = this.dataSource.data;
+            for(let i = 0; i< JSON.parse(message.data).properties.matches.length; i++)
+            {
+              this.formTemplateId = JSON.parse(message.data).properties.matches[i].properties.formTemplateId;
+              if(this.formId == this.formTemplateId)
+                data.push(JSON.parse(message.data).properties.matches[i]);
+            }
+            this.dataSource.data = data;
           });
         });
       }

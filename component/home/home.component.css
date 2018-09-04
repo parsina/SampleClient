@@ -33,26 +33,26 @@
 
 .mat-select
 {
-  width:      10%;
-  padding:       8px;
-  direction:  rtl;
-  text-align: center;
+  width:            10%;
+  padding:          8px;
+  direction:        rtl;
+  text-align:       center;
   background-color: #e6faff;
-  border: 1px solid;
-  border-color:   #e5e6e9 #dfe0e4 #d0d1d5;
-  border-radius: 10px;
-  font-size:  small;
-  font-weight: bold;
-  font-family: 'Vazir', sans-serif;
+  border:           1px solid;
+  border-color:     #e5e6e9 #dfe0e4 #d0d1d5;
+  border-radius:    10px;
+  font-size:        small;
+  font-weight:      bold;
+  font-family:      'Vazir', sans-serif;
 }
 
 ::ng-deep .mat-select-content
 {
-  border-color:   #e5e6e9 #dfe0e4 #d0d1d5;
-  border-radius: 10px;
-  font-size:  small;
-  font-weight: bold;
-  font-family: 'Vazir', sans-serif;
+  border-color:     #e5e6e9 #dfe0e4 #d0d1d5;
+  border-radius:    10px;
+  font-size:        small;
+  font-weight:      bold;
+  font-family:      'Vazir', sans-serif;
   background-color: #e6faff;
 }
 
