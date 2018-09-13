@@ -3,6 +3,7 @@ import { AuthenticationService } from "./service/authentication.service";
 import { Component, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { Router } from "@angular/router";
+import {DataStorage} from './auth/data.storage';
 
 @Component({
   selector: 'app',
@@ -11,7 +12,9 @@ import { Router } from "@angular/router";
 })
 export class AppComponent 
 { 
-  constructor(private router: Router, private authenticationService: AuthenticationService, private dialog: MatDialog){} 
+  constructor(private router: Router,
+              private authenticationService: AuthenticationService,
+              private dialog: MatDialog){}
   
   openDialog(): void 
   {
@@ -27,16 +30,21 @@ export class AppComponent
       console.log('The dialog was closed !!!!!!');
     });
   }
-  
-  isVisible()
+
+  isUserLoggedIn()
   {
-    return (sessionStorage.getItem('currentUser') != null);
+    return this.authenticationService.isUserLoggedIn();
+  }
+  
+  accessibleByRole(role)
+  {
+    return this.authenticationService.checkRoleAccessibility(role);
   }
   
   logout(): void
   {
     this.authenticationService.logout(); 
-    this.router.navigate(['/crypto-home']);
+    this.router.navigate(['/home']);
   }
 
 }

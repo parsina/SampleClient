@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatTableDataSource} from '@angular/material';
+import {MatTableDataSource} from '@angular/material';
 import {FormService} from '../../service/form.service';
-import { ViewEncapsulation } from '@angular/core';
-import {ajax} from 'rxjs/ajax';
-import {ajaxGet} from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +9,6 @@ import {ajaxGet} from 'rxjs/internal-compatibility';
 })
 export class HomeComponent implements OnInit
 {
-  encapsulation: ViewEncapsulation.None;
   displayedColumns: string[] =
     [
       'index',
@@ -34,21 +30,12 @@ export class HomeComponent implements OnInit
 
   formList: any[];
   dataSource: MatTableDataSource<any>;
-  counter: number = 0;
   formId: number;
   formTemplateId: number;
   formName: string;
-  formValue: number;
+  formValue: number = 100;
 
-
-  foods: any[] =
-    [
-      {value: 'steak-0', viewValue: 'Steak'},
-      {value: 'pizza-1', viewValue: 'Pizza'},
-      {value: 'tacos-2', viewValue: 'Tacos'}
-    ];
-
-  constructor(private formService: FormService, private dialog: MatDialog)
+  constructor(private formService: FormService)
   {
     this.dataSource = new MatTableDataSource();
   }
@@ -58,87 +45,40 @@ export class HomeComponent implements OnInit
     this.formService.getFormTemplates().subscribe(data =>
     {
       this.formList = data;
-      for(let i =0; i < this.formList.length; i++)
-        this.formList[i].properties.name = "فرم شماره " + this.formList[i].properties.name;
+      for (let i = 0; i < this.formList.length; i++)
+        this.formList[i].properties.name = 'فرم شماره ' + this.formList[i].properties.name;
       if (this.formList.length > 0)
       {
         this.formId = this.formList[0].properties.id;
         this.formService.getFormTemplateData(this.formId).subscribe(data =>
         {
-          let source = this.formService.getSource();
-          source.addEventListener('message', message =>
+          this.formName = data.properties.name;
+          this.formValue = data.properties.value;
+          this.dataSource.data = data.properties.matches;
+        });
+
+        let source = this.formService.updateFromTemplate();
+        source.addEventListener('message', message =>
+        {
+          this.dataSource.data.splice(0, this.dataSource.data.length);
+          const data = this.dataSource.data;
+          for (let i = 0; i < JSON.parse(message.data).properties.matches.length; i++)
           {
-            this.formName = JSON.parse(message.data).properties.name;
-            this.formValue = JSON.parse(message.data).properties.value;
-            this.dataSource.data.splice(0, this.dataSource.data.length);
-            const data = this.dataSource.data;
-            for(let i = 0; i< JSON.parse(message.data).properties.matches.length; i++)
-            {
-              this.formTemplateId = JSON.parse(message.data).properties.matches[i].properties.formTemplateId;
-              if(this.formId == this.formTemplateId)
-                data.push(JSON.parse(message.data).properties.matches[i]);
-            }
-            this.dataSource.data = data;
-          });
+            this.formTemplateId = JSON.parse(message.data).properties.matches[i].properties.formTemplateId;
+            if (this.formId == this.formTemplateId)
+              data.push(JSON.parse(message.data).properties.matches[i]);
+          }
+          this.dataSource.data = data;
         });
       }
     });
   }
 
-  change()
+  changeForm()
   {
     this.formService.getFormTemplateData(this.formId).subscribe(data =>
     {
       this.dataSource.data = data.properties.matches;
     });
-  }
-
-
-  selectHomeWinCheckbox(element: any)
-  {
-    let id = element.properties.id;
-    let checked = !element.properties.homeWin;
-    if (checked)
-      this.counter++;
-    else
-      this.counter--;
-
-    for (let i = 0; i < this.dataSource.data.length; i++)
-      if (this.dataSource.data[i].properties.id === id)
-        this.dataSource.data[i].properties.homeWin = checked;
-
-    console.log(this.counter);
-  }
-
-  selectNoWinCheckbox(element: any)
-  {
-    let id = element.properties.id;
-    let checked = !element.properties.noWin;
-    if (checked)
-      this.counter++;
-    else
-      this.counter--;
-
-    for (let i = 0; i < this.dataSource.data.length; i++)
-      if (this.dataSource.data[i].properties.id === id)
-        this.dataSource.data[i].properties.noWin = checked;
-
-    console.log(this.counter);
-  }
-
-  selectAwayWinCheckbox(element: any)
-  {
-    let id = element.properties.id;
-    let checked = !element.properties.awayWin;
-    if (checked)
-      this.counter++;
-    else
-      this.counter--;
-
-    for (let i = 0; i < this.dataSource.data.length; i++)
-      if (this.dataSource.data[i].properties.id === id)
-        this.dataSource.data[i].properties.awayWin = checked;
-
-    console.log(this.counter);
   }
 }

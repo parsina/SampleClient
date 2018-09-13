@@ -23,17 +23,17 @@ export class UserService
 
   register(user: User)
   {
-    return this.http.post(`//localhost:8090/api/register/`, {username: user.username, pass: user.password, reppass: user.repeatedPassword});
+    return this.http.post(`//localhost:8090/auth/signUp/`, {username: user.username, pass: user.password, reppass: user.repeatedPassword});
   }
 
   sendActivationEmail(email: string)
   {
-    return this.http.post(`//localhost:8090/api/sendActivationLink/`, {'email': email});
+    return this.http.post(`//localhost:8090/auth/sendActivationLink/`, {'email': email});
   }
 
   confirmRegistration(token: string)
   {
-    return this.http.post(`//localhost:8090/api/confirm/`, {'token': token});
+    return this.http.post(`//localhost:8090/auth/confirmActivationToken/`, {'token': token});
   }
 
   update(user: User)

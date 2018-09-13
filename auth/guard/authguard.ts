@@ -1,21 +1,26 @@
-import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
+import {DataStorage} from '../data.storage';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate
 {
-  constructor(private router: Router) { }
- 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) 
+  constructor(private router: Router, private dataStorage: DataStorage)
+  {
+  }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)
+  {
+    let userData = this.dataStorage.getJsonData();
+    if (userData != null && userData.userId != null)
     {
-        if (sessionStorage.getItem('currentUser'))
-        {
-            // logged in so return true
-            return true;
-        }
- 
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(['/crypto-home'], { queryParams: { returnUrl: state.url }});
-        return false;
-    }  
+      if(state.url == '/account' && (userData.userRole === 'ROLE_USER' || userData.userRole === 'ROLE_ADMIN'))
+        return true;
+      if(state.url == '/createForm' && userData.userRole === 'ROLE_ADMIN')
+        return true
+    }
+    // not logged in so redirect to login page with the return url
+    this.router.navigate(['/'], {queryParams: {returnUrl: state.url}});
+    return false;
+  }
 }

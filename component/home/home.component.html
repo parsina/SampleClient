@@ -4,7 +4,7 @@
     <mat-divider class="title-devider"></mat-divider>
 
     <br/>
-    <mat-select [(ngModel)]="formId" name="form" (selectionChange)="change();" align="right" dir="rtl">
+    <mat-select [(ngModel)]="formId" name="form" (selectionChange)="changeForm();" align="right" dir="rtl">
       <mat-option *ngFor="let form of formList" [value]="form.properties.id">
         {{form.properties.name}}
       </mat-option>
@@ -102,30 +102,6 @@
         {{element.properties.status}}
       </td>
     </ng-container>
-
-    <!--&lt;!&ndash; homeWin CheckBox Column &ndash;&gt;-->
-    <!--<ng-container matColumnDef="homeWin">-->
-      <!--<th mat-header-cell *matHeaderCellDef mat-sort-header>برد میزبان</th>-->
-      <!--<td mat-cell *matCellDef="let element">-->
-        <!--<mat-checkbox (click)="selectHomeWinCheckbox(element)"></mat-checkbox>-->
-      <!--</td>-->
-    <!--</ng-container>-->
-
-    <!--&lt;!&ndash; noWin CheckBox Column &ndash;&gt;-->
-    <!--<ng-container matColumnDef="noWin">-->
-      <!--<th mat-header-cell *matHeaderCellDef mat-sort-header>مساوی</th>-->
-      <!--<td mat-cell *matCellDef="let element">-->
-        <!--<mat-checkbox (click)="selectNoWinCheckbox(element)"></mat-checkbox>-->
-      <!--</td>-->
-    <!--</ng-container>-->
-
-    <!--&lt;!&ndash; awayWin CheckBox Column &ndash;&gt;-->
-    <!--<ng-container matColumnDef="awayWin">-->
-      <!--<th mat-header-cell *matHeaderCellDef mat-sort-header>برد میهمان</th>-->
-      <!--<td mat-cell *matCellDef="let element">-->
-        <!--<mat-checkbox (click)="selectAwayWinCheckbox(element)"></mat-checkbox>-->
-      <!--</td>-->
-    <!--</ng-container>-->
 
     <tr mat-header-row class="header" *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1}" *matRowDef="let row; columns: displayedColumns; let index = index"></tr>

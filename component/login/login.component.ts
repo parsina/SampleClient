@@ -9,6 +9,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {first, map} from 'rxjs/operators';
+import {DataStorage} from '../../auth/data.storage';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +34,8 @@ export class LoginComponent implements OnInit
     private router: Router,
     private userService: UserService,
     private authenticationService: AuthenticationService,
-    private dialog: MatDialog)
+    private dialog: MatDialog,
+    private dataStorage: DataStorage)
   {
   }
 
@@ -100,8 +102,8 @@ export class LoginComponent implements OnInit
         const result = JSON.parse(JSON.stringify(data));
         if (result.success)
         {
-          // store username and jwt token in local storage to keep user logged in between page refreshes
-          sessionStorage.setItem('currentUser', JSON.stringify({userId: result.id, username: result.email, userInfo: result.info, token: ''}));
+          // store username and jwt dataStorage in local storage to keep user logged in between page refreshes
+          this.dataStorage.saveData(data.properties);
           this.dialogRef.close();
           this.router.navigate([this.returnUrl]);
         }

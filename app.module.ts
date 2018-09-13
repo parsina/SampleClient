@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { AuthGuard } from "./auth/guard/authguard";
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatButtonModule,
@@ -18,7 +18,7 @@ import {
   MatDialogModule,
   MatTabsModule,
   MAT_DIALOG_DATA,
-  MatSelectModule, MatCheckboxModule, MatPaginatorIntl
+  MatSelectModule, MatCheckboxModule, MatPaginatorIntl, MatTooltipModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
@@ -35,6 +35,11 @@ import { ConfirmRegistrationComponent } from './component/confirm-registration/c
 import { HomeComponent } from './component/home/home.component';
 import { FormCreateComponent } from './component/form-create/form-create.component';
 import {MatPaginatorFarsi} from './utils/mat-paginator-farsi';
+import { CurrencyPipe } from './utils/pipes/currency.pipe';
+import { CurrencyFormatterDirective } from './utils/directives/currency-formatter.directive';
+import {DataStorage} from './auth/data.storage';
+import {JwtInterceptor} from './auth/helper/jwt.interceptor';
+import {ErrorInterceptor} from './auth/helper/error.interceptor';
 
 
 const appRoutes: Routes = [
@@ -44,7 +49,7 @@ const appRoutes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'confirm',
+    path: 'confirmRegistration',
     component:ConfirmRegistrationComponent
   },
   {
@@ -65,8 +70,9 @@ const appRoutes: Routes = [
     component: ContactComponent,
   },
   {
-    path: 'formCreate',
+    path: 'createForm',
     component: FormCreateComponent,
+    canActivate: [AuthGuard]
   },
   { 
     path: 'login', 
@@ -94,7 +100,9 @@ const appRoutes: Routes = [
     SimpleDialogComponent,
     ConfirmRegistrationComponent,
     HomeComponent,
-    FormCreateComponent
+    FormCreateComponent,
+    CurrencyPipe,
+    CurrencyFormatterDirective
   ],
   entryComponents: [
     SimpleDialogComponent
@@ -118,14 +126,19 @@ const appRoutes: Routes = [
     MatPaginatorModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatGridListModule
+    MatGridListModule,
+    MatTooltipModule
   ],
   providers: [
     MarketService,
     BitcointradeService,
     {provide: MatPaginatorIntl, useClass: MatPaginatorFarsi},
     {provide: MAT_DIALOG_DATA, useValue: {}},
-    MessageService
+    MessageService,
+    CurrencyPipe,
+    DataStorage,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
