@@ -22,8 +22,7 @@ export class FormService
   getFormTemplateData(id:number):Observable<any>
   {
     const params = new HttpParams().set("id",String(id));
-    let observable = this.http.get('//localhost:8090/form/formTemplateData', {params: params});
-    return observable;
+    return this.http.get('//localhost:8090/form/formTemplateData', {params: params});
   }
 
   updateFromTemplate():any
@@ -39,9 +38,30 @@ export class FormService
     return this.http.post(`//localhost:8090/form/createForm`, {'formData': formData, 'userId': this.dataStorage.getJsonData().userId, 'formTemplateId' : formTemplateId});
   }
 
-  getMatchesData(): Observable<any>
+  updateForm(formData:any, formId:any): Observable<any>
   {
-    return this.http.get('//localhost:8090/form/matchData');
+    return this.http.post(`//localhost:8090/form/updateForm`, {'formData': formData, 'userId': this.dataStorage.getJsonData().userId, 'formId' : formId});
+  }
+
+  getFixtureData(): Observable<any>
+  {
+    return this.http.get('//localhost:8090/form/fixtureData');
+  }
+
+  getUserForms(formType:string, filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10): Observable<any>
+  {
+    return this.http.post('//localhost:8090/form/userForms', {'formType': formType, 'filter': filter, 'sortOrder': sortOrder, 'sortBy': sortBy, 'pageNumber': pageNumber, 'pageSize': pageSize});
+  }
+
+  getUserTotalFormsSize(formType:string):Observable<any>
+  {
+    const params = new HttpParams().set("formType",formType);
+    return this.http.get('//localhost:8090/form/userFormsCount', {params: params});
+  }
+
+  getUserFormData(formId: any): Observable<any>
+  {
+    return this.http.post('//localhost:8090/form/getUserFormData', {'formId': formId});
   }
 
   // No Access Endpoints

@@ -46,7 +46,6 @@ export class HomeComponent implements OnInit
     {
       this.formList = data;
       for (let i = 0; i < this.formList.length; i++)
-        this.formList[i].properties.name = 'فرم شماره ' + this.formList[i].properties.name;
       if (this.formList.length > 0)
       {
         this.formId = this.formList[0].properties.id;

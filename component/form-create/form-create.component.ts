@@ -23,7 +23,7 @@ export class FormCreateComponent implements OnInit
 
   ngOnInit()
   {
-    this.formService.getMatchesData().subscribe(data =>
+    this.formService.getFixtureData().subscribe(data =>
     {
       this.dataSource.data = data;
     });
@@ -94,7 +94,7 @@ export class FormCreateComponent implements OnInit
 
     }
 
-    this.formService.getMatchesData().subscribe(data =>
+    this.formService.getFixtureData().subscribe(data =>
     {
       this.dataSource.data = data;
       this.changeDetectorRefs.detectChanges();

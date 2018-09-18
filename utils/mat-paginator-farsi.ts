@@ -5,6 +5,8 @@ export class MatPaginatorFarsi extends MatPaginatorIntl
   itemsPerPageLabel = 'تعداد';
   nextPageLabel = 'صفحه بعد';
   previousPageLabel = 'صفحه قبل';
+  lastPageLabel = 'صفحه آخر';
+  firstPageLabel = 'صفحه اول';
 
   getRangeLabel = function (page, pageSize, length)
   {

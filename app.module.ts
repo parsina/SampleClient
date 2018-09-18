@@ -18,7 +18,7 @@ import {
   MatDialogModule,
   MatTabsModule,
   MAT_DIALOG_DATA,
-  MatSelectModule, MatCheckboxModule, MatPaginatorIntl, MatTooltipModule
+  MatSelectModule, MatCheckboxModule, MatPaginatorIntl, MatTooltipModule, MatSortModule, MatProgressSpinnerModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
@@ -40,6 +40,8 @@ import { CurrencyFormatterDirective } from './utils/directives/currency-formatte
 import {DataStorage} from './auth/data.storage';
 import {JwtInterceptor} from './auth/helper/jwt.interceptor';
 import {ErrorInterceptor} from './auth/helper/error.interceptor';
+import { CreateFormComponent } from './component/account/create-form/create-form.component';
+import { MyFormsComponent } from './component/account/my-forms/my-forms.component';
 
 
 const appRoutes: Routes = [
@@ -102,7 +104,9 @@ const appRoutes: Routes = [
     HomeComponent,
     FormCreateComponent,
     CurrencyPipe,
-    CurrencyFormatterDirective
+    CurrencyFormatterDirective,
+    CreateFormComponent,
+    MyFormsComponent
   ],
   entryComponents: [
     SimpleDialogComponent
@@ -124,7 +128,9 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatTabsModule,
     MatPaginatorModule,
+    MatSortModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     MatCheckboxModule,
     MatGridListModule,
     MatTooltipModule
