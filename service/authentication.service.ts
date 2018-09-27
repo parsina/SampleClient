@@ -38,7 +38,7 @@ export class AuthenticationService
 
   logout()
   {
-    this.http.post<any>('//localhost:8090/auth/logout/', {user: this.dataStorage.getJsonData()});
+    this.http.post('//localhost:8090/auth/logout/', {user: this.dataStorage.getJsonData()});
     this.dataStorage.signOut();
   }
 }

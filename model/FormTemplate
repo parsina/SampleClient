@@ -1,0 +1,7 @@
+export interface FormTemplate
+{
+  id: string;
+  name: string;
+  numberOfForms: string;
+  totalValue: string;
+}

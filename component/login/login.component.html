@@ -6,8 +6,8 @@
 		</div>
 		<form [formGroup]="loginForm" (ngSubmit)="onLogin()" dir="rtl">
 		   <div class="form-group" align="right">
-		       <label for="username" dir="rtl">ایمیل</label>
-		       <input id="username" type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': loginSubmitted && lForm.username.errors }" dir="ltr"/>
+		       <label dir="rtl">ایمیل</label>
+		       <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': loginSubmitted && lForm.username.errors }" dir="ltr"/>
 		       <div *ngIf="loginSubmitted && lForm.username.errors" class="invalid-feedback">
 		           <div *ngIf="lForm.username.errors?.required">لطفا ایمیل خود را وارد نمایید</div>
 		           <div *ngIf="rForm.username.errors?.validEmail">ایمیل وارد شده صحیح نمی باشد.</div>
@@ -36,16 +36,24 @@
 		   	<h4>ثبت نام</h4>
 		</div>
 		<form [formGroup]="registerForm" (ngSubmit)="onRegister()" dir="rtl">
+      <div class="form-group" align="right">
+        <label dir="rtl">نام کاربرِی</label>
+        <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': registerSubmitted && rForm.username.errors }" dir="ltr"/>
+        <div *ngIf="registerSubmitted && rForm.username.errors" class="invalid-feedback">
+          <div *ngIf="rForm.username.errors?.required">لطفا نام کاربری خود را انتخاب نمایید.</div>
+          <!--<div *ngIf="rForm.username.errors?.validEmail">این نام کاربری قبلا استفاده شده است.</div>-->
+        </div>
+      </div>
 		   <div class="form-group" align="right">
-		       <label for="username" dir="rtl">ایمیل</label>
-		       <input type="text" formControlName="username" placeholder="test@test.com" class="form-control" [ngClass]="{ 'is-invalid': registerSubmitted && rForm.username.errors }" dir="ltr"/>
- 		       <div *ngIf="registerSubmitted && rForm.username.errors" class="invalid-feedback">
- 		           <div *ngIf="rForm.username.errors?.required">لطفا ایمیل خود را وارد تمایید.</div>
- 		           <div *ngIf="rForm.username.errors?.validEmail">ایمیل وارد شده صحیح نمی باشد.</div>
+		       <label dir="rtl">ایمیل</label>
+		       <input type="text" formControlName="email" placeholder="test@test.com" class="form-control" [ngClass]="{ 'is-invalid': registerSubmitted && rForm.email.errors }" dir="ltr"/>
+ 		       <div *ngIf="registerSubmitted && rForm.email.errors" class="invalid-feedback">
+ 		           <div *ngIf="rForm.email.errors?.required">لطفا ایمیل خود را وارد تمایید.</div>
+ 		           <div *ngIf="rForm.email.errors?.validEmail">ایمیل وارد شده صحیح نمی باشد.</div>
  		       </div>
 		   </div>
 		   <div class="form-group" align="right">
-		       <label for="password" dir="rtl">کلمه عبور</label>
+		       <label dir="rtl">کلمه عبور</label>
 		       <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': registerSubmitted && rForm.password.errors }" dir="ltr"/>
  		       <div *ngIf="registerSubmitted && rForm.password.errors" class="invalid-feedback">
  		           <div *ngIf="rForm.password.errors?.required">لطفا کلمه عبور خود را وارد نمایید.</div>
@@ -53,7 +61,7 @@
  		       </div>
 		   </div>
 		   <div class="form-group" align="right">
-		       <label for="password" dir="rtl">تکرار کلمه عبور</label>
+		       <label dir="rtl">تکرار کلمه عبور</label>
 		       <input type="password" formControlName="repeatedPassword" class="form-control" [ngClass]="{ 'is-invalid': registerSubmitted && rForm.repeatedPassword.errors }" dir="ltr"/>
  		       <div *ngIf="registerSubmitted && (registerForm.errors || rForm.repeatedPassword.errors)" class="invalid-feedback">
  		           <div *ngIf="rForm.repeatedPassword.errors?.required">لطفا تکرار کلمه عبور  را وارد نمایید.</div>

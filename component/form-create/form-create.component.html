@@ -5,10 +5,17 @@
   </div>
   <br/>
 
-  <div>
+  <div class="tab-header">
+    <mat-select [(ngModel)]="formTemplateType" dir="rtl">
+      <mat-option value="GOLD">مسابقه طلایی</mat-option>
+      <mat-option value="SILVER">مسابقه نقره ای</mat-option>
+      <mat-option value="BRONZE">مسابقه برنزی</mat-option>
+    </mat-select>
+    &nbsp;&nbsp;
     <button mat-flat-button color="primary" (click)="createForm()" style="margin: 10px;">ساخت فرم</button>
   </div>
   <br/>
+
 
   <table mat-table *ngIf="dataSource" [dataSource]="dataSource" class="mat-elevation-z8" matSort>
 
@@ -45,7 +52,8 @@
 
     <ng-container matColumnDef="homeLogo">
       <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-      <td mat-cell *matCellDef="let element"> <img src="{{element.properties.homeLogo}}" title="test" alt="Smiley face" height="30" width="30"></td>
+      <td mat-cell *matCellDef="let element">
+        <img src="{{element.properties.homeLogo}}" title="test" alt="Smiley face" height="30" width="30"></td>
     </ng-container>
 
     <ng-container matColumnDef="homeTeam">
@@ -60,7 +68,8 @@
 
     <ng-container matColumnDef="awayLogo">
       <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-      <td mat-cell *matCellDef="let element"> <img src="{{element.properties.awayLogo}}" title="test" alt="Smiley face" height="30" width="30"></td>
+      <td mat-cell *matCellDef="let element">
+        <img src="{{element.properties.awayLogo}}" title="test" alt="Smiley face" height="30" width="30"></td>
     </ng-container>
 
     <ng-container matColumnDef="awayCountry">
@@ -75,7 +84,7 @@
   <br/>
 
   <!--<div class="centerAlign">-->
-    <!--<mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons dir="rtl"></mat-paginator>-->
+  <!--<mat-formTempalatePaginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons dir="rtl"></mat-formTempalatePaginator>-->
   <!--</div>-->
   <br/><br/>
 </div>

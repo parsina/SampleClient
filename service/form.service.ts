@@ -6,9 +6,12 @@ import {DataStorage} from '../auth/data.storage';
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class FormService
 {
-  constructor(private http: HttpClient, private zone:NgZone, private dataStorage: DataStorage)
+  emitterData:any;
+  constructor(private http: HttpClient, private dataStorage: DataStorage)
   {
   }
 
@@ -27,11 +30,39 @@ export class FormService
 
   updateFromTemplate():any
   {
-    return new EventSource('//localhost:8090/form/updateFormTemplate');
+    if(!this.emitterData)
+      this.emitterData = new EventSource('//localhost:8090/form/updateFormTemplate');
+    return this.emitterData;
+  }
+
+  getTotalPassedFormTemplateSize():Observable<any>
+  {
+    return this.http.get('//localhost:8090/form/totalPassedFromTemplates');
+  }
+
+  getTotalPassedFormTemplate(filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10): Observable<any>
+  {
+    return this.http.post('//localhost:8090/form/passedFromTemplates', {'filter': filter, 'sortOrder': sortOrder, 'sortBy': sortBy, 'pageNumber': pageNumber, 'pageSize': pageSize});
+  }
+
+  getTemplateFormsSize(formTemplateId: any):Observable<any>
+  {
+    const params = new HttpParams().set("formTemplateId",formTemplateId);
+    return this.http.get('//localhost:8090/form/templateFormsSize', {params: params});
+  }
+
+  getTemplateForms(formTemplateId: any, filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10): Observable<any>
+  {
+    return this.http.post(`//localhost:8090/form/templateForms`, {'formTemplateId': formTemplateId, filter , sortOrder, sortBy, pageNumber, pageSize});
   }
 
   // Private Access Endpoints
   // ==================================================================================================================================
+
+  getOpenFormTemplates(): Observable<any>
+  {
+    return this.http.get('//localhost:8090/form/openFormTemplates');
+  }
 
   createForm(formData:any, formTemplateId:any): Observable<any>
   {
@@ -64,11 +95,16 @@ export class FormService
     return this.http.post('//localhost:8090/form/getUserFormData', {'formId': formId});
   }
 
+  getPassedUserFormData(formId: any): Observable<any>
+  {
+    return this.http.post('//localhost:8090/form/getPassedFormData', {'formId': formId});
+  }
+
   // No Access Endpoints
   // ==================================================================================================================================
 
-  createFormTemplate(ids:any): Observable<any>
+  createFormTemplate(ids:any, formTemplateType:string): Observable<any>
   {
-    return this.http.post(`//localhost:8090/form/createFormTemplate`, {'ids': ids});
+    return this.http.post(`//localhost:8090/form/createFormTemplate`, {'ids': ids, 'type': formTemplateType});
   }
 }

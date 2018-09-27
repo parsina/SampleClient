@@ -13,6 +13,7 @@ export class FormCreateComponent implements OnInit
   displayedColumns: string[] = ['checkbox', 'date', 'time', 'league', 'homeCountry', 'homeLogo', 'homeTeam', 'awayTeam', 'awayLogo', 'awayCountry'];
   dataSource: MatTableDataSource<any>;
   counter: number = 0;
+  formTemplateType: string = 'GOLD';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -28,15 +29,15 @@ export class FormCreateComponent implements OnInit
       this.dataSource.data = data;
     });
 
-    this.dataSource.paginator = this.paginator;
+    this.dataSource.formTempalatePaginator = this.paginator;
   }
 
   applyFilter(filterValue: string)
   {
     this.dataSource.filter = filterValue.trim().toLowerCase();
-    // if (this.dataSource.paginator)
+    // if (this.dataSource.formTempalatePaginator)
     // {
-    //   this.dataSource.paginator.firstPage();
+    //   this.dataSource.formTempalatePaginator.firstPage();
     // }
   }
 
@@ -70,7 +71,7 @@ export class FormCreateComponent implements OnInit
     if (ids.length == 10)
     {
 
-      this.formService.createFormTemplate(ids)
+      this.formService.createFormTemplate(ids, this.formTemplateType)
         .subscribe(
           result =>
           {

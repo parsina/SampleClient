@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatTableDataSource} from '@angular/material';
 import {FormService} from '../../../service/form.service';
 import {MessageBox} from '../../../utils/messagebox';
@@ -8,8 +8,8 @@ import {MessageBox} from '../../../utils/messagebox';
   templateUrl: './create-form.component.html',
   styleUrls: ['./create-form.component.css']
 })
-export class CreateFormComponent implements OnInit {
-
+export class CreateFormComponent implements OnInit
+{
   formList: any[];
   formTemplateId: number;
   dataSource: MatTableDataSource<any>;
@@ -47,11 +47,9 @@ export class CreateFormComponent implements OnInit {
 
   ngOnInit()
   {
-    this.formService.getFormTemplates().subscribe(data =>
+    this.formService.getOpenFormTemplates().subscribe(data =>
     {
       this.formList = data;
-      // for (let i = 0; i < this.formList.length; i++)
-      //   this.formList[i].properties.name = 'فرم شماره ' + this.formList[i].properties.name;
       if (this.formList.length > 0)
       {
         this.formTemplateId = this.formList[0].properties.id;

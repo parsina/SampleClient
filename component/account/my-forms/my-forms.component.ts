@@ -49,9 +49,12 @@ export class MyFormsComponent implements OnInit, AfterViewInit
       'noWin',
       'awayWin',
       'awayLogo',
-      'awayName'
+      'awayName',
       // 'awayCountryFlag',
       // 'awayCountry',
+      'matchScore',
+      'status',
+      'score'
     ];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -70,7 +73,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
 
   ngAfterViewInit()
   {
-    // reset the paginator after sorting
+    // reset the formTempalatePaginator after sorting
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page).pipe(tap(() => this.changeFormType())).subscribe();
   }

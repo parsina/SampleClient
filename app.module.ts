@@ -42,6 +42,8 @@ import {JwtInterceptor} from './auth/helper/jwt.interceptor';
 import {ErrorInterceptor} from './auth/helper/error.interceptor';
 import { CreateFormComponent } from './component/account/create-form/create-form.component';
 import { MyFormsComponent } from './component/account/my-forms/my-forms.component';
+import { GroupPlayComponent } from './component/home/group-play/group-play.component';
+import { GroupPlayHistoryComponent } from './component/home/group-play-history/group-play-history.component';
 
 
 const appRoutes: Routes = [
@@ -106,7 +108,9 @@ const appRoutes: Routes = [
     CurrencyPipe,
     CurrencyFormatterDirective,
     CreateFormComponent,
-    MyFormsComponent
+    MyFormsComponent,
+    GroupPlayComponent,
+    GroupPlayHistoryComponent
   ],
   entryComponents: [
     SimpleDialogComponent

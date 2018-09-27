@@ -1,21 +1,17 @@
-.tab-header
+.content
+{
+  text-align: center;
+  width:      100%;
+}
+
+.content-header
 {
   font-weight:   bold;
   font-size:     large;
   font-family:   'Vazir', sans-serif;
   text-align:    right;
   padding-right: 10%;
-  width:         90%;
-}
-
-.mat-tab-group
-{
-  display:     flex;
-  margin:      auto;
-  width:       80%;
-  padding:     10px;
-  font-weight: bold;
-  font-family: 'Vazir', sans-serif;
+  width:         100%;
 }
 
 ::ng-deep .mat-select-value
@@ -46,13 +42,6 @@
   font-weight:      bold;
   font-family:      'Vazir', sans-serif;
   background-color: #e6faff;
-}
-
-.mat-tooltip
-{
-  /* your own custom styles here */
-  /* e.g. */
-  color: yellow;
 }
 
 .mat-table
@@ -90,6 +79,26 @@
   top:              0;
   background-color: inherit;
   font-size:        medium;
+}
+
+.centerAlign
+{
+  text-align: center;
+}
+
+.rightAlign
+{
+  text-align: right;
+}
+
+.leftAlign
+{
+  text-align: left;
+}
+
+.leftMargin
+{
+  padding-left: 2%;
 }
 
 .numberFormat
@@ -174,14 +183,43 @@
   border-image-repeat: initial;
 }
 
-.mat-footer-cell
+.buyButton
 {
   background-color: #cee0c7;
+  font-weight:      bold;
+  font-family:      'Vazir', sans-serif;
+  font-size:        medium;
+  width:            70%;
 }
 
-.my-tooltip-parent
+.sellButton
 {
-  position: relative;
-  z-index:  1;
+  background-color: #fcbfbf;
+  font-weight:      bold;
+  font-family:      'Vazir', sans-serif;
+  font-size:        medium;
+  width:            70%;
 }
 
+.mat-card
+{
+  text-align:  center;
+  padding:     10px;
+  font-weight: bold;
+  font-family: 'Vazir', sans-serif;
+}
+
+.mat-paginator
+{
+  text-align:  center;
+  padding:     10px;
+  font-weight: bold;
+  font-family: 'Vazir', sans-serif;
+}
+
+.centerAlign
+{
+  display:         inline-flex;
+  flex-direction:  row;
+  justify-content: space-between;
+}

@@ -17,7 +17,7 @@ export class DataStorage
   public saveData(data: any)
   {
     window.sessionStorage.removeItem('userData');
-    window.sessionStorage.setItem('userData', JSON.stringify({userId: data.id, username: data.email, userRole: data.role, userInfo: data.info, token: data.token}));
+    window.sessionStorage.setItem('userData', JSON.stringify({userId: data.id, username: data.username, email:data.email, userRole: data.role, userInfo: data.info, token: data.token}));
   }
 
   public getJsonData(): any

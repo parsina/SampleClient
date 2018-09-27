@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormService} from '../../service/form.service';
+import {AuthenticationService} from '../../service/authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -9,75 +9,20 @@ import {FormService} from '../../service/form.service';
 })
 export class HomeComponent implements OnInit
 {
-  displayedColumns: string[] =
-    [
-      'index',
-      'date',
-      'time',
-      'league',
-      // 'homeCountry',
-      // 'homeCountryFlag',
-      'homeName',
-      'homeLogo',
-      'liveScore',
-      'awayLogo',
-      'awayName',
-      // 'awayCountryFlag',
-      // 'awayCountry',
-      'minute',
-      'status'
-    ];
+  source: any;
 
-  formList: any[];
-  dataSource: MatTableDataSource<any>;
-  formId: number;
-  formTemplateId: number;
-  formName: string;
-  formValue: number = 100;
-
-  constructor(private formService: FormService)
+  constructor(private formService: FormService, private auth: AuthenticationService)
   {
-    this.dataSource = new MatTableDataSource();
+    this.source = this.formService.updateFromTemplate();
   }
 
   ngOnInit()
   {
-    this.formService.getFormTemplates().subscribe(data =>
-    {
-      this.formList = data;
-      for (let i = 0; i < this.formList.length; i++)
-      if (this.formList.length > 0)
-      {
-        this.formId = this.formList[0].properties.id;
-        this.formService.getFormTemplateData(this.formId).subscribe(data =>
-        {
-          this.formName = data.properties.name;
-          this.formValue = data.properties.value;
-          this.dataSource.data = data.properties.matches;
-        });
-
-        let source = this.formService.updateFromTemplate();
-        source.addEventListener('message', message =>
-        {
-          this.dataSource.data.splice(0, this.dataSource.data.length);
-          const data = this.dataSource.data;
-          for (let i = 0; i < JSON.parse(message.data).properties.matches.length; i++)
-          {
-            this.formTemplateId = JSON.parse(message.data).properties.matches[i].properties.formTemplateId;
-            if (this.formId == this.formTemplateId)
-              data.push(JSON.parse(message.data).properties.matches[i]);
-          }
-          this.dataSource.data = data;
-        });
-      }
-    });
   }
 
-  changeForm()
+  isUserLoggedIn()
   {
-    this.formService.getFormTemplateData(this.formId).subscribe(data =>
-    {
-      this.dataSource.data = data.properties.matches;
-    });
+    return true;
+    // return this.auth.isUserLoggedIn();
   }
 }

@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit
 
     this.registerForm = this.formBuilder.group({
       username: [''],
+      email: [''],
       password: [''],
       repeatedPassword: ['']
     });
@@ -58,7 +59,8 @@ export class LoginComponent implements OnInit
     });
 
     this.registerForm = this.formBuilder.group({
-        username: ['', [Validators.required, EmailValidator.validEmail]],
+        username: ['', [Validators.required]],
+        email: ['', [Validators.required, EmailValidator.validEmail]],
         password: ['', [Validators.required, PasswordValidator.strong]],
         repeatedPassword: ['', Validators.required]
       },

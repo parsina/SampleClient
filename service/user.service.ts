@@ -23,7 +23,7 @@ export class UserService
 
   register(user: User)
   {
-    return this.http.post(`//localhost:8090/auth/signUp/`, {username: user.username, pass: user.password, reppass: user.repeatedPassword});
+    return this.http.post(`//localhost:8090/auth/signUp/`, {username: user.username, email:user.email, pass: user.password, reppass: user.repeatedPassword});
   }
 
   sendActivationEmail(email: string)
