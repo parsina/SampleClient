@@ -29,6 +29,7 @@ export class FormCreateComponent implements OnInit
       this.dataSource.data = data;
     });
 
+    // @ts-ignore
     this.dataSource.formTempalatePaginator = this.paginator;
   }
 
