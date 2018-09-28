@@ -9,8 +9,11 @@
     <mat-tab label="مسابقات گروهی">
       <app-group-play [source]="source"></app-group-play>
     </mat-tab>
-    <mat-tab [disabled]="!isUserLoggedIn()" label="تاریخچه مسابقات">
+    <mat-tab label="تاریخچه مسابقات">
       <app-group-play-history></app-group-play-history>
+    </mat-tab>
+    <mat-tab label="برندگان">
+      <app-group-play-winners></app-group-play-winners>
     </mat-tab>
   </mat-tab-group>
 

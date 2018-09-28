@@ -4,44 +4,46 @@ import {FormService} from '../service/form.service';
 import {catchError, finalize} from 'rxjs/operators';
 // @ts-ignore
 import {Form} from '../model/Form';
+import {UserService} from '../service/user.service';
+import {WinnerService} from '../service/winner.service';
 
 
-export class FormHistoryDataSource implements DataSource<Form>
+export class WinnerDataSource implements DataSource<any>
 {
 
-  private FormSubject = new BehaviorSubject<Form[]>([]);
+  private WinnerSubject = new BehaviorSubject<any[]>([]);
 
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
   public loading = this.loadingSubject.asObservable();
 
-  constructor(private formService: FormService)
+  constructor(private winnerService: WinnerService)
   {
   }
 
-  loadForms(formTemplateId: number, filter: string, sortDirection: string, sortBy: string, pageIndex: number, pageSize: number)
+  loadWinners(formTemplateId: number, filter: string, sortDirection: string, sortBy: string, pageIndex: number, pageSize: number)
   {
     this.loadingSubject.next(true);
 
-    this.formService.getFormList(formTemplateId, filter, sortDirection, sortBy, pageIndex, pageSize)
+    this.winnerService.getWinnerList(formTemplateId, filter, sortDirection, sortBy, pageIndex, pageSize)
       .pipe(
         catchError(() =>
           of([])),
         finalize(() =>
           this.loadingSubject.next(false)))
       .subscribe(data =>
-        this.FormSubject.next(data.properties.forms));
+        this.WinnerSubject.next(data.properties.winners));
 
   }
 
   connect(collectionViewer: CollectionViewer): Observable<Form[]>
   {
-    return this.FormSubject.asObservable();
+    return this.WinnerSubject.asObservable();
   }
 
   disconnect(collectionViewer: CollectionViewer): void
   {
-    this.FormSubject.complete();
+    this.WinnerSubject.complete();
     this.loadingSubject.complete();
   }
 }

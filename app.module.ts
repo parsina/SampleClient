@@ -44,6 +44,7 @@ import { CreateFormComponent } from './component/account/create-form/create-form
 import { MyFormsComponent } from './component/account/my-forms/my-forms.component';
 import { GroupPlayComponent } from './component/home/group-play/group-play.component';
 import { GroupPlayHistoryComponent } from './component/home/group-play-history/group-play-history.component';
+import { GroupPlayWinnersComponent } from './component/home/group-play-winners/group-play-winners.component';
 
 
 const appRoutes: Routes = [
@@ -110,7 +111,8 @@ const appRoutes: Routes = [
     CreateFormComponent,
     MyFormsComponent,
     GroupPlayComponent,
-    GroupPlayHistoryComponent
+    GroupPlayHistoryComponent,
+    GroupPlayWinnersComponent,
   ],
   entryComponents: [
     SimpleDialogComponent

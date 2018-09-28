@@ -19,11 +19,11 @@ export class FormTemplateHistoryDataSource implements DataSource<FormTemplate>
   {
   }
 
-  loadFormTemplates(filter: string, sortDirection: string, sortBy: string, pageIndex: number, pageSize: number)
+  loadFormTemplates(challengeType: string, filter: string, sortDirection: string, sortBy: string, pageIndex: number, pageSize: number)
   {
     this.loadingSubject.next(true);
 
-    this.formService.getTotalPassedFormTemplate(filter, sortDirection, sortBy, pageIndex, pageSize)
+    this.formService.getTotalPassedFormTemplate(challengeType, filter, sortDirection, sortBy, pageIndex, pageSize)
       .pipe(
         catchError(() =>
           of([])),

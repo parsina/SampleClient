@@ -98,8 +98,8 @@ export class GroupPlayHistoryComponent implements OnInit
 
   changeFormTemplate()
   {
-    this.formService.getTotalPassedFormTemplateSize().subscribe(count => this.totalTemplateFormsSize = count);
-    this.formTemplateDataSource.loadFormTemplates('',
+    this.formService.getTotalPassedFormTemplateSize("ALL").subscribe(count => this.totalTemplateFormsSize = count);
+    this.formTemplateDataSource.loadFormTemplates('', '',
       this.sort.length > 0 ? this.sort.toArray()[0].direction : 'asc',
       this.sort.length > 0 ? this.sort.toArray()[0].active : 'id',
       this.paginator.length > 0 ? this.paginator.toArray()[0].pageIndex : 0, this.paginator.length > 0 ? this.paginator.toArray()[0].pageSize : 10);
@@ -122,7 +122,7 @@ export class GroupPlayHistoryComponent implements OnInit
   changeForm()
   {
     // @ts-ignore
-    this.formService.getTemplateFormsSize(this.selectedFormTemplate.properties.id).subscribe(count => this.totalFormsSize = count);
+    this.formService.getFormListSize(this.selectedFormTemplate.properties.id).subscribe(count => this.totalFormsSize = count);
     // @ts-ignore
     this.formDataSource.loadForms(this.selectedFormTemplate.properties.id, '',
       this.sort.length > 1 ? this.sort.toArray()[1].direction : 'asc',
