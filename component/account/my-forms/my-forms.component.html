@@ -207,6 +207,9 @@
 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button [hidden]="selectedForm.status != 'REGISTERED'" (click)="saveForm()" mat-raised-button style="width: 20%;">ثبت فرم</button>
+
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button [hidden]="selectedForm.status != 'REGISTERED'" (click)="randomForm()" mat-raised-button style="width: 10%;">فرم شانسی</button>
           &nbsp;&nbsp;&nbsp;
           <button [hidden]="selectedForm.status != 'REGISTERED'" (click)="resetForm()" mat-raised-button style="width: 10%;">فرم جدید</button>
         </td>

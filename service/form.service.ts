@@ -72,6 +72,31 @@ export class FormService
     });
   }
 
+  downloadPhotoCal(formTemplateId: number, formTemplateName: string)
+  {
+    // this.http.get('../assets/photoCalendar/' + fileName, {responseType: 'blob'})
+    const params = new HttpParams().set('formTemplateId', String(formTemplateId));
+    this.http.get('//localhost:8090/form/downloadPhotoCal', {params: params, responseType: 'blob'}).subscribe((blob: Blob) =>
+    {
+      console.log('report is downloaded');
+      let link = document.createElement('a');
+      if (link.download !== undefined)
+      {
+        let url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', "فتوکل " + formTemplateName);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+      else
+      {
+        //html5 download not supported
+      }
+    });
+  }
+
   // Private Access Endpoints
   // ==================================================================================================================================
 
@@ -101,6 +126,16 @@ export class FormService
   getFixtureData(): Observable<any>
   {
     return this.http.get('//localhost:8090/form/fixtureData');
+  }
+
+  loadFixtures()
+  {
+    return this.http.get('//localhost:8090/form/loadFixturesData');
+  }
+
+  deleteFormTemplate(id): Observable<any>
+  {
+    return this.http.post('//localhost:8090/form/deleteFormTemplate', {'formTemplateId': id});
   }
 
   getUserForms(formType: string, filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10): Observable<any>

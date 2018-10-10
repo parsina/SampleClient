@@ -1,13 +1,14 @@
 <br/>
 <div class="content-header">
-  <mat-select [(ngModel)]="formId" name="form" (selectionChange)="changeForm();" align="right" dir="rtl">
-    <mat-option *ngFor="let form of formList" [value]="form.properties.id">
+  <mat-select [(ngModel)]="selectedFormTemplateId" name="formTemplates" (selectionChange)="changeFormTemplate();" align="right" dir="rtl">
+    <mat-option *ngFor="let form of formTemplateList" [value]="form.properties.id">
       {{form.properties.name}}
     </mat-option>
   </mat-select>
+
+  <a mat-button (click)="downloadPhotoCal()" [hidden]="formTemplateStatus != 'CLOSE'"><mat-icon color="blue" matTooltip="دانلود فتوکل" >get_app</mat-icon></a>
 </div>
 <br/>
-
 <table mat-table *ngIf="dataSource" [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!-- Index Column -->

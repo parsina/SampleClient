@@ -1,13 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
+import {Component, OnInit} from '@angular/core';
 import {FormService} from '../../../service/form.service';
+import {MatDialog, MatTableDataSource} from '@angular/material';
+import {MessageBox} from '../../../utils/messagebox';
 
 @Component({
-  selector: 'app-group-play',
-  templateUrl: './group-play.component.html',
-  styleUrls: ['./group-play.component.css']
+  selector: 'app-edit-template-form',
+  templateUrl: './edit-template-form.component.html',
+  styleUrls: ['./edit-template-form.component.css']
 })
-export class GroupPlayComponent implements OnInit
+export class EditTemplateFormComponent implements OnInit
 {
   displayedColumns: string[] =
     [
@@ -28,22 +29,21 @@ export class GroupPlayComponent implements OnInit
       'status'
     ];
 
+  selectedFormTemplateId: number;
   formTemplateList: any[];
   dataSource: MatTableDataSource<any>;
-  selectedFormTemplateId: number;
   selectedFormTemplateName: string;
   formTemplateId: number;
   formTemplateStatus: string;
-  @Input() source: any;
 
-  constructor(private formService: FormService)
+  constructor(private formService: FormService, private dialog: MatDialog)
   {
     this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit()
   {
-    this.formService.getFormTemplates().subscribe(data =>
+    this.formService.getFormTemplates("").subscribe(data =>
     {
       this.formTemplateList = data;
       if (this.formTemplateList.length > 0)
@@ -53,20 +53,6 @@ export class GroupPlayComponent implements OnInit
         this.changeFormTemplate();
       }
     });
-
-    this.source.addEventListener('message', message =>
-    {
-      this.dataSource.data.splice(0, this.dataSource.data.length);
-      const matchData = this.dataSource.data;
-      for (let i = 0; i < JSON.parse(message.data).properties.matches.length; i++)
-      {
-        this.formTemplateId = JSON.parse(message.data).properties.matches[i].properties.formTemplateId;
-        if (this.selectedFormTemplateId == this.formTemplateId)
-          matchData.push(JSON.parse(message.data).properties.matches[i]);
-      }
-      if (matchData.length > 0)
-        this.dataSource.data = matchData;
-    });
   }
 
   changeFormTemplate()
@@ -74,13 +60,32 @@ export class GroupPlayComponent implements OnInit
     this.formService.getFormTemplateData(this.selectedFormTemplateId).subscribe(data =>
     {
       this.selectedFormTemplateName = data.properties.name;
+      this.selectedFormTemplateId = data.properties.id;
       this.formTemplateStatus = data.properties.status;
       this.dataSource.data = data.properties.matches;
     });
   }
 
-  downloadPhotoCal()
+
+  removeFormTemplate()
   {
-    this.formService.downloadPhotoCal(this.selectedFormTemplateId, this.selectedFormTemplateName);
+    let title = 'حذف مسابقه';
+    let message = 'مسابقه' + this.selectedFormTemplateName + ' حذف بشه ؟';
+    let info = 'formTemplateId: ' + this.selectedFormTemplateId;
+
+    MessageBox.show(this.dialog, message, title, info, 1, false, 1, '30%')
+      .subscribe(results =>
+      {
+        if(results.result == 'ok')
+        {
+          this.formService.deleteFormTemplate(this.selectedFormTemplateId).subscribe(result =>
+          {
+            this.selectedFormTemplateId = this.formTemplateList[0].properties.id;
+            this.changeFormTemplate();
+          });
+        }
+      });
   }
 }
+
+

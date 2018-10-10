@@ -9,7 +9,7 @@
   		<button mat-button [routerLink]="['/bitcoin']" class="mainButton">بیت کوین</button>
   		<button mat-button [routerLink]="['/account']" *ngIf="accessibleByRole('USER_ADMIN')" class="mainButton">حساب کاربری</button>
   		<button mat-button [routerLink]="['/contact']" class="mainButton">تماس با ما</button>
-    <button mat-button [routerLink]="['/createForm']" *ngIf="accessibleByRole('ADMIN')" class="mainButton">ساخت مسابقه</button>
+      <button mat-button [routerLink]="['/administrator']" *ngIf="accessibleByRole('ADMIN')" class="mainButton">مدیریت سیستم</button>
   </span>  
 </mat-toolbar>
 <mat-divider class="header-devider"></mat-divider>

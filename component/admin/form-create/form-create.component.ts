@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatTableDataSource} from '@angular/material';
-import {FormService} from '../../service/form.service';
-import {MessageBox} from '../../utils/messagebox';
+import {FormService} from '../../../service/form.service';
+import {MessageBox} from '../../../utils/messagebox';
 
 @Component({
   selector: 'app-form-create',
@@ -10,7 +10,7 @@ import {MessageBox} from '../../utils/messagebox';
 })
 export class FormCreateComponent implements OnInit
 {
-  displayedColumns: string[] = ['checkbox', 'date', 'time', 'league', 'homeCountry', 'homeLogo', 'homeTeam', 'awayTeam', 'awayLogo', 'awayCountry'];
+  displayedColumns: string[] = ['index', 'checkbox', 'date', 'time', 'league', 'homeCountry', 'homeLogo', 'homeTeam', 'awayTeam', 'awayLogo', 'awayCountry'];
   dataSource: MatTableDataSource<any>;
   counter: number = 0;
   formTemplateType: string = 'GOLD';
@@ -56,22 +56,21 @@ export class FormCreateComponent implements OnInit
       if (this.dataSource.data[i].properties.id === id)
         this.dataSource.data[i].properties.checked = checked;
 
-    if (this.counter > 9)
+    if (this.counter > 14)
       alert('Counter : ' + this.counter);
   }
 
   createForm()
   {
-    if (this.counter < 10)
+    if (this.counter < 15)
       return;
     let ids = [];
     for (let i = 0; i < this.dataSource.data.length; i++)
       if (this.dataSource.data[i].properties.checked)
         ids.push(this.dataSource.data[i].properties.id);
 
-    if (ids.length == 10)
+    if (ids.length == 15)
     {
-
       this.formService.createFormTemplate(ids, this.formTemplateType)
         .subscribe(
           result =>
@@ -101,5 +100,10 @@ export class FormCreateComponent implements OnInit
       this.dataSource.data = data;
       this.changeDetectorRefs.detectChanges();
     });
+  }
+
+  loadFixtures()
+  {
+    this.formService.loadFixtures().subscribe();
   }
 }

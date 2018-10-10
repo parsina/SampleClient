@@ -33,7 +33,7 @@ import { MessageService } from "./service/message.service";
 import { SimpleDialogComponent } from './component/simple-dialog/simple-dialog.component';
 import { ConfirmRegistrationComponent } from './component/confirm-registration/confirm-registration.component';
 import { HomeComponent } from './component/home/home.component';
-import { FormCreateComponent } from './component/form-create/form-create.component';
+import { FormCreateComponent } from './component/admin/form-create/form-create.component';
 import {MatPaginatorFarsi} from './utils/mat-paginator-farsi';
 import { CurrencyPipe } from './utils/pipes/currency.pipe';
 import { CurrencyFormatterDirective } from './utils/directives/currency-formatter.directive';
@@ -45,6 +45,8 @@ import { MyFormsComponent } from './component/account/my-forms/my-forms.componen
 import { GroupPlayComponent } from './component/home/group-play/group-play.component';
 import { GroupPlayHistoryComponent } from './component/home/group-play-history/group-play-history.component';
 import { GroupPlayWinnersComponent } from './component/home/group-play-winners/group-play-winners.component';
+import { AdminComponent } from './component/admin/admin.component';
+import { EditTemplateFormComponent } from './component/admin/edit-template-form/edit-template-form.component';
 
 
 const appRoutes: Routes = [
@@ -75,8 +77,8 @@ const appRoutes: Routes = [
     component: ContactComponent,
   },
   {
-    path: 'createForm',
-    component: FormCreateComponent,
+    path: 'administrator',
+    component: AdminComponent,
     canActivate: [AuthGuard]
   },
   { 
@@ -113,6 +115,8 @@ const appRoutes: Routes = [
     GroupPlayComponent,
     GroupPlayHistoryComponent,
     GroupPlayWinnersComponent,
+    AdminComponent,
+    EditTemplateFormComponent,
   ],
   entryComponents: [
     SimpleDialogComponent

@@ -104,8 +104,8 @@ export class CreateFormComponent implements OnInit
         this.counter++;
     }
 
-    if (this.counter > 10)
-      for (let i = this.counter; i > 10; i--)
+    if (this.counter > 18)
+      for (let i = this.counter; i > 18; i--)
       {
         this.formValue = this.formValue * 2;
         this.formValueBitcoin = this.formValueBitcoin * 2;
@@ -181,4 +181,19 @@ export class CreateFormComponent implements OnInit
     }
   }
 
+  randomForm()
+  {
+    this.resetForm();
+    for (let i = 0; i < this.dataSource.data.length; i++)
+    {
+      this.dataSource.data[i].properties.homeWin =  Math.random() >= 0.5;
+      this.dataSource.data[i].properties.noWin = Math.random() >= 0.5;
+      this.dataSource.data[i].properties.awayWin = Math.random() >= 0.5;
+      if( this.dataSource.data[i].properties.homeWin == false && this.dataSource.data[i].properties.noWin == false)
+        this.dataSource.data[i].properties.awayWin = true;
+    }
+    this.calculateAmounts();
+  }
 }
+
+

@@ -1,13 +1,15 @@
 <br/>
-<div class="tab-header">
-  <mat-select [(ngModel)]="formTemplateId" name="form" (selectionChange)="changeForm();" dir="rtl">
-    <mat-option *ngFor="let form of formList" [value]="form.properties.id">
+<div class="content-header">
+  <mat-select [(ngModel)]="selectedFormTemplateId" name="formTemplates" (selectionChange)="changeFormTemplate();" align="right" dir="rtl">
+    <mat-option *ngFor="let form of formTemplateList" [value]="form.properties.id">
       {{form.properties.name}}
     </mat-option>
   </mat-select>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <button (click)="removeFormTemplate()" mat-raised-button style="width: 10%;">حذف مسابقه</button>
 </div>
-<br/>
 
+<br/>
 <table mat-table *ngIf="dataSource" [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!-- Index Column -->
@@ -49,8 +51,7 @@
 
   <ng-container matColumnDef="homeName">
     <th mat-header-cell *matHeaderCellDef style="text-align: left;">تیم میزبان</th>
-    <td mat-cell *matCellDef="let element" style="text-align: left;" width="10%;">
-      {{element.properties.homeName}}
+    <td mat-cell *matCellDef="let element" style="text-align: left;" width="10%;"> {{element.properties.homeName}}
     </td>
   </ng-container>
 
@@ -61,27 +62,10 @@
     </td>
   </ng-container>
 
-  <!-- homeWin CheckBox Column -->
-  <ng-container matColumnDef="homeWin">
-    <th mat-header-cell *matHeaderCellDef>برد میزبان</th>
-    <td mat-cell *matCellDef="let element" width="5%;">
-      <mat-checkbox [(ngModel)]="element.properties.homeWin" (change)="calculateAmounts()"></mat-checkbox>
-    </td>
-  </ng-container>
-
-  <!-- noWin CheckBox Column -->
-  <ng-container matColumnDef="noWin">
-    <th mat-header-cell *matHeaderCellDef>مساوی</th>
-    <td mat-cell *matCellDef="let element" width="5%;">
-      <mat-checkbox [(ngModel)]="element.properties.noWin" (change)="calculateAmounts()"></mat-checkbox>
-    </td>
-  </ng-container>
-
-  <!-- awayWin CheckBox Column -->
-  <ng-container matColumnDef="awayWin">
-    <th mat-header-cell *matHeaderCellDef>برد میهمان</th>
-    <td mat-cell *matCellDef="let element" width="5%;">
-      <mat-checkbox [(ngModel)]="element.properties.awayWin" (change)="calculateAmounts()"></mat-checkbox>
+  <ng-container matColumnDef="liveScore">
+    <th mat-header-cell *matHeaderCellDef style="text-align: center;">نتیجه</th>
+    <td mat-cell *matCellDef="let element" width="5%;">{{element.properties.homeScore}} -
+      {{element.properties.awayScore}}
     </td>
   </ng-container>
 
@@ -94,8 +78,7 @@
 
   <ng-container matColumnDef="awayName">
     <th mat-header-cell *matHeaderCellDef style="text-align: right;">تیم میهمان</th>
-    <td mat-cell *matCellDef="let element" style="text-align: right; " width="10%;">
-      {{element.properties.awayName}}
+    <td mat-cell *matCellDef="let element" style="text-align: right; " width="10%;"> {{element.properties.awayName}}
     </td>
   </ng-container>
 
@@ -111,33 +94,19 @@
     <td mat-cell *matCellDef="let element" width="10%;"> {{element.properties.awayCountry}}</td>
   </ng-container>
 
-  <!-- Footer column -->
-  <ng-container matColumnDef="footer">
-    <td mat-footer-cell *matFooterCellDef colspan="100">
-      <mat-form-field floatPlaceholder="auto"
-                      matTooltipPosition="above" style="width:10%; text-align: center"
-                      matTooltip="جهت نمایش مبلغ فرم به تومان، قیمت مورد نظر خود برای هر بیت کوین را وارد نمایید">
-        <input #btcValue type="text" matInput currencyFormatter (blur)="setBitcoinValue(btcValue.value)"
-               placeholder="قیمت هر بیت کوین(تومان)">
-      </mat-form-field>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <ng-container matColumnDef="minute">
+    <th mat-header-cell *matHeaderCellDef> دقیقه</th>
+    <td mat-cell *matCellDef="let element" width="10%;"> {{element.properties.minute}}</td>
+  </ng-container>
 
-      مبلغ فرم:
-      <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;{{formValue | currencyPipe}} ساتوشی</label>
-      <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueBitcoin}} بیت کوین </label>
-      <label style="color: cornflowerblue" *ngIf="formValueTooman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueTooman | currencyPipe}} تومان</label>
-
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button (click)="saveForm()" mat-raised-button style="width: 20%;">ثبت فرم</button>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button (click)="randomForm()" mat-raised-button style="width: 10%;">فرم شانسی</button>
-      &nbsp;&nbsp;&nbsp;
-      <button (click)="resetForm()" mat-raised-button style="width: 10%;">فرم جدید</button>
-
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element" width="10%;">
+      {{element.properties.status}}
     </td>
   </ng-container>
 
   <tr mat-header-row class="header" *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-footer-row *matFooterRowDef="['footer']"></tr>
   <tr mat-row [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1}" *matRowDef="let row; columns: displayedColumns; let index = index"></tr>
+
 </table>
