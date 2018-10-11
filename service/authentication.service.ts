@@ -14,12 +14,22 @@ export class AuthenticationService
 
   isUserLoggedIn():boolean
   {
-    return this.dataStorage.getStringData() != null;
+    return this.dataStorage.getUserStringData() != null;
+  }
+
+  getLoggedInUser(stringType:boolean):any
+  {
+    return stringType ? this.dataStorage.getUserStringData() : this.dataStorage.getUserJsonData();
+  }
+
+  getLoggedInUserAccount(stringType:boolean):any
+  {
+    return stringType ? this.dataStorage.getUserAccountStringData() : this.dataStorage.getUserAccountJsonData();
   }
 
   checkRoleAccessibility(role:string):boolean
   {
-    let userData = this.dataStorage.getJsonData();
+    let userData = this.dataStorage.getUserJsonData();
 
     if(userData != null && userData.userId != null)
     {
@@ -38,7 +48,7 @@ export class AuthenticationService
 
   logout()
   {
-    this.http.post('//localhost:8090/auth/logout/', {user: this.dataStorage.getJsonData()});
+    this.http.post('//localhost:8090/auth/logout/', {user: this.dataStorage.getUserJsonData()});
     this.dataStorage.signOut();
   }
 }

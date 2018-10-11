@@ -5,6 +5,7 @@ import {UserFormDataSource} from '../../../datasources/userform.datasource';
 import {catchError, finalize, tap} from 'rxjs/operators';
 import {merge, of} from 'rxjs';
 import {MessageBox} from '../../../utils/messagebox';
+import {DataStorage} from '../../../auth/data.storage';
 
 @Component({
   selector: 'app-my-forms',
@@ -16,12 +17,12 @@ export class MyFormsComponent implements OnInit, AfterViewInit
   formType: string = 'ACTIVE';
   formList: UserFormDataSource;
   totalFormsSize: number;
-  selectedRowIndex: number;
   formDataSource:MatTableDataSource<any>;
-  selectedForm: any[];
+  selectedFormId: number;
+  selectedFormValue: number;
+  selectedFormStatus: number;
   formValueBitcoin: number;
   formValueTooman: number;
-  bitcoinValue: number;
   counter: number;
 
   formsColumns: string[] =
@@ -60,7 +61,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private formService: FormService, private dialog: MatDialog)
+  constructor(private formService: FormService, private dialog: MatDialog, private dataStorage: DataStorage)
   {
     this.formDataSource = new MatTableDataSource();
   }
@@ -82,21 +83,23 @@ export class MyFormsComponent implements OnInit, AfterViewInit
   {
     this.formService.getUserTotalFormsSize(this.formType).subscribe(count => this.totalFormsSize = count);
     this.formList.loadUserForms(this.formType, '', this.sort ? this.sort.direction : 'asc', this.sort ? this.sort.active : 'id', this.paginator.pageIndex, this.paginator.pageSize);
-    this.selectedRowIndex = null;
+    this.selectedFormId = null;
   }
 
   onRowClicked(row)
   {
-    this.selectedRowIndex = row.id;
-    this.selectedForm = row;
+    this.selectedFormId = row.id;
+    this.selectedFormValue = row.value;
+    this.selectedFormStatus = row.status;
     // @ts-ignore
-    this.formValueBitcoin = this.selectedForm.value / 100000000;
-    if (this.bitcoinValue != null && this.bitcoinValue > 0)
-      this.formValueTooman = this.formValueBitcoin * this.bitcoinValue;
+    this.formValueBitcoin = this.selectedFormValue / 100000000;
+    const bitcoinValue = this.dataStorage.getBitCoinValueAsNumber();
+    if (bitcoinValue != null && bitcoinValue > 0)
+      this.formValueTooman = this.formValueBitcoin * bitcoinValue;
     else
       this.formValueTooman = null;
     // @ts-ignore
-    this.formService.getUserFormData(this.selectedForm.id).subscribe(data =>
+    this.formService.getUserFormData(this.selectedFormId).subscribe(data =>
     {
       this.formDataSource.data = data.properties.matches;
     });
@@ -105,7 +108,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
   calculateAmounts()
   {
     // @ts-ignore
-    this.selectedForm.value = 100;
+    this.selectedFormValue = 100;
     this.formValueBitcoin = 0.000001;
     this.counter = 0;
     for (let i = 0; i < this.formDataSource.data.length; i++)
@@ -126,25 +129,14 @@ export class MyFormsComponent implements OnInit, AfterViewInit
       for (let i = this.counter; i > 18; i--)
       {
         // @ts-ignore
-        this.selectedForm.value = this.selectedForm.value * 2;
+        this.selectedFormValue = this.selectedFormValue * 2;
         this.formValueBitcoin = this.formValueBitcoin * 2;
-        if (this.bitcoinValue != null && this.bitcoinValue > 0)
-          this.formValueTooman = this.formValueBitcoin * this.bitcoinValue;
+        const bitcoinValue = this.dataStorage.getBitCoinValueAsNumber();
+        if (bitcoinValue != null && bitcoinValue > 0)
+          this.formValueTooman = this.formValueBitcoin * bitcoinValue;
         else
           this.formValueTooman = null;
       }
-  }
-
-  setBitcoinValue(value: string)
-  {
-    let str: string = '';
-    for (let i = 0; i < value.split(",").length; i++)
-      str += value.split(',')[i];
-    this.bitcoinValue = +str;
-    if (this.bitcoinValue != null && this.bitcoinValue > 0)
-      this.formValueTooman = this.formValueBitcoin * this.bitcoinValue;
-    else
-      this.formValueTooman = null;
   }
 
   saveForm()
@@ -169,7 +161,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
     }
 
     // @ts-ignore
-    this.formService.updateForm(this.formDataSource.data, this.selectedForm.id).subscribe(responce =>
+    this.formService.updateForm(this.formDataSource.data, this.selectedFormId).subscribe(responce =>
     {
       let title = 'ثبت فرم';
       let message;
@@ -182,6 +174,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
         MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
           .subscribe(results =>
           {
+            this.changeFormType();
           });
       }
       else
@@ -201,8 +194,9 @@ export class MyFormsComponent implements OnInit, AfterViewInit
     this.formValue = 100;
     this.formValueBitcoin = 0.000001;
     this.counter = 0;
-    if (this.bitcoinValue != null && this.bitcoinValue > 0)
-      this.formValueTooman = this.formValueBitcoin * this.bitcoinValue;
+    const bitcoinValue = this.dataStorage.getBitCoinValueAsNumber();
+    if (bitcoinValue != null && bitcoinValue > 0)
+      this.formValueTooman = this.formValueBitcoin * bitcoinValue;
     else
       this.formValueTooman = null;
     for (let i = 0; i < this.formDataSource.data.length; i++)

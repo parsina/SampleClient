@@ -27,4 +27,9 @@ export class UserService
   {
     return this.http.post(`//localhost:8090/auth/confirmActivationToken/`, {'token': token});
   }
+
+  getUserAccount():Observable<any>
+  {
+    return this.http.get(`//localhost:8090/account/userAccount/`);
+  }
 }

@@ -62,7 +62,7 @@
     </ng-container>
 
     <tr mat-header-row class="header" *matHeaderRowDef="formsColumns"></tr>
-    <tr mat-row (click)="onRowClicked(row)" class="formRow" [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1, 'highlight' : selectedRowIndex == row.id}" *matRowDef="let row; columns: formsColumns; let index = index"></tr>
+    <tr mat-row (click)="onRowClicked(row)" class="formRow" [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1, 'highlight' : selectedFormId == row.id}" *matRowDef="let row; columns: formsColumns; let index = index"></tr>
 
   </table>
   <div style="display: flex !important;justify-content: center !important;background-color: #cee0c7;">
@@ -70,7 +70,7 @@
   </div>
 
   <br/>
-  <div *ngIf="selectedRowIndex">
+  <div *ngIf="selectedFormId">
     <table mat-table *ngIf="formDataSource" [dataSource]="formDataSource" class="mat-elevation-z8">
 
       <!-- Index Column -->
@@ -128,7 +128,7 @@
       <ng-container matColumnDef="homeWin">
         <th mat-header-cell *matHeaderCellDef>برد میزبان</th>
         <td mat-cell *matCellDef="let element" width="5%;">
-          <mat-checkbox [disabled]="selectedForm.status != 'REGISTERED'" [(ngModel)]="element.properties.homeWin" (change)="calculateAmounts()"></mat-checkbox>
+          <mat-checkbox [disabled]="selectedFormStatus != 'REGISTERED'" [(ngModel)]="element.properties.homeWin" (change)="calculateAmounts()"></mat-checkbox>
         </td>
       </ng-container>
 
@@ -136,7 +136,7 @@
       <ng-container matColumnDef="noWin">
         <th mat-header-cell *matHeaderCellDef>مساوی</th>
         <td mat-cell *matCellDef="let element" width="5%;">
-          <mat-checkbox [disabled]="selectedForm.status != 'REGISTERED'" [(ngModel)]="element.properties.noWin" (change)="calculateAmounts()"></mat-checkbox>
+          <mat-checkbox [disabled]="selectedFormStatus != 'REGISTERED'" [(ngModel)]="element.properties.noWin" (change)="calculateAmounts()"></mat-checkbox>
         </td>
       </ng-container>
 
@@ -144,7 +144,7 @@
       <ng-container matColumnDef="awayWin">
         <th mat-header-cell *matHeaderCellDef>برد میهمان</th>
         <td mat-cell *matCellDef="let element" width="5%;">
-          <mat-checkbox [disabled]="selectedForm.status != 'REGISTERED'" [(ngModel)]="element.properties.awayWin" (change)="calculateAmounts()"></mat-checkbox>
+          <mat-checkbox [disabled]="selectedFormStatus != 'REGISTERED'" [(ngModel)]="element.properties.awayWin" (change)="calculateAmounts()"></mat-checkbox>
         </td>
       </ng-container>
 
@@ -192,26 +192,20 @@
       <!-- Footer column -->
       <ng-container matColumnDef="footer">
         <td mat-footer-cell *matFooterCellDef colspan="100">
-          <mat-form-field floatPlaceholder="auto"
-                          matTooltipPosition="above" style="width:10%; text-align: center"
-                          matTooltip="جهت نمایش مبلغ فرم به تومان، قیمت مورد نظر خود برای هر بیت کوین را وارد نمایید">
-            <input #btcValue type="text" matInput currencyFormatter (blur)="setBitcoinValue(btcValue.value)"
-                   placeholder="قیمت هر بیت کوین(تومان)">
-          </mat-form-field>
           مبلغ فرم:
-          <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;{{selectedForm.value | currencyPipe}} ساتوشی</label>
+          <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;{{selectedFormValue || currencyPipe}} ساتوشی</label>
           <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueBitcoin}} بیت
             کوین </label>
           <label style="color: cornflowerblue" *ngIf="formValueTooman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueTooman
             | currencyPipe}} تومان</label>
 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button [hidden]="selectedForm.status != 'REGISTERED'" (click)="saveForm()" mat-raised-button style="width: 20%;">ثبت فرم</button>
+          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="saveForm()" mat-raised-button style="width: 20%;">ثبت فرم</button>
 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button [hidden]="selectedForm.status != 'REGISTERED'" (click)="randomForm()" mat-raised-button style="width: 10%;">فرم شانسی</button>
+          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="randomForm()" mat-raised-button style="width: 10%;">فرم شانسی</button>
           &nbsp;&nbsp;&nbsp;
-          <button [hidden]="selectedForm.status != 'REGISTERED'" (click)="resetForm()" mat-raised-button style="width: 10%;">فرم جدید</button>
+          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="resetForm()" mat-raised-button style="width: 10%;">فرم جدید</button>
         </td>
       </ng-container>
 

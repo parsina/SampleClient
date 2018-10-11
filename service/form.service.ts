@@ -109,7 +109,7 @@ export class FormService
   {
     return this.http.post(`//localhost:8090/form/createForm`, {
       'formData': formData,
-      'userId': this.dataStorage.getJsonData().userId,
+      'userId': this.dataStorage.getUserJsonData().userId,
       'formTemplateId': formTemplateId
     });
   }
@@ -118,7 +118,7 @@ export class FormService
   {
     return this.http.post(`//localhost:8090/form/updateForm`, {
       'formData': formData,
-      'userId': this.dataStorage.getJsonData().userId,
+      'userId': this.dataStorage.getUserJsonData().userId,
       'formId': formId
     });
   }

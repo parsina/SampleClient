@@ -105,7 +105,10 @@ export class LoginComponent implements OnInit
         if (result.success)
         {
           // store username and jwt dataStorage in local storage to keep user logged in between page refreshes
-          this.dataStorage.saveData(data.properties);
+          this.dataStorage.saveLoggedInUserData(data.properties);
+          this.userService.getUserAccount().subscribe(accountData => {
+            this.dataStorage.saveLoggedInUserAccountData(accountData.properties);
+          });
           this.dialogRef.close();
           this.router.navigate([this.returnUrl]);
         }

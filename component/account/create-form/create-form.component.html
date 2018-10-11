@@ -114,14 +114,6 @@
   <!-- Footer column -->
   <ng-container matColumnDef="footer">
     <td mat-footer-cell *matFooterCellDef colspan="100">
-      <mat-form-field floatPlaceholder="auto"
-                      matTooltipPosition="above" style="width:10%; text-align: center"
-                      matTooltip="جهت نمایش مبلغ فرم به تومان، قیمت مورد نظر خود برای هر بیت کوین را وارد نمایید">
-        <input #btcValue type="text" matInput currencyFormatter (blur)="setBitcoinValue(btcValue.value)"
-               placeholder="قیمت هر بیت کوین(تومان)">
-      </mat-form-field>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
       مبلغ فرم:
       <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;{{formValue | currencyPipe}} ساتوشی</label>
       <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueBitcoin}} بیت کوین </label>

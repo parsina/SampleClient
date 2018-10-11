@@ -14,7 +14,7 @@ export class JwtInterceptor implements HttpInterceptor
   {
 
     // add authorization header with jwt token if available
-    let data = this.dataStorage.getJsonData();
+    let data = this.dataStorage.getUserJsonData();
     if (data && data.token)
     {
       request = request.clone({

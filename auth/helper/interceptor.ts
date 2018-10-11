@@ -21,9 +21,9 @@ export class Interceptor implements HttpInterceptor
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any>
   {
     let authReq = req;
-    if (this.dataStorage.getStringData() != null)
+    if (this.dataStorage.getUserStringData() != null)
     {
-      authReq = req.clone({headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + this.dataStorage.getStringData())});
+      authReq = req.clone({headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + this.dataStorage.getUserStringData())});
     }
 
     return next.handle(authReq);

@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot)
   {
-    let userData = this.dataStorage.getJsonData();
+    let userData = this.dataStorage.getUserJsonData();
     if (userData != null && userData.userId != null)
     {
       if(state.url == '/account' && (userData.userRole === 'ROLE_USER' || userData.userRole === 'ROLE_ADMIN'))

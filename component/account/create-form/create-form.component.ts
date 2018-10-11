@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatTableDataSource} from '@angular/material';
 import {FormService} from '../../../service/form.service';
 import {MessageBox} from '../../../utils/messagebox';
+import {DataStorage} from '../../../auth/data.storage';
 
 @Component({
   selector: 'app-create-form',
@@ -17,7 +18,6 @@ export class CreateFormComponent implements OnInit
   formValue: number;
   formValueBitcoin: number;
   formValueTooman: number;
-  bitcoinValue: number;
   counter: number;
 
   displayedColumns: string[] =
@@ -39,7 +39,7 @@ export class CreateFormComponent implements OnInit
       // 'awayCountry',
     ];
 
-  constructor(private formService: FormService, private dialog: MatDialog)
+  constructor(private formService: FormService, private dialog: MatDialog, private dataStorage: DataStorage)
   {
     this.dataSource = new MatTableDataSource();
     this.formValue = 100;
@@ -58,6 +58,11 @@ export class CreateFormComponent implements OnInit
           this.formName = data.properties.name;
           this.dataSource.data = data.properties.matches;
           this.resetForm();
+          const bitcoinValue = this.dataStorage.getBitCoinValueAsNumber();
+          if (bitcoinValue != null && bitcoinValue > 0)
+            this.formValueTooman = this.formValueBitcoin * bitcoinValue;
+          else
+            this.formValueTooman = null;
         });
       }
     });
@@ -71,18 +76,6 @@ export class CreateFormComponent implements OnInit
       this.dataSource.data = data.properties.matches;
       this.resetForm();
     });
-  }
-
-  setBitcoinValue(value: string)
-  {
-    let str: string = '';
-    for (let i = 0; i < value.split(",").length; i++)
-      str += value.split(',')[i];
-    this.bitcoinValue = +str;
-    if (this.bitcoinValue != null && this.bitcoinValue > 0)
-      this.formValueTooman = this.formValueBitcoin * this.bitcoinValue;
-    else
-      this.formValueTooman = null;
   }
 
   calculateAmounts()
@@ -109,8 +102,9 @@ export class CreateFormComponent implements OnInit
       {
         this.formValue = this.formValue * 2;
         this.formValueBitcoin = this.formValueBitcoin * 2;
-        if (this.bitcoinValue != null && this.bitcoinValue > 0)
-          this.formValueTooman = this.formValueBitcoin * this.bitcoinValue;
+        const bitcoinValue = this.dataStorage.getBitCoinValueAsNumber();
+        if (bitcoinValue != null && bitcoinValue > 0)
+          this.formValueTooman = this.formValueBitcoin * bitcoinValue;
         else
           this.formValueTooman = null;
       }
@@ -169,8 +163,9 @@ export class CreateFormComponent implements OnInit
     this.formValue = 100;
     this.formValueBitcoin = 0.000001;
     this.counter = 0;
-    if (this.bitcoinValue != null && this.bitcoinValue > 0)
-      this.formValueTooman = this.formValueBitcoin * this.bitcoinValue;
+    const bitcoinValue = this.dataStorage.getBitCoinValueAsNumber();
+    if (bitcoinValue != null && bitcoinValue > 0)
+      this.formValueTooman = this.formValueBitcoin * bitcoinValue;
     else
       this.formValueTooman = null;
     for (let i = 0; i < this.dataSource.data.length; i++)
