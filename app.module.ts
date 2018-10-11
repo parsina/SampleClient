@@ -22,12 +22,8 @@ import {
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
-import { CryptoHomeComponent } from './component/crypto-home/crypto-home.component';
 import { AccountComponent } from './component/account/account.component';
-import { BitcoinComponent } from './component/bitcoin/bitcoin.component';
 import { ContactComponent } from './component/contact/contact.component';
-import { BitcointradeService } from "./service/bitcointrade.service";
-import { MarketService } from './service/market.service';
 import { LoginComponent } from './component/login/login.component';
 import { MessageService } from "./service/message.service";
 import { SimpleDialogComponent } from './component/simple-dialog/simple-dialog.component';
@@ -64,10 +60,6 @@ const appRoutes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'bitcoin',
-    component: BitcoinComponent
-  },
-  {
     path: 'account',
     component: AccountComponent,
     canActivate: [AuthGuard]
@@ -85,22 +77,12 @@ const appRoutes: Routes = [
     path: 'login', 
     component: LoginComponent 
   },
-//  {
-//    path: 'car-add',
-//    component: CarEditComponent
-//  },
-//  {
-//    path: 'car-edit/:id',
-//    component: CarEditComponent
-//  }
   { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    CryptoHomeComponent,
-    BitcoinComponent,
     AccountComponent,
     ContactComponent,
     LoginComponent,
@@ -146,8 +128,6 @@ const appRoutes: Routes = [
     MatTooltipModule
   ],
   providers: [
-    MarketService,
-    BitcointradeService,
     {provide: MatPaginatorIntl, useClass: MatPaginatorFarsi},
     {provide: MAT_DIALOG_DATA, useValue: {}},
     MessageService,
