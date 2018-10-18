@@ -18,12 +18,19 @@ export class DataStorage
 
   public saveLoggedInUserData(data: any)
   {
-    window.sessionStorage.setItem('userData', JSON.stringify({userId: data.id, username: data.username, email:data.email, userRole: data.role, userInfo: data.info, token: data.token}));
+    window.sessionStorage.setItem('userData', JSON.stringify({
+      userId: data.id,
+      username: data.username,
+      email: data.email,
+      userRole: data.role,
+      userInfo: data.info,
+      token: data.token
+    }));
   }
 
   public saveLoggedInUserAccountData(data: any)
   {
-    window.sessionStorage.setItem('accountData', JSON.stringify({address: data.walletAddress, balance:data.balance, realBalance:data.realBalance}));
+    window.sessionStorage.setItem('accountData', JSON.stringify({address: data.walletAddress, balance: data.balance}));
   }
 
   public saveBitCoinValue(value: any)
@@ -46,6 +53,13 @@ export class DataStorage
     return window.sessionStorage.getItem('accountData') === null ? null : JSON.parse(window.sessionStorage.getItem('accountData'));
   }
 
+  public updateUserAccountBalance(balance)
+  {
+    let data = JSON.parse(window.sessionStorage.getItem('accountData'));
+    data.balance = balance;
+    this.saveLoggedInUserAccountData(data);
+  }
+
   public getUserAccountStringData(): any
   {
     return window.sessionStorage.getItem('accountData');
@@ -58,9 +72,9 @@ export class DataStorage
 
   public getBitCoinValueAsNumber(): number
   {
-    let bitcoinValue:number;
+    let bitcoinValue: number;
     let value = this.getBitCoinValue() == null ? null : this.getBitCoinValue().value;
-    if(value == null || value.trim() === '' || value.length == 0)
+    if (value == null || value.trim() === '' || value.length == 0)
       return null;
     let str: string = '';
     for (let i = 0; i < value.split(",").length; i++)

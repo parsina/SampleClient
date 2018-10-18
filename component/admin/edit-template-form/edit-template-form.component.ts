@@ -43,7 +43,7 @@ export class EditTemplateFormComponent implements OnInit
 
   ngOnInit()
   {
-    this.formService.getFormTemplates("").subscribe(data =>
+    this.formService.getFormTemplates().subscribe(data =>
     {
       this.formTemplateList = data;
       if (this.formTemplateList.length > 0)

@@ -138,6 +138,11 @@ export class FormService
     return this.http.post('//localhost:8090/form/deleteFormTemplate', {'formTemplateId': id});
   }
 
+  deleteUserForm(id): Observable<any>
+  {
+    return this.http.post('//localhost:8090/form/deleteUserForm', {'formId': id});
+  }
+
   getUserForms(formType: string, filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10): Observable<any>
   {
     return this.http.post('//localhost:8090/form/userForms', {

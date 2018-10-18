@@ -12,8 +12,7 @@ export class GroupPlayComponent implements OnInit
   displayedColumns: string[] =
     [
       'index',
-      'date',
-      'time',
+      'datetime',
       'league',
       // 'homeCountry',
       // 'homeCountryFlag',
@@ -32,8 +31,8 @@ export class GroupPlayComponent implements OnInit
   dataSource: MatTableDataSource<any>;
   selectedFormTemplateId: number;
   selectedFormTemplateName: string;
-  formTemplateId: number;
-  formTemplateStatus: string;
+  selectedFormTemplateStatus: string;
+  selectedFormTemplateType: string;
   @Input() source: any;
 
   constructor(private formService: FormService)
@@ -50,7 +49,7 @@ export class GroupPlayComponent implements OnInit
       {
         this.selectedFormTemplateId = this.formTemplateList[0].properties.id;
         this.selectedFormTemplateName = this.formTemplateList[0].properties.name;
-        this.changeFormTemplate();
+        this.changeFormTemplate(this.selectedFormTemplateId);
       }
     });
 
@@ -60,8 +59,7 @@ export class GroupPlayComponent implements OnInit
       const matchData = this.dataSource.data;
       for (let i = 0; i < JSON.parse(message.data).properties.matches.length; i++)
       {
-        this.formTemplateId = JSON.parse(message.data).properties.matches[i].properties.formTemplateId;
-        if (this.selectedFormTemplateId == this.formTemplateId)
+        if (this.selectedFormTemplateId == JSON.parse(message.data).properties.matches[i].properties.formTemplateId)
           matchData.push(JSON.parse(message.data).properties.matches[i]);
       }
       if (matchData.length > 0)
@@ -69,12 +67,14 @@ export class GroupPlayComponent implements OnInit
     });
   }
 
-  changeFormTemplate()
+  changeFormTemplate(id)
   {
+    this.selectedFormTemplateId = id;
     this.formService.getFormTemplateData(this.selectedFormTemplateId).subscribe(data =>
     {
       this.selectedFormTemplateName = data.properties.name;
-      this.formTemplateStatus = data.properties.status;
+      this.selectedFormTemplateStatus = data.properties.status;
+      this.selectedFormTemplateType = data.properties.type;
       this.dataSource.data = data.properties.matches;
     });
   }

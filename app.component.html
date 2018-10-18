@@ -1,47 +1,50 @@
-<mat-divider class="header-devider"></mat-divider>
-<mat-divider class="header-devider"></mat-divider>
-<mat-divider class="header-devider"></mat-divider>
-
-<mat-toolbar color="primary">
-  <button mat-button (loginEvent)="closeDialog()" (click)="openDialog()" *ngIf="!isUserLoggedIn()" class="mainButton">
-    ورود
-  </button>
-  <button mat-button (click)="logout()" *ngIf="isUserLoggedIn()" class="mainButton">خروج</button>
-  <span class="toolbar">
+<div class="sticky">
+  <mat-divider class="header-devider"></mat-divider>
+  <mat-divider class="header-devider"></mat-divider>
+  <mat-divider class="header-devider"></mat-divider>
+  <mat-toolbar color="primary">
+    <button mat-button (loginEvent)="closeDialog()" (click)="openDialog()" *ngIf="!isUserLoggedIn()" class="mainButton">
+      ورود
+    </button>
+    <button mat-button (click)="logout()" *ngIf="isUserLoggedIn()" class="mainButton">خروج</button>
+    <span class="toolbar">
   		<button mat-button [routerLink]="['/home']" class="mainButton">خانه</button>
   		<button mat-button [routerLink]="['/account']" *ngIf="accessibleByRole('USER_ADMIN')" class="mainButton">حساب کاربری</button>
   		<button mat-button [routerLink]="['/contact']" class="mainButton">تماس با ما</button>
       <button mat-button [routerLink]="['/administrator']" *ngIf="accessibleByRole('ADMIN')" class="mainButton">مدیریت سیستم</button>
   </span>
-</mat-toolbar>
-<mat-divider class="header-devider"></mat-divider>
-<mat-divider class="header-devider"></mat-divider>
-<mat-divider class="header-devider"></mat-divider>
-<div *ngIf="isUserLoggedIn()" class="content" style="background-color: aliceblue;">
-  <div class="content-header">
-    <span class="accountTitle">کاربر</span>
-    <span class="accountData">{{username}}</span>
+  </mat-toolbar>
+  <mat-divider class="header-devider"></mat-divider>
+  <mat-divider class="header-devider"></mat-divider>
+  <mat-divider class="header-devider"></mat-divider>
+  <div *ngIf="isUserLoggedIn()" class="content" style="background-color: aliceblue;">
+    <div class="content-header">
+      <span class="accountTitle">کاربر</span>
+      <span class="accountData">{{username}}</span>
 
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <span class="accountTitle">موجودی حساب</span>
-    <span class="accountData">{{balance}} ساتوشی</span>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="accountTitle">موجودی حساب</span>
+      <span class="accountData">{{balance | currencyPipe}} ساتوشی</span>
 
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <mat-form-field floatPlaceholder="auto" matTooltipPosition="above"
-                    matTooltip="جهت نمایش مبلغ فرم به تومان، قیمت مورد نظر خود برای هر بیت کوین را وارد نمایید">
-      <input #btcValue type="text" matInput currencyFormatter [(ngModel)]="bitcoinValue" (blur)="setBitcoinValue(btcValue.value)"
-             placeholder="قیمت هر بیت کوین(تومان)">
-      <button mat-button *ngIf="bitcoinValue" matSuffix mat-icon-button aria-label="حذف" (click)="setBitcoinValue('');">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <mat-form-field floatPlaceholder="auto" matTooltipPosition="above"
+                      matTooltip="جهت نمایش مبلغ فرم به تومان، قیمت مورد نظر خود برای هر بیت کوین را وارد نمایید">
+        <input #btcValue type="text" matInput currencyFormatter [(ngModel)]="bitcoinValue" (blur)="setBitcoinValue(btcValue.value)"
+               placeholder="قیمت هر بیت کوین(تومان)">
+        <button mat-button *ngIf="bitcoinValue" matSuffix mat-icon-button aria-label="حذف" (click)="setBitcoinValue('');">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
   </div>
+  <mat-divider class="header-devider"></mat-divider>
+  <mat-divider class="header-devider"></mat-divider>
+  <mat-divider class="header-devider"></mat-divider>
+
 </div>
-<mat-divider class="header-devider"></mat-divider>
-<mat-divider class="header-devider"></mat-divider>
-<mat-divider class="header-devider"></mat-divider>
 
 <router-outlet></router-outlet>
 
 <br/><br/><br/>
+
 

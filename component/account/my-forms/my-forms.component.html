@@ -191,21 +191,24 @@
 
       <!-- Footer column -->
       <ng-container matColumnDef="footer">
+
         <td mat-footer-cell *matFooterCellDef colspan="100">
+          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="randomForm()" mat-raised-button style="width: 10%;">انتخاب تصادفی</button>
+          &nbsp;&nbsp;&nbsp;
+          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="resetForm()" mat-raised-button style="width: 10%;">پاک کردن فرم</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           مبلغ فرم:
-          <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;{{selectedFormValue || currencyPipe}} ساتوشی</label>
+          <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;{{selectedFormValue | currencyPipe}} ساتوشی</label>
           <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueBitcoin}} بیت
             کوین </label>
-          <label style="color: cornflowerblue" *ngIf="formValueTooman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueTooman
-            | currencyPipe}} تومان</label>
+          <label style="color: cornflowerblue" *ngIf="formValueTooman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueTooman | currencyPipe}} تومان</label>
 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="saveForm()" mat-raised-button style="width: 20%;">ثبت فرم</button>
+          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="deleteForm()" mat-raised-button style="width: 10%;">حذف فرم</button>
 
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="randomForm()" mat-raised-button style="width: 10%;">فرم شانسی</button>
-          &nbsp;&nbsp;&nbsp;
-          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="resetForm()" mat-raised-button style="width: 10%;">فرم جدید</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="saveForm()" mat-raised-button style="width: 20%;">ویرایش فرم</button>
+
         </td>
       </ng-container>
 

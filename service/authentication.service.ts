@@ -14,6 +14,7 @@ export class AuthenticationService
 
   isUserLoggedIn():boolean
   {
+
     return this.dataStorage.getUserStringData() != null;
   }
 

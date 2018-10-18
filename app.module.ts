@@ -18,7 +18,7 @@ import {
   MatDialogModule,
   MatTabsModule,
   MAT_DIALOG_DATA,
-  MatSelectModule, MatCheckboxModule, MatPaginatorIntl, MatTooltipModule, MatSortModule, MatProgressSpinnerModule
+  MatSelectModule, MatCheckboxModule, MatPaginatorIntl, MatTooltipModule, MatSortModule, MatProgressSpinnerModule, MatChipsModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
@@ -125,7 +125,8 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatGridListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatChipsModule
   ],
   providers: [
     {provide: MatPaginatorIntl, useClass: MatPaginatorFarsi},

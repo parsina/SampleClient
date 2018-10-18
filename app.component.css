@@ -1,12 +1,22 @@
-.mainButton{
-	font: bold;
-	font-size: large;
-	color: white;
-	font-family: 'Vazir', sans-serif;
+.sticky
+{
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top:      0; /* Sets the sticky toolbar to be on top */
+  z-index:  1000; /* Ensure that your app's content doesn't overlap the toolbar */
 }
 
-.header-devider{
-	border-color: #ac98f2;
+.mainButton
+{
+  font:        bold;
+  font-size:   large;
+  color:       white;
+  font-family: 'Vazir', sans-serif;
+}
+
+.header-devider
+{
+  border-color: #ac98f2;
 }
 
 .content
@@ -27,30 +37,28 @@
 
 .accountTitle
 {
-  color:      black;
-  text-align: right;
-  font-weight:   bold;
-  font-size:     medium;
-  font-family:   'Vazir', sans-serif;
+  color:       black;
+  text-align:  right;
+  font-weight: bold;
+  font-size:   medium;
+  font-family: 'Vazir', sans-serif;
 }
 
 .accountData
 {
-  color:      maroon;
-  text-align: right;
+  color:         maroon;
+  text-align:    right;
   font-weight:   normal;
   font-size:     medium;
   padding-right: 1%;
   font-family:   'Vazir', sans-serif;
 }
 
-
 .mat-form-field
 {
-  font-weight:   lighter;
-  font-size:     small;
-  font-family:   'Vazir', sans-serif;
-  color: red;
-  text-align:    center;
-
+  font-weight: lighter;
+  font-size:   small;
+  font-family: 'Vazir', sans-serif;
+  color:       red;
+  text-align:  center;
 }

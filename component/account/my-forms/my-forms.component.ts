@@ -21,9 +21,13 @@ export class MyFormsComponent implements OnInit, AfterViewInit
   selectedFormId: number;
   selectedFormValue: number;
   selectedFormStatus: number;
+  selectedFormName: string;
+  selectedFormTemplateName: number;
   formValueBitcoin: number;
   formValueTooman: number;
   counter: number;
+
+  balance: number;
 
   formsColumns: string[] =
     [
@@ -84,6 +88,10 @@ export class MyFormsComponent implements OnInit, AfterViewInit
     this.formService.getUserTotalFormsSize(this.formType).subscribe(count => this.totalFormsSize = count);
     this.formList.loadUserForms(this.formType, '', this.sort ? this.sort.direction : 'asc', this.sort ? this.sort.active : 'id', this.paginator.pageIndex, this.paginator.pageSize);
     this.selectedFormId = null;
+    this.selectedFormValue = null;
+    this.selectedFormStatus = null;
+    this.selectedFormName = null;
+    this.selectedFormTemplateName = null;
   }
 
   onRowClicked(row)
@@ -91,6 +99,11 @@ export class MyFormsComponent implements OnInit, AfterViewInit
     this.selectedFormId = row.id;
     this.selectedFormValue = row.value;
     this.selectedFormStatus = row.status;
+    this.selectedFormName = row.name;
+    this.selectedFormTemplateName = row.templateName;
+
+    this.balance = +this.dataStorage.getUserAccountJsonData().balance + row.value;
+
     // @ts-ignore
     this.formValueBitcoin = this.selectedFormValue / 100000000;
     const bitcoinValue = this.dataStorage.getBitCoinValueAsNumber();
@@ -141,6 +154,19 @@ export class MyFormsComponent implements OnInit, AfterViewInit
 
   saveForm()
   {
+    if(this.selectedFormValue > this.balance)
+    {
+      let title = 'خطا';
+      let message = 'موجودی حساب شما کافی نمی باشد.';
+      let info = 'لطفا جهت ویرایش فرم، موجودی حساب خود را افزایش دهید.';
+
+      MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
+        .subscribe(results =>
+        {
+        });
+      return;
+    }
+
     for (let i = 0; i < this.formDataSource.data.length; i++)
     {
       let homeWin = this.formDataSource.data[i].properties.homeWin;
@@ -174,7 +200,8 @@ export class MyFormsComponent implements OnInit, AfterViewInit
         MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
           .subscribe(results =>
           {
-            this.changeFormType();
+            this.dataStorage.updateUserAccountBalance(result.properties.accountBalance);
+            // this.changeFormType();
           });
       }
       else
@@ -219,5 +246,23 @@ export class MyFormsComponent implements OnInit, AfterViewInit
         this.formDataSource.data[i].properties.awayWin = true;
     }
     this.calculateAmounts();
+  }
+
+  deleteForm()
+  {
+    let title = 'حدف فرم';
+    let message = 'آیا از حدف فرم مورد نظر اطمینان دارید ؟';
+    let info = '';
+
+    MessageBox.show(this.dialog, message, title, info, 2, false, 1, '30%')
+      .subscribe(results =>
+      {
+        this.formService.deleteUserForm(this.selectedFormId).subscribe(data =>
+        {
+          this.dataStorage.updateUserAccountBalance(data.properties.accountBalance);
+          this.changeFormType();
+        })
+      });
+    return;
   }
 }

@@ -39,7 +39,9 @@ export class CreateFormComponent implements OnInit
       // 'awayCountry',
     ];
 
-  constructor(private formService: FormService, private dialog: MatDialog, private dataStorage: DataStorage)
+  constructor(private formService: FormService,
+              private dialog: MatDialog,
+              private dataStorage: DataStorage)
   {
     this.dataSource = new MatTableDataSource();
     this.formValue = 100;
@@ -112,6 +114,19 @@ export class CreateFormComponent implements OnInit
 
   saveForm()
   {
+    if(this.formValue > this.dataStorage.getUserAccountJsonData().balance)
+    {
+      let title = 'خطا';
+      let message = 'موجودی حساب شما کافی نمی باشد.';
+      let info = 'لطفا جهت شرکت در مسابقه، موجودی حساب خود را افزایش دهید.';
+
+      MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
+        .subscribe(results =>
+        {
+        });
+      return;
+    }
+
     for (let i = 0; i < this.dataSource.data.length; i++)
     {
       let homeWin = this.dataSource.data[i].properties.homeWin;
@@ -145,6 +160,7 @@ export class CreateFormComponent implements OnInit
         MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
           .subscribe(results =>
           {
+            this.dataStorage.updateUserAccountBalance(result.properties.accountBalance);
           });
       }
       else

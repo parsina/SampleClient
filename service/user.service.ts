@@ -1,9 +1,7 @@
 import {User} from '../auth/model/user';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs';
-import {HttpParams} from '../../../node_modules/@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class UserService

@@ -234,3 +234,8 @@
   border-image-repeat: initial;
 }
 
+.mat-footer-cell
+{
+  background-color: #cee0c7;
+}
+

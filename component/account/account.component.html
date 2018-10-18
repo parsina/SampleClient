@@ -4,7 +4,7 @@
     <mat-divider class="title-devider"></mat-divider>
   </div>
 
-  <mat-tab-group>
+  <mat-tab-group (selectedTabChange)="updateTap($event)">
     <mat-tab label="شرکت در مسابقات">
         <app-create-form></app-create-form>
     </mat-tab>

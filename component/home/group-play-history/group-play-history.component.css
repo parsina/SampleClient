@@ -8,17 +8,6 @@
   font-family: 'Vazir', sans-serif;
 }
 
-.mat-header-cell
-{
-  text-align:       center;
-  font-weight:      bold;
-  font-size:        large;
-  font-family:      'Vazir', sans-serif;
-  color:            blue;
-  background-color: #e8ecf9;
-  width:            inherit;
-}
-
 .mat-cell
 {
   text-align:  center;

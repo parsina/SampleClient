@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {FormService} from '../../service/form.service';
-import {MatDialog, MatTableDataSource} from '@angular/material';
-import {MessageBox} from '../../utils/messagebox';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MyFormsComponent} from './my-forms/my-forms.component';
+import {MatTabChangeEvent} from '@angular/material';
+import {CreateFormComponent} from './create-form/create-form.component';
 
 @Component({
   selector: 'app-account',
@@ -12,7 +12,20 @@ import {MessageBox} from '../../utils/messagebox';
 
 export class AccountComponent implements OnInit
 {
-  constructor() { }
-  ngOnInit() {
+  @ViewChild(CreateFormComponent) createForm:CreateFormComponent;
+  @ViewChild(MyFormsComponent) myForm:MyFormsComponent;
+
+  constructor()
+  {
+  }
+
+  ngOnInit()
+  {
+  }
+
+  updateTap(event: MatTabChangeEvent)
+  {
+    this.createForm.resetForm();
+    this.myForm.changeFormType();
   }
 }
