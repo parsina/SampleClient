@@ -18,7 +18,14 @@ import {
   MatDialogModule,
   MatTabsModule,
   MAT_DIALOG_DATA,
-  MatSelectModule, MatCheckboxModule, MatPaginatorIntl, MatTooltipModule, MatSortModule, MatProgressSpinnerModule, MatChipsModule
+  MatSelectModule,
+  MatCheckboxModule,
+  MatPaginatorIntl,
+  MatTooltipModule,
+  MatSortModule,
+  MatProgressSpinnerModule,
+  MatChipsModule,
+  MatSlideToggleModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
@@ -43,6 +50,8 @@ import { GroupPlayHistoryComponent } from './component/home/group-play-history/g
 import { GroupPlayWinnersComponent } from './component/home/group-play-winners/group-play-winners.component';
 import { AdminComponent } from './component/admin/admin.component';
 import { EditTemplateFormComponent } from './component/admin/edit-template-form/edit-template-form.component';
+import { TransactionComponent } from './component/account/transaction/transaction.component';
+import { InitialiseDataComponent } from './component/admin/initialise-data/initialise-data.component';
 
 
 const appRoutes: Routes = [
@@ -99,6 +108,8 @@ const appRoutes: Routes = [
     GroupPlayWinnersComponent,
     AdminComponent,
     EditTemplateFormComponent,
+    TransactionComponent,
+    InitialiseDataComponent,
   ],
   entryComponents: [
     SimpleDialogComponent
@@ -126,7 +137,8 @@ const appRoutes: Routes = [
     MatCheckboxModule,
     MatGridListModule,
     MatTooltipModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSlideToggleModule
   ],
   providers: [
     {provide: MatPaginatorIntl, useClass: MatPaginatorFarsi},

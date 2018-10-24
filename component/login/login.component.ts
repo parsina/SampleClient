@@ -106,7 +106,8 @@ export class LoginComponent implements OnInit
         {
           // store username and jwt dataStorage in local storage to keep user logged in between page refreshes
           this.dataStorage.saveLoggedInUserData(data.properties);
-          this.userService.getUserAccount().subscribe(accountData => {
+          this.userService.getUserAccount().subscribe(accountData =>
+          {
             this.dataStorage.saveLoggedInUserAccountData(accountData.properties);
           });
           this.dialogRef.close();
@@ -117,7 +118,7 @@ export class LoginComponent implements OnInit
           this.loginError = result.message;
           this.loading = false;
         }
-      },error =>
+      }, error =>
       {
         this.loginError = error;
         this.loading = false;
@@ -138,46 +139,46 @@ export class LoginComponent implements OnInit
     this.userService.register(this.registerForm.value)
       .pipe(first())
       .subscribe(data =>
-        {
-          let title = 'ثبت نام';
-          let message;
-          let info = 'تا چند دقیقه دیگر، لینک فعال سازی به آدرس ایمیل شما ارسال خواهد شد.';
+      {
+        let title = 'ثبت نام';
+        let message;
+        let info = 'تا چند دقیقه دیگر، لینک فعال سازی به آدرس ایمیل شما ارسال خواهد شد.';
 
-          const result = JSON.parse(JSON.stringify(data));
-          if (result.success)
-          {
-            message = 'ثبت نام شما با موفقیت انجام گردید.';
-            MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-              .subscribe(results =>
-              {
-                this.userService.sendActivationEmail(result.properties.userEmail)
-                  .subscribe(
-                    result =>
-                    {
-                      console.log('Send !!!!');
-                      this.router.navigate(['/crypto-home']);
-                    },
-                    errors =>
-                    {
-                      console.log('Error !!!!');
-                    });
-              });
-          }
-          else
-          {
-            message = 'خطا در ثبت نام';
-            MessageBox.show(this.dialog, message, title, result.message, 0, false, 1, '30%')
-              .subscribe(results =>
-              {
-                console.log(results);
-              });
-          }
-        },error =>
+        const result = JSON.parse(JSON.stringify(data));
+        if (result.success)
         {
+          message = 'ثبت نام شما با موفقیت انجام گردید.';
+          MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
+            .subscribe(results =>
+            {
+              this.userService.sendActivationEmail(result.properties.userEmail)
+                .subscribe(
+                  result =>
+                  {
+                    console.log('Send !!!!');
+                    this.router.navigate(['/crypto-home']);
+                  },
+                  errors =>
+                  {
+                    console.log('Error !!!!');
+                  });
+            });
+        }
+        else
+        {
+          message = 'خطا در ثبت نام';
+          MessageBox.show(this.dialog, message, title, result.message, 0, false, 1, '30%')
+            .subscribe(results =>
+            {
+              console.log(results);
+            });
+        }
+      }, error =>
+      {
 //                    this.alertService.error(error);
-          alert('Error');
-          this.loading = false;
-        });
+        alert('Error');
+        this.loading = false;
+      });
     this.closeDialog();
   }
 

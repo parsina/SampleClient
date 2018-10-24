@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormService} from '../../service/form.service';
 import {AuthenticationService} from '../../service/authentication.service';
+import {UserService} from '../../service/user.service';
+import {DataStorage} from '../../auth/data.storage';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,8 @@ export class HomeComponent implements OnInit
 {
   source: any;
 
-  constructor(private formService: FormService, private auth: AuthenticationService)
+  constructor(private formService: FormService,
+              private auth: AuthenticationService)
   {
     this.source = this.formService.updateFromTemplate();
   }
@@ -22,7 +25,6 @@ export class HomeComponent implements OnInit
 
   isUserLoggedIn()
   {
-    return true;
-    // return this.auth.isUserLoggedIn();
+    return this.auth.isUserLoggedIn();
   }
 }

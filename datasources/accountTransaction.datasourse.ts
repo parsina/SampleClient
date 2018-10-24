@@ -3,44 +3,45 @@ import {BehaviorSubject, Observable, of} from 'rxjs';
 import {FormService} from '../service/form.service';
 import {catchError, finalize} from 'rxjs/operators';
 import {UserForm} from '../model/userForm';
+import {UserService} from '../service/user.service';
 
 
-export class UserFormDataSource implements DataSource<UserForm>
+export class AccountTransactionDataSource implements DataSource<any>
 {
 
-  private userFormSubject = new BehaviorSubject<UserForm[]>([]);
+  private accountTransactionSubject = new BehaviorSubject<any[]>([]);
 
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
   public loading = this.loadingSubject.asObservable();
 
-  constructor(private formService: FormService)
+  constructor(private userService: UserService)
   {
   }
 
-  loadUserForms(formType: string, filter: string, sortDirection: string, sortBy: string,pageIndex: number, pageSize: number)
+  loadAccountTransactions(filter: string, sortDirection: string, sortBy: string, pageIndex: number, pageSize: number)
   {
     this.loadingSubject.next(true);
 
-    this.formService.getUserForms(formType, filter, sortDirection, sortBy, pageIndex, pageSize)
+    this.userService.getTransactions(filter, sortDirection, sortBy, pageIndex, pageSize)
       .pipe(
         catchError(() =>
           of([])),
         finalize(() =>
           this.loadingSubject.next(false)))
       .subscribe(data =>
-        this.userFormSubject.next(data.properties.forms));
+        this.accountTransactionSubject.next(data.properties.transactions));
 
   }
 
-  connect(collectionViewer: CollectionViewer): Observable<UserForm[]>
+  connect(collectionViewer: CollectionViewer): Observable<any>
   {
-    return this.userFormSubject.asObservable();
+    return this.accountTransactionSubject.asObservable();
   }
 
   disconnect(collectionViewer: CollectionViewer): void
   {
-    this.userFormSubject.complete();
+    this.accountTransactionSubject.complete();
     this.loadingSubject.complete();
   }
 }

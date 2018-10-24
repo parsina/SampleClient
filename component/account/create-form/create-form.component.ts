@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatTableDataSource} from '@angular/material';
+import {MatDialog, MatSlideToggle, MatTableDataSource} from '@angular/material';
 import {FormService} from '../../../service/form.service';
 import {MessageBox} from '../../../utils/messagebox';
 import {DataStorage} from '../../../auth/data.storage';
+import {UserService} from '../../../service/user.service';
 
 @Component({
   selector: 'app-create-form',
@@ -19,6 +20,7 @@ export class CreateFormComponent implements OnInit
   formValueBitcoin: number;
   formValueTooman: number;
   counter: number;
+  realForm: boolean = false;
 
   displayedColumns: string[] =
     [
@@ -41,6 +43,7 @@ export class CreateFormComponent implements OnInit
 
   constructor(private formService: FormService,
               private dialog: MatDialog,
+              private userService: UserService,
               private dataStorage: DataStorage)
   {
     this.dataSource = new MatTableDataSource();
@@ -114,7 +117,7 @@ export class CreateFormComponent implements OnInit
 
   saveForm()
   {
-    if(this.formValue > this.dataStorage.getUserAccountJsonData().balance)
+    if (this.realForm && this.formValue > this.dataStorage.getUserAccountJsonData().balance)
     {
       let title = 'خطا';
       let message = 'موجودی حساب شما کافی نمی باشد.';
@@ -146,7 +149,7 @@ export class CreateFormComponent implements OnInit
       }
     }
 
-    this.formService.createForm(this.dataSource.data, this.formTemplateId).subscribe(responce =>
+    this.formService.createForm(this.dataSource.data, this.formTemplateId, this.realForm).subscribe(responce =>
     {
       let title = 'ثبت فرم';
       let message;
@@ -160,7 +163,10 @@ export class CreateFormComponent implements OnInit
         MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
           .subscribe(results =>
           {
-            this.dataStorage.updateUserAccountBalance(result.properties.accountBalance);
+            this.userService.getUserAccount().subscribe(userAccount =>
+            {
+              this.dataStorage.updateUserAccountBalance(userAccount.properties.balance);
+            });
           });
       }
       else
@@ -197,10 +203,10 @@ export class CreateFormComponent implements OnInit
     this.resetForm();
     for (let i = 0; i < this.dataSource.data.length; i++)
     {
-      this.dataSource.data[i].properties.homeWin =  Math.random() >= 0.5;
+      this.dataSource.data[i].properties.homeWin = Math.random() >= 0.5;
       this.dataSource.data[i].properties.noWin = Math.random() >= 0.5;
       this.dataSource.data[i].properties.awayWin = Math.random() >= 0.5;
-      if( this.dataSource.data[i].properties.homeWin == false && this.dataSource.data[i].properties.noWin == false)
+      if (this.dataSource.data[i].properties.homeWin == false && this.dataSource.data[i].properties.noWin == false)
         this.dataSource.data[i].properties.awayWin = true;
     }
     this.calculateAmounts();

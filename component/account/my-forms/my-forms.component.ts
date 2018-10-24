@@ -23,6 +23,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
   selectedFormStatus: number;
   selectedFormName: string;
   selectedFormTemplateName: number;
+  realForm: boolean;
   formValueBitcoin: number;
   formValueTooman: number;
   counter: number;
@@ -37,7 +38,8 @@ export class MyFormsComponent implements OnInit, AfterViewInit
       'createdDate',
       'value',
       'score',
-      'status'
+      'status',
+      'real'
     ];
 
   formColumns: string[] =
@@ -101,8 +103,12 @@ export class MyFormsComponent implements OnInit, AfterViewInit
     this.selectedFormStatus = row.status;
     this.selectedFormName = row.name;
     this.selectedFormTemplateName = row.templateName;
+    this.realForm = row.real;
 
-    this.balance = +this.dataStorage.getUserAccountJsonData().balance + row.value;
+    if(this.realForm)
+      this.balance = +this.dataStorage.getUserAccountJsonData().balance + row.value;
+    else
+      this.balance = +this.dataStorage.getUserAccountJsonData().balance;
 
     // @ts-ignore
     this.formValueBitcoin = this.selectedFormValue / 100000000;
@@ -154,7 +160,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
 
   saveForm()
   {
-    if(this.selectedFormValue > this.balance)
+    if(this.realForm && this.selectedFormValue > this.balance)
     {
       let title = 'خطا';
       let message = 'موجودی حساب شما کافی نمی باشد.';
@@ -187,7 +193,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
     }
 
     // @ts-ignore
-    this.formService.updateForm(this.formDataSource.data, this.selectedFormId).subscribe(responce =>
+    this.formService.updateForm(this.formDataSource.data, this.selectedFormId, this.realForm).subscribe(responce =>
     {
       let title = 'ثبت فرم';
       let message;
@@ -201,7 +207,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
           .subscribe(results =>
           {
             this.dataStorage.updateUserAccountBalance(result.properties.accountBalance);
-            // this.changeFormType();
+            this.changeFormType();
           });
       }
       else
@@ -210,6 +216,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
         MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
           .subscribe(results =>
           {
+            this.changeFormType();
           });
       }
     });

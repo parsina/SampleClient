@@ -1,0 +1,89 @@
+<br/>
+<table mat-table [dataSource]="countrySource" class="mat-elevation-z8" matSort>
+
+  <!-- Index Column -->
+  <ng-container matColumnDef="index">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let index = index" style="color: #ac98f2;">{{index + 1}}</td>
+  </ng-container>
+
+  <!-- Date Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+    <td mat-cell *matCellDef="let element"> {{element.properties.name}}</td>
+  </ng-container>
+
+  <!-- Time Column -->
+  <ng-container matColumnDef="farsiName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+    <td mat-cell *matCellDef="let element">
+      <mat-form-field>
+        <input #countryFarsiName matInput placeholder="{{element.properties.farsiName}}" (blur)="setCountryFarsiName(element.properties.name, countryFarsiName.value)">
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row class="header" *matHeaderRowDef="countryColumns"></tr>
+  <tr mat-row [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1}" *matRowDef="let row; columns: countryColumns; let index = index"></tr>
+
+</table>
+
+<br/>
+<table mat-table [dataSource]="leagueSource" class="mat-elevation-z8" matSort>
+
+  <!-- Index Column -->
+  <ng-container matColumnDef="index">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let index = index" style="color: #ac98f2;">{{index + 1}}</td>
+  </ng-container>
+
+  <!-- Date Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+    <td mat-cell *matCellDef="let element"> {{element.properties.name}}</td>
+  </ng-container>
+
+  <!-- Time Column -->
+  <ng-container matColumnDef="farsiName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+    <td mat-cell *matCellDef="let element">
+      <mat-form-field>
+        <input #leagueFarsiName matInput placeholder="{{element.properties.farsiName}}" (blur)="setLeagueFarsiName(element.properties.name, leagueFarsiName.value)">
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row class="header" *matHeaderRowDef="leagueColumns"></tr>
+  <tr mat-row [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1}" *matRowDef="let row; columns: leagueColumns; let index = index"></tr>
+
+</table>
+
+<br/>
+<table mat-table [dataSource]="teamSource" class="mat-elevation-z8" matSort>
+
+  <!-- Index Column -->
+  <ng-container matColumnDef="index">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let index = index" style="color: #ac98f2;">{{index + 1}}</td>
+  </ng-container>
+
+  <!-- Date Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+    <td mat-cell *matCellDef="let element"> {{element.properties.name}}</td>
+  </ng-container>
+
+  <!-- Time Column -->
+  <ng-container matColumnDef="farsiName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+    <td mat-cell *matCellDef="let element">
+      <mat-form-field>
+        <input #teamFarsiName matInput placeholder="{{element.properties.farsiName}}" (blur)="setTeamFarsiName(element.properties.name, teamFarsiName.value)">
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row class="header" *matHeaderRowDef="teamColumns"></tr>
+  <tr mat-row [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1}" *matRowDef="let row; columns: countryColumns; let index = index"></tr>
+
+</table>

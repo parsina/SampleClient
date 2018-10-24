@@ -2,6 +2,7 @@ import {User} from '../auth/model/user';
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {HttpParams} from '../../../node_modules/@angular/common/http';
 
 @Injectable({providedIn: 'root'})
 export class UserService
@@ -29,5 +30,45 @@ export class UserService
   getUserAccount():Observable<any>
   {
     return this.http.get(`//localhost:8090/account/userAccount/`);
+  }
+
+  getTransactionsSize():Observable<any>
+  {
+    return this.http.get('//localhost:8090/account/accountTransactionsSize');
+  }
+
+  getTransactions(filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10):Observable<any>
+  {
+    return this.http.post(`//localhost:8090/account/accountTransactions`, {filter , sortOrder, sortBy, pageNumber, pageSize});
+  }
+
+  getCountries():Observable<any>
+  {
+    return this.http.get(`//localhost:8090/confirm/countries/`);
+  }
+
+  saveCountry(key, value)
+  {
+    return this.http.post(`//localhost:8090/confirm/saveCountry/`, {key: key, value:value});
+  }
+
+  getLeagues():Observable<any>
+  {
+    return this.http.get(`//localhost:8090/confirm/leagues/`);
+  }
+
+  saveLeague(key, value)
+  {
+    return this.http.post(`//localhost:8090/confirm/saveLeague/`, {key: key, value:value});
+  }
+
+  getTeams():Observable<any>
+  {
+    return this.http.get(`//localhost:8090/confirm/teams/`);
+  }
+
+  saveTeam(key, value)
+  {
+    return this.http.post(`//localhost:8090/confirm/saveTeam/`, {key: key, value:value});
   }
 }

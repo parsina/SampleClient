@@ -27,6 +27,7 @@ export class AppComponent implements OnInit
 
   ngOnInit(): void
   {
+
   }
 
 
@@ -60,6 +61,7 @@ export class AppComponent implements OnInit
         this.bitcoinValue = this.dataStorage.getBitCoinValue().value;
       else
         this.bitcoinValue = '';
+
       return true;
     }
     return false;
@@ -68,7 +70,7 @@ export class AppComponent implements OnInit
   setBitcoinValue(value: string)
   {
     const reg = new RegExp('^[0-9]+(,[0-9]+)*$');
-    if(value === '' || !reg.test(value))
+    if (value === '' || !reg.test(value))
     {
       value = '';
     }
@@ -86,6 +88,13 @@ export class AppComponent implements OnInit
   {
     this.authenticationService.logout();
     this.router.navigate(['/home']);
+  }
+
+  updateAccountData()
+  {
+    this.userService.getUserAccount().subscribe(data => {
+      this.dataStorage.updateUserAccountBalance(data.properties.balance);
+    });
   }
 
 }

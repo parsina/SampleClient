@@ -24,7 +24,7 @@
 
       &nbsp;&nbsp;&nbsp;&nbsp;
       <span class="accountTitle">موجودی حساب</span>
-      <span class="accountData">{{balance | currencyPipe}} ساتوشی</span>
+      <button mat-button class="accountData" (click)="updateAccountData()" matTooltip="جهت بروزرسانی موجودی حساب، کلیک کنید.">{{balance | currencyPipe}} ساتوشی</button>
 
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <mat-form-field floatPlaceholder="auto" matTooltipPosition="above"

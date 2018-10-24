@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material';
 import {FormService} from '../../../service/form.service';
+import {DataStorage} from '../../../auth/data.storage';
+import {UserService} from '../../../service/user.service';
 
 @Component({
   selector: 'app-group-play',
@@ -35,7 +37,9 @@ export class GroupPlayComponent implements OnInit
   selectedFormTemplateType: string;
   @Input() source: any;
 
-  constructor(private formService: FormService)
+  constructor(private formService: FormService,
+              private userService: UserService,
+              private dataStorage: DataStorage)
   {
     this.dataSource = new MatTableDataSource();
   }

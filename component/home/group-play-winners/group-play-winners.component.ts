@@ -86,12 +86,12 @@ export class GroupPlayWinnersComponent implements OnInit
     // @ts-ignore
     this.formTemplateDataSource.paginator = this.paginator.toArray()[0];
     // @ts-ignore
-    this.winnerService.paginator = this.paginator.toArray()[1];
+    this.winnerDataSource.paginator = this.paginator.toArray()[1];
 
     // @ts-ignore
     this.formTemplateDataSource.sort = this.sort.toArray()[0];
     // @ts-ignore
-    this.winnerService.sort = this.sort.toArray()[1];
+    this.winnerDataSource.sort = this.sort.toArray()[1];
   }
 
   ngAfterViewInit()

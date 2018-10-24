@@ -61,6 +61,11 @@
       <td mat-cell *matCellDef="let element" style="text-align: right;"> {{element.status}}</td>
     </ng-container>
 
+    <ng-container matColumnDef="real">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>نوع فرم</th>
+      <td mat-cell *matCellDef="let element" style="text-align: center"> {{element.real ? 'حقیقی' : 'مجازی'}}</td>
+    </ng-container>
+
     <tr mat-header-row class="header" *matHeaderRowDef="formsColumns"></tr>
     <tr mat-row (click)="onRowClicked(row)" class="formRow" [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1, 'highlight' : selectedFormId == row.id}" *matRowDef="let row; columns: formsColumns; let index = index"></tr>
 
@@ -186,16 +191,16 @@
 
       <ng-container matColumnDef="score">
         <th mat-header-cell *matHeaderCellDef>امتیاز</th>
-        <td mat-cell *matCellDef="let element" width="10%;"> {{element.properties.score ? '1' : '0'}}</td>
+        <td mat-cell *matCellDef="let element" width="5%;"> {{element.properties.score ? '1' : '0'}}</td>
       </ng-container>
 
       <!-- Footer column -->
       <ng-container matColumnDef="footer">
 
         <td mat-footer-cell *matFooterCellDef colspan="100">
-          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="randomForm()" mat-raised-button style="width: 10%;">انتخاب تصادفی</button>
-          &nbsp;&nbsp;&nbsp;
           <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="resetForm()" mat-raised-button style="width: 10%;">پاک کردن فرم</button>
+          &nbsp;&nbsp;&nbsp;
+          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="randomForm()" mat-raised-button style="width: 10%;">انتخاب تصادفی</button>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           مبلغ فرم:
           <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;{{selectedFormValue | currencyPipe}} ساتوشی</label>
@@ -204,10 +209,13 @@
           <label style="color: cornflowerblue" *ngIf="formValueTooman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueTooman | currencyPipe}} تومان</label>
 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="deleteForm()" mat-raised-button style="width: 10%;">حذف فرم</button>
+          فرم حقیقی
+          <mat-slide-toggle [hidden]="selectedFormStatus != 'REGISTERED'" [(ngModel)]="realForm"></mat-slide-toggle>
 
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="saveForm()" mat-raised-button style="width: 20%;">ویرایش فرم</button>
+          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="saveForm()" mat-raised-button style="width: 20%;">ثبت فرم</button>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button [hidden]="selectedFormStatus != 'REGISTERED'" (click)="deleteForm()" mat-raised-button style="width: 10%;">حذف فرم</button>
 
         </td>
       </ng-container>

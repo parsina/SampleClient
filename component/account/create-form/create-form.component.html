@@ -114,9 +114,9 @@
   <!-- Footer column -->
   <ng-container matColumnDef="footer">
     <td mat-footer-cell *matFooterCellDef colspan="100">
-      <button (click)="randomForm()" mat-raised-button style="width: 10%;">انتخاب تصادفی</button>
-      &nbsp;&nbsp;&nbsp;
       <button (click)="resetForm()" mat-raised-button style="width: 10%;">پاک کردن فرم</button>
+      &nbsp;&nbsp;&nbsp;
+      <button (click)="randomForm()" mat-raised-button style="width: 10%;">انتخاب تصادفی</button>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       مبلغ فرم:
       <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;{{formValue | currencyPipe}} ساتوشی</label>
@@ -124,6 +124,9 @@
       <label style="color: cornflowerblue" *ngIf="formValueTooman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueTooman | currencyPipe}} تومان</label>
 
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      فرم حقیقی
+      <mat-slide-toggle [(ngModel)]="realForm"></mat-slide-toggle>
+      &nbsp;&nbsp;&nbsp;
       <button (click)="saveForm()" mat-raised-button style="width: 20%;">ثبت فرم</button>
 
     </td>

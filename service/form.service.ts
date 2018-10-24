@@ -2,6 +2,7 @@ import {Injectable, NgZone} from '@angular/core';
 import {HttpClient, HttpParams} from '../../../node_modules/@angular/common/http';
 import {BehaviorSubject, observable, Observable} from 'rxjs';
 import {DataStorage} from '../auth/data.storage';
+import {MatSlideToggle} from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -105,21 +106,23 @@ export class FormService
     return this.http.get('//localhost:8090/form/openFormTemplates');
   }
 
-  createForm(formData: any, formTemplateId: any): Observable<any>
+  createForm(formData: any, formTemplateId: any, real:boolean): Observable<any>
   {
     return this.http.post(`//localhost:8090/form/createForm`, {
       'formData': formData,
       'userId': this.dataStorage.getUserJsonData().userId,
-      'formTemplateId': formTemplateId
+      'formTemplateId': formTemplateId,
+      'real': real
     });
   }
 
-  updateForm(formData: any, formId: any): Observable<any>
+  updateForm(formData: any, formId: any, real: boolean): Observable<any>
   {
     return this.http.post(`//localhost:8090/form/updateForm`, {
       'formData': formData,
       'userId': this.dataStorage.getUserJsonData().userId,
-      'formId': formId
+      'formId': formId,
+      'real': real
     });
   }
 
@@ -128,7 +131,7 @@ export class FormService
     return this.http.get('//localhost:8090/form/fixtureData');
   }
 
-  loadFixtures()
+  loadFixtures():Observable<any>
   {
     return this.http.get('//localhost:8090/form/loadFixturesData');
   }
