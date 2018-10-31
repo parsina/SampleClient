@@ -42,6 +42,16 @@ export class UserService
     return this.http.post(`//localhost:8090/account/accountTransactions`, {filter , sortOrder, sortBy, pageNumber, pageSize});
   }
 
+  sendSecurityCodeEmail(userId):Observable<any>
+  {
+    return this.http.post(`//localhost:8090/account/sendCodeForWithdrawal`, {userId: userId});
+  }
+
+  sendCoinsToUser(userId, address, amount, securityCode, userSecurityCode):Observable<any>
+  {
+    return this.http.post(`//localhost:8090/account/withdrawFromUserAccount`, {userId: userId, address: address, amount: amount, securityCode: securityCode, userSecurityCode: userSecurityCode});
+  }
+
   getCountries():Observable<any>
   {
     return this.http.get(`//localhost:8090/confirm/countries/`);

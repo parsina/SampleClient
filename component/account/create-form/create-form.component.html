@@ -32,7 +32,7 @@
 
   <ng-container matColumnDef="league">
     <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let element" width="10%;"> {{element.properties.league}}</td>
+    <td mat-cell *matCellDef="let element" width="10%;"> {{element.properties.league}} {{element.properties.leagueCountry}}</td>
   </ng-container>
 
   <ng-container matColumnDef="homeCountry">

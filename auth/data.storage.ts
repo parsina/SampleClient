@@ -30,7 +30,7 @@ export class DataStorage
 
   public saveLoggedInUserAccountData(data: any)
   {
-    window.sessionStorage.setItem('accountData', JSON.stringify({address: data.walletAddress, balance: data.balance}));
+    window.sessionStorage.setItem('accountData', JSON.stringify({walletAddress: data.walletAddress, balance: data.balance}));
   }
 
   public saveBitCoinValue(value: any)
@@ -81,5 +81,17 @@ export class DataStorage
       str += value.split(',')[i];
     bitcoinValue = +str;
     return bitcoinValue;
+  }
+
+  public getValueAsNumber(value:string): number
+  {
+    let numberValue: number;
+    if (value == null || value.trim() === '' || value.length == 0)
+      return null;
+    let str: string = '';
+    for (let i = 0; i < value.split(",").length; i++)
+      str += value.split(',')[i];
+    numberValue = +str;
+    return numberValue;
   }
 }

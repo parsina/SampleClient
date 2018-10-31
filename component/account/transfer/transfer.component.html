@@ -1,0 +1,77 @@
+<br/>
+<div dir="rtl" style="height:40px;border:1px #555555 solid;width:100%;background-color: rgba(73,171,20,0.65)">
+  <label style="padding: 10px;color: blue;font-size: medium;">
+  واریز بیت کوین
+  </label>
+</div>
+<div style="border:1px #555555 solid; width:100%;padding: 10px; background-color: rgba(158,249,21,0.13);">
+  <div dir="rtl" style="width:100%;display:flex;text-align: right">
+    <p>
+      جهت افزایش موجودی حساب خود، از آدرس اختصاصی کیف الکترونیک خود که در زیر آمده، استفاده نمایید. لطقا توجه داشته
+      باشید که آدرس را به درستی کپی نموده و تنها ارز دیجیال بیت کوین را به این آدرس ارسال نمایید. در صورتیکه آدرس را به
+      درستی کپی نکرده باشید و یا ارزهای دیجیتال دیگر را به این آدرس ارسال نمایید، حساب شما شارژ نمی شود و ارز انتقال
+      داده شده از دست می رود.
+    </p>
+  </div>
+  <br/>
+  <div dir="rtl" style="width:100%;">
+    <label class="addressLabel">آدرس کیف پول الکترونیکی (بیت کوین) شما: </label>
+    <label class="address">
+      {{address}}
+    </label>
+    <a mat-button matTooltipPosition="above" matTooltip="کپی آدرس" style="color: blue;" (click)="copyToClipboard()">
+      <mat-icon color="blue">file_copy</mat-icon>
+    </a>
+  </div>
+</div>
+
+<br/>
+<div dir="rtl" style="height:40px;border:1px #555555 solid;width:100%;background-color: rgba(233,5,0,0.4)">
+  <label style="padding: 10px;color: blue;font-size: medium;">
+    برداشت بیت کوین
+  </label>
+</div>
+<div style="border:1px #555555 solid; width:100%;padding: 10px; background-color: rgba(249,94,0,0.13);">
+  <div dir="rtl" style="width:100%;display:flex;text-align: right">
+    <p>
+      لطفا اطلاعات مورد نیاز جهت انتقال مبلغ مورد نظر خود را وارد نمایید.
+    </p>
+  </div>
+  <br/>
+  <div dir="rtl" style="width:100%;">
+    <label class="addressLabel">موجودی حساب شما: </label>
+    <label class="addressLabel">{{balance | currencyPipe}} ساتوشی</label>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label class="addressLabel">موجودی قابل برداشت: </label>
+    <label class="addressLabel">{{accessibleBalance | currencyPipe}} ساتوشی</label>
+  </div>
+
+  <div dir="rtl" style="width:80%;text-align: right;alignment: center;" >
+    <mat-form-field floatPlaceholder="auto" matTooltipPosition="above"
+                    matTooltip="حداقل 3,000 ساتوشی و حداکثر برابر با موجودی قابل برداشت">
+      <input #amountValue type="text" matInput currencyFormatter [(ngModel)]="amount" (blur)="setAmount(amountValue.value)"
+             style="background-color: white;" placeholder="مبلغ مورد نظر">
+      <button mat-button *ngIf="amount" matSuffix mat-icon-button aria-label="حذف" (click)="setAmount('');">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <mat-form-field floatPlaceholder="auto" matTooltipPosition="above"
+                    matTooltip="آدرس کیف پول الکترونیک مقصد را با دقت وارد نمایید">
+      <input type="text" matInput [(ngModel)]="forwardAddress" style="background-color: white;" placeholder="آدرس کیف پول بیت کوین">
+    </mat-form-field>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button (click)="sendSecurityCode()" mat-raised-button style="width: 10%;" [hidden]="securityCode">ارسال کد امنیتی</button>
+    <button (click)="sendSecurityCode()" mat-raised-button style="width: 10%;" [hidden]="!securityCode">ارسال مجدد کد امنیتی</button>
+  </div>
+
+  <div dir="rtl" style="width:80%;text-align: right;alignment: center;" [hidden]="!securityCode">
+    <mat-form-field floatPlaceholder="auto" matTooltipPosition="above"
+                    matTooltip="کد ارسال شده به ایمیل خود را وارد نمایید">
+      <input type="text" matInput [(ngModel)]="userSecurityCode" style="background-color: white;" placeholder="کد امنیتی">
+    </mat-form-field>
+
+    <button (click)="sendCoins()" mat-raised-button style="width: 10%;" [hidden]="!userSecurityCode">انتقال وجه</button>
+  </div>
+
+</div>

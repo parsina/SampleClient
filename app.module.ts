@@ -52,6 +52,7 @@ import { AdminComponent } from './component/admin/admin.component';
 import { EditTemplateFormComponent } from './component/admin/edit-template-form/edit-template-form.component';
 import { TransactionComponent } from './component/account/transaction/transaction.component';
 import { InitialiseDataComponent } from './component/admin/initialise-data/initialise-data.component';
+import { TransferComponent } from './component/account/transfer/transfer.component';
 
 
 const appRoutes: Routes = [
@@ -110,6 +111,7 @@ const appRoutes: Routes = [
     EditTemplateFormComponent,
     TransactionComponent,
     InitialiseDataComponent,
+    TransferComponent,
   ],
   entryComponents: [
     SimpleDialogComponent

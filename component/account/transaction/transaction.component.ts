@@ -1,8 +1,7 @@
-import {AfterViewInit, Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {AccountTransactionDataSource} from '../../../datasources/accountTransaction.datasourse';
 import {UserService} from '../../../service/user.service';
-import {MatPaginator, MatSort} from '@angular/material';
-import {UserFormDataSource} from '../../../datasources/userform.datasource';
+import {MatDialog, MatPaginator, MatSort} from '@angular/material';
 import {merge} from 'rxjs';
 import {tap} from 'rxjs/operators';
 
@@ -13,14 +12,14 @@ import {tap} from 'rxjs/operators';
 })
 export class TransactionComponent implements OnInit, AfterViewInit
 {
-  transactionDataSource:AccountTransactionDataSource;
+  transactionDataSource: AccountTransactionDataSource;
   transactionSize: number;
 
   transactionsColumns: string[] =
     [
       'index',
-      'updatedDate',
-      'updatedTime',
+      'updateDate',
+      'updateTime',
       'type',
       'value',
       'description',
@@ -30,9 +29,8 @@ export class TransactionComponent implements OnInit, AfterViewInit
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private userService:UserService)
+  constructor(private userService: UserService)
   {
-
   }
 
   ngOnInit()
@@ -52,9 +50,8 @@ export class TransactionComponent implements OnInit, AfterViewInit
     this.userService.getTransactionsSize().subscribe(count => this.transactionSize = count);
     this.transactionDataSource.loadAccountTransactions('',
       this.sort ? this.sort.direction : 'asc',
-        this.sort ? this.sort.active : 'id',
+      this.sort ? this.sort.active : 'id',
       this.paginator ? this.paginator.pageIndex : 0,
       this.paginator ? this.paginator.pageSize : 10);
   }
-
 }
