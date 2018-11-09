@@ -30,7 +30,11 @@ export class AccountTransactionDataSource implements DataSource<any>
         finalize(() =>
           this.loadingSubject.next(false)))
       .subscribe(data =>
-        this.accountTransactionSubject.next(data.properties.transactions));
+        {
+          this.accountTransactionSubject.next(data.properties.transactions);
+          this.userService.updateUserAccountBalance();
+        }
+      );
 
   }
 

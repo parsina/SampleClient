@@ -22,7 +22,8 @@ export class MyFormsComponent implements OnInit, AfterViewInit
   selectedFormValue: number;
   selectedFormStatus: number;
   selectedFormName: string;
-  selectedFormTemplateName: number;
+  selectedFormTemplateName: string;
+  selectedFormTemplateType: string;
   realForm: boolean;
   formValueBitcoin: number;
   formValueTooman: number;
@@ -38,7 +39,6 @@ export class MyFormsComponent implements OnInit, AfterViewInit
       'createdDate',
       'value',
       'score',
-      'status',
       'real'
     ];
 
@@ -46,7 +46,6 @@ export class MyFormsComponent implements OnInit, AfterViewInit
     [
       'index',
       'date',
-      'time',
       'league',
       // 'homeCountry',
       // 'homeCountryFlag',
@@ -94,6 +93,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
     this.selectedFormStatus = null;
     this.selectedFormName = null;
     this.selectedFormTemplateName = null;
+    this.selectedFormTemplateType = null;
   }
 
   onRowClicked(row)
@@ -103,6 +103,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
     this.selectedFormStatus = row.status;
     this.selectedFormName = row.name;
     this.selectedFormTemplateName = row.templateName;
+    this.selectedFormTemplateType = row.templateType;
     this.realForm = row.real;
 
     if(this.realForm)
@@ -271,5 +272,13 @@ export class MyFormsComponent implements OnInit, AfterViewInit
         })
       });
     return;
+  }
+
+  rowStyle(val, index): string
+  {
+    if( val.status != 'FT' )
+      return index%2 == 0 ? 'row1' : 'row2';
+    else
+      return val.score ? 'winRow' : 'looseRow';
   }
 }

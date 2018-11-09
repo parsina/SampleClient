@@ -1,5 +1,90 @@
 <br/>
-<table mat-table *ngIf="transactionDataSource" [dataSource]="transactionDataSource" matSort matSortActive="id" matSortDirection="asc" matSortDisableClear>
+<div dir="rtl" style="height:40px;border:1px #555555 solid;width:100%;background-color: rgba(73,171,20,0.65)">
+  <label style="padding: 10px;color: blue;font-size: medium;">
+    واریز بیت کوین
+  </label>
+</div>
+<div style="border:1px #555555 solid; width:100%;padding: 10px; background-color: rgba(158,249,21,0.13);">
+  <div dir="rtl" style="width:100%;display:flex;text-align: right">
+    <p>
+      جهت افزایش موجودی حساب خود، از آدرس اختصاصی کیف الکترونیک خود که در زیر آمده، استفاده نمایید. لطفا توجه داشته
+      باشید که آدرس را به درستی کپی نموده و تنها ارز دیجیال بیت کوین را به این آدرس ارسال نمایید. در صورتیکه آدرس را به
+      درستی کپی نکرده باشید و یا ارزهای دیجیتال دیگر را به این آدرس ارسال نمایید، حساب شما شارژ نمی شود و ارز انتقال
+      داده شده از دست می رود.
+    </p>
+  </div>
+  <br/>
+  <div dir="rtl" style="width:100%;">
+    <label class="addressLabel">آدرس کیف پول الکترونیکی (بیت کوین) شما: </label>
+    <label class="address">
+      {{address}}
+    </label>
+    <a mat-button matTooltipPosition="above" matTooltip="کپی آدرس" style="color: blue;" (click)="copyToClipboard()">
+      <mat-icon color="blue">file_copy</mat-icon>
+    </a>
+  </div>
+</div>
+
+<br/>
+<div dir="rtl" style="height:40px;border:1px #555555 solid;width:100%;background-color: rgba(233,5,0,0.4)">
+  <label style="padding: 10px;color: blue;font-size: medium;">
+    برداشت بیت کوین
+  </label>
+</div>
+<div style="border:1px #555555 solid; width:100%;padding: 10px; background-color: rgba(249,94,0,0.13);">
+  <div dir="rtl" style="width:100%;display:flex;text-align: right">
+    <p>
+      لطفا اطلاعات مورد نیاز جهت انتقال مبلغ مورد نظر خود را وارد نمایید. توجه داشته باشید که پس از ارسال مبلغ درخواست شده، به هیج عنوان امکان بازگشت تراکنش وحود ندارد. بنابراین دقت کنید که تنها از آدرس کیف پول الکترونیک بیت کوین به عنوان آدرس مقصد استفاده نمایید و همینطور از صحت آدرس مقصد اطمینان حاصل نمایید.
+    </p>
+  </div>
+  <br/>
+  <div dir="rtl" style="width:100%;">
+    <label class="addressLabel">موجودی حساب شما: </label>
+    <label class="addressLabel">{{balance | currencyPipe}} ساتوشی</label>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <label class="addressLabel">موجودی قابل برداشت: </label>
+    <label class="addressLabel">{{accessibleBalance | currencyPipe}} ساتوشی</label>
+  </div>
+  <mat-divider class="title-devider"></mat-divider>
+  <br/>
+
+  <div dir="rtl" style="width:100%;">
+    <mat-form-field floatPlaceholder="auto" matTooltipPosition="above" style="height: 30px; width: 200px; text-align: center; color: darkblue; font-weight: bold;"
+                    matTooltip="حداقل 20,000 ساتوشی و حداکثر برابر با موجودی قابل برداشت">
+      <input #amountValue type="text" matInput currencyFormatter [(ngModel)]="amount" (blur)="setAmount(amountValue.value)"
+             placeholder="مبلغ مورد نظر">
+      <button mat-button *ngIf="amount" matSuffix mat-icon-button aria-label="حذف" (click)="setAmount('');">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <mat-form-field floatPlaceholder="auto" matTooltipPosition="above" style="height: 30px; width: 400px; text-align: center; color: red; font-weight: bold;"
+                    matTooltip="آدرس کیف پول الکترونیک مقصد را با دقت وارد نمایید">
+      <input type="text" matInput [(ngModel)]="forwardAddress" placeholder="آدرس کیف پول بیت کوین">
+    </mat-form-field>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button (click)="sendSecurityCode()" mat-raised-button style="width: 10%;" [hidden]="securityCode">ارسال کد
+      امنیتی
+    </button>
+    <button (click)="sendSecurityCode()" mat-raised-button style="width: 10%;" [hidden]="!securityCode">ارسال مجدد کد
+      امنیتی
+    </button>
+    <br/>
+    <br/>
+    <div dir="rtl" style="width:100%;" [hidden]="!securityCode">
+      <mat-form-field floatPlaceholder="auto" matTooltipPosition="above" style="height: 30px; width: 200px; text-align: center; color: darkblue; font-weight: bold;"
+                      matTooltip="کد ارسال شده به ایمیل خود را وارد نمایید">
+        <input type="text" matInput [(ngModel)]="userSecurityCode" placeholder="کد امنیتی">
+      </mat-form-field>
+      <br/><br/>
+      <button (click)="sendCoins()" mat-raised-button style="width: 10%; margin: 10px;" [hidden]="!userSecurityCode">انتقال وجه</button>
+    </div>
+  </div>
+
+</div>
+
+<br/>
+<table mat-table *ngIf="transactionDataSource" [dataSource]="transactionDataSource" matSort matSortActive="updateDate" matSortDirection="desc" matSortDisableClear>
 
   <!-- Index Column -->
   <ng-container matColumnDef="index">
@@ -10,38 +95,42 @@
   <!-- Date Column -->
   <ng-container matColumnDef="updateDate">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>تاریخ</th>
-    <td mat-cell *matCellDef="let element" style="text-align: right;"> {{element.properties.updateDat}}</td>
-  </ng-container>
-
-  <!-- Time Column -->
-  <ng-container matColumnDef="updateTime">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>زمان</th>
-    <td mat-cell *matCellDef="let element" style="text-align: right;"> {{element.properties.updateTime}}</td>
+    <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.properties.updateDat}} {{element.properties.updateTime}}</td>
   </ng-container>
 
   <!-- Date Column -->
   <ng-container matColumnDef="type">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>نوع</th>
-    <td mat-cell *matCellDef="let element" style="color: green;text-align: right;">{{element.properties.type}}</td>
+    <td mat-cell *matCellDef="let element">{{getTransactionType(element.properties.type)}}</td>
   </ng-container>
 
   <!-- Value Column -->
   <ng-container matColumnDef="value">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: right">مبلغ(ساتوشی)</th>
-    <td mat-cell *matCellDef="let element" style="text-align: right"> {{element.properties.value | currencyPipe}}
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: right">مبلغ (ساتوشی)</th>
+    <td mat-cell *matCellDef="let element"> {{element.properties.value | currencyPipe}}
+    </td>
+  </ng-container>
+
+  <!-- Value Column -->
+  <ng-container matColumnDef="fee">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: right">کارمزد (ساتوشی)</th>
+    <td mat-cell *matCellDef="let element"> {{element.properties.fee | currencyPipe}}
     </td>
   </ng-container>
 
   <!-- Date Column -->
   <ng-container matColumnDef="description">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>شرح</th>
-    <td mat-cell *matCellDef="let element" style="color: green;text-align: right;">{{element.properties.description}}</td>
+    <td mat-cell *matCellDef="let element" style="text-align: center;">{{element.properties.description}}</td>
   </ng-container>
 
-  <!-- Date Column -->
+  <!-- Status Column -->
   <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>وضعیت</th>
-    <td mat-cell *matCellDef="let element" style="color: green;text-align: right;">{{element.properties.status}}</td>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">وضعیت</th>
+    <td mat-cell *matCellDef="let element" width="10%;">
+      <img [hidden]="element.properties.status === 'UNCONFIRMED'" src="../../../../assets/img/{{element.properties.status}}.ico" width="30px" height="30px">
+      <img [hidden]="element.properties.status != 'UNCONFIRMED'" src="../../../../assets/img/waiting.gif" width="30px" height="30px">
+    </td>
   </ng-container>
 
   <tr mat-header-row class="header" *matHeaderRowDef="transactionsColumns"></tr>

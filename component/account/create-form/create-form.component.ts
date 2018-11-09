@@ -163,10 +163,7 @@ export class CreateFormComponent implements OnInit
         MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
           .subscribe(results =>
           {
-            this.userService.getUserAccount().subscribe(userAccount =>
-            {
-              this.dataStorage.updateUserAccountBalance(userAccount.properties.balance);
-            });
+            this.userService.updateUserAccountBalance();
           });
       }
       else

@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit
         const result = JSON.parse(JSON.stringify(data));
         if (result.success)
         {
-          // store username and jwt dataStorage in local storage to keep user logged in between page refreshes
+          // store selectedFormUsername and jwt dataStorage in local storage to keep user logged in between page refreshes
           this.dataStorage.saveLoggedInUserData(data.properties);
           this.userService.getUserAccount().subscribe(accountData =>
           {

@@ -10,7 +10,8 @@
     <span class="toolbar">
   		<button mat-button [routerLink]="['/home']" class="mainButton">خانه</button>
   		<button mat-button [routerLink]="['/account']" *ngIf="accessibleByRole('USER_ADMIN')" class="mainButton">حساب کاربری</button>
-  		<button mat-button [routerLink]="['/contact']" class="mainButton">تماس با ما</button>
+  		<button mat-button [routerLink]="['/guide']" class="mainButton">راهنما</button>
+      <button mat-button [routerLink]="['/contact']" class="mainButton">تماس با ما</button>
       <button mat-button [routerLink]="['/administrator']" *ngIf="accessibleByRole('ADMIN')" class="mainButton">مدیریت سیستم</button>
   </span>
   </mat-toolbar>

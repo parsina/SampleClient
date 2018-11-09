@@ -1,1 +1,17 @@
+.addressLabel
+{
+  font-weight:   bold;
+  font-size:     medium;
+  font-family:   'Vazir', sans-serif;
+  padding:       10px;
+}
+
+.address
+{
+  font-weight:   bold;
+  font-size:     medium;
+  color:         rgba(238, 25, 0, 0.8);
+  font-family:   'Vazir', sans-serif;
+  padding:       10px;
+}
 

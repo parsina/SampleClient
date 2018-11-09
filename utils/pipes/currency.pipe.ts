@@ -22,6 +22,8 @@ export class CurrencyPipe implements PipeTransform
 
     integer = integer.replace(/\B(?=(\d{3})+(?!\d))/g, this.THOUSANDS_SEPARATOR);
 
+    if(!integer)
+      integer = '0';
     if(integer + fraction == '.00')
       return '';
     else

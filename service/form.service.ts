@@ -85,7 +85,7 @@ export class FormService
       {
         let url = URL.createObjectURL(blob);
         link.setAttribute('href', url);
-        link.setAttribute('download', "فتوکل " + formTemplateName);
+        link.setAttribute('download', 'فتوکل ' + formTemplateName);
         link.style.visibility = 'hidden';
         document.body.appendChild(link);
         link.click();
@@ -106,7 +106,7 @@ export class FormService
     return this.http.get('//localhost:8090/form/openFormTemplates');
   }
 
-  createForm(formData: any, formTemplateId: any, real:boolean): Observable<any>
+  createForm(formData: any, formTemplateId: any, real: boolean): Observable<any>
   {
     return this.http.post(`//localhost:8090/form/createForm`, {
       'formData': formData,
@@ -131,7 +131,7 @@ export class FormService
     return this.http.get('//localhost:8090/form/fixtureData');
   }
 
-  loadFixtures():Observable<any>
+  loadFixtures(): Observable<any>
   {
     return this.http.get('//localhost:8090/form/loadFixturesData');
   }
@@ -144,6 +144,23 @@ export class FormService
   deleteUserForm(id): Observable<any>
   {
     return this.http.post('//localhost:8090/form/deleteUserForm', {'formId': id});
+  }
+
+  getActiveFinalizeFormsData(formTemplateId: number, filter = '', sortOrder = 'asc', sortBy = 'createdDate', pageNumber = 0, pageSize = 10): Observable<any>
+  {
+    return this.http.post('//localhost:8090/form/finalizeFormsData', {
+      'templateId': formTemplateId,
+      'filter': filter,
+      'sortOrder': sortOrder,
+      'sortBy': sortBy,
+      'pageNumber': pageNumber,
+      'pageSize': pageSize
+    });
+  }
+
+  getActiveFinalizeTotalFormsSize(formTemplateId: number): Observable<any>
+  {
+    return this.http.post('//localhost:8090/form/finalizeFormsCount', {templateId: formTemplateId});
   }
 
   getUserForms(formType: string, filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10): Observable<any>

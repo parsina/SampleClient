@@ -52,7 +52,8 @@ import { AdminComponent } from './component/admin/admin.component';
 import { EditTemplateFormComponent } from './component/admin/edit-template-form/edit-template-form.component';
 import { TransactionComponent } from './component/account/transaction/transaction.component';
 import { InitialiseDataComponent } from './component/admin/initialise-data/initialise-data.component';
-import { TransferComponent } from './component/account/transfer/transfer.component';
+import { InvitationComponent } from './component/account/invitation/invitation.component';
+import { GuideComponent } from './component/guide/guide.component';
 
 
 const appRoutes: Routes = [
@@ -73,6 +74,10 @@ const appRoutes: Routes = [
     path: 'account',
     component: AccountComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'guide',
+    component: GuideComponent,
   },
   {
     path: 'contact',
@@ -111,7 +116,8 @@ const appRoutes: Routes = [
     EditTemplateFormComponent,
     TransactionComponent,
     InitialiseDataComponent,
-    TransferComponent,
+    InvitationComponent,
+    GuideComponent,
   ],
   entryComponents: [
     SimpleDialogComponent

@@ -34,12 +34,12 @@ export class Interceptor implements HttpInterceptor
     //   // authenticate
     //   if (req.url.endsWith('/users/authenticate') && req.method === 'POST')
     //   {
-    //     if (req.body.username === testUser.username && req.body.password === testUser.password)
+    //     if (req.body.selectedFormUsername === testUser.selectedFormUsername && req.body.password === testUser.password)
     //     {
     //       // if login details are valid return 200 OK with a fake jwt token
     //       let body = {
     //         id: testUser.id,
-    //         username: testUser.username,
+    //         selectedFormUsername: testUser.selectedFormUsername,
     //         firstName: testUser.firstName,
     //         lastName: testUser.lastName,
     //         token: 'fake-jwt-token'

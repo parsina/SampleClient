@@ -1,19 +1,14 @@
 <br/>
 <div class="content-header">
-  <!--<mat-select [(ngModel)]="selectedFormTemplateId" name="formTemplates" (selectionChange)="changeFormTemplate();" align="right" dir="rtl">-->
-  <!--<mat-option *ngFor="let form of formTemplateList" [value]="form.properties.id">-->
-  <!--{{form.properties.name}}-->
-  <!--</mat-option>-->
-  <!--</mat-select>-->
-
   <button *ngFor="let template of formTemplateList" (click)="changeFormTemplate(template.properties.id);" class="{{template.properties.type}} template-button" mat-raised-button>
-    <mat-icon *ngIf="template.properties.type === 'GOLD'" class=" mat-icon-rtl-mirror" style="color: gold;font-size: 24px;float: right;">brightness_high</mat-icon>
-    <mat-icon *ngIf="template.properties.type === 'SILVER'" class="mat-icon-rtl-mirror" style="color: silver;font-size: 24px;float: right;">brightness_high</mat-icon>
-    <mat-icon *ngIf="template.properties.type === 'BRONZE'" class="mat-icon-rtl-mirror" style="color: #cd7f32;font-size: 24px;float: right;">brightness_high</mat-icon>
+    <mat-icon *ngIf="template.properties.type === 'GOLD'"  style="color: gold;font-size: 24px;float: right;">brightness_high</mat-icon>
+    <mat-icon *ngIf="template.properties.type === 'SILVER'" style="color: silver;font-size: 24px;float: right;">brightness_high</mat-icon>
+    <mat-icon *ngIf="template.properties.type === 'BRONZE'" style="color: #cd7f32;font-size: 24px;float: right;">brightness_high</mat-icon>
     {{template.properties.name}}
   </button>
 </div>
 <br/>
+
 <table mat-table *ngIf="dataSource" [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!-- Index Column -->
@@ -104,14 +99,14 @@
   <ng-container matColumnDef="status">
     <th mat-header-cell *matHeaderCellDef class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}"></th>
     <td mat-cell *matCellDef="let element" width="10%;">
-      {{element.properties.status}}
+      <img src="../../../../assets/img/fixture-status/{{element.properties.status}}.ico" alt="Italian Trulli" width="30px" height="30px">
     </td>
   </ng-container>
 
   <!--<ng-container matColumnDef="templateData">-->
 
     <!--<th mat-header-cell *matHeaderCellDef="" colspan="100" >-->
-      <!--test-->
+      <!--rowStyle-->
     <!--</th>-->
   <!--</ng-container>-->
 
@@ -120,3 +115,194 @@
   <tr mat-row [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1}" *matRowDef="let row; columns: displayedColumns; let index = index"></tr>
 
 </table>
+<br/>
+<table mat-table [hidden]="totalFormsSize == 0" [dataSource]="finalizeForms" matSort matSortActive="createdDate" matSortDirection="asc" matSortDisableClear>
+  <!-- Index Column -->
+  <ng-container matColumnDef="index">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let index = index" style="color: #ac98f2;">{{index + 1}}</td>
+  </ng-container>
+
+  <!-- Username Column -->
+  <ng-container matColumnDef="username">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>کاربر</th>
+    <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.username}}</td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>فرم</th>
+    <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.name}}</td>
+  </ng-container>
+
+  <!-- Date Column -->
+  <ng-container matColumnDef="createdDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>ثبت</th>
+    <td mat-cell *matCellDef="let element" style="color: green;text-align: center;">
+      {{element.createdDate}}{{element.createdTime}}
+    </td>
+  </ng-container>
+
+  <!-- Value Column -->
+  <ng-container matColumnDef="value">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>مبلغ(ساتوشی)</th>
+    <td mat-cell *matCellDef="let element" style="text-align: center"> {{element.value | currencyPipe}}</td>
+  </ng-container>
+
+  <!-- Score Column -->
+  <ng-container matColumnDef="score">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>امتیاز</th>
+    <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.score}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="real">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>نوع فرم</th>
+    <td mat-cell *matCellDef="let element" style="text-align: center"> {{element.real ? 'حقیقی' : 'مجازی'}}</td>
+  </ng-container>
+
+  <tr mat-header-row class="header" *matHeaderRowDef="formsColumns"></tr>
+  <tr mat-row (click)="onRowClicked(row)" class="formRow" [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1, 'highlight' : selectedFormId == row.id}" *matRowDef="let row; columns: formsColumns; let index = index"></tr>
+
+</table>
+<div style="display: flex !important;justify-content: center !important;background-color: #cee0c7;">
+  <mat-paginator [hidden]="totalFormsSize == 0" [showFirstLastButtons]="true" [length]="totalFormsSize" [pageSize]="10" [pageSizeOptions]="[5, 10, 50, 100]" dir="rtl" style="background-color: #cee0c7;"></mat-paginator>
+</div>
+<br/>
+<div *ngIf="selectedFormId">
+  <table mat-table *ngIf="formDataSource" [dataSource]="formDataSource" class="mat-elevation-z8">
+
+    <!-- Index Column -->
+    <ng-container matColumnDef="index">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;color: black;font-size: medium;" class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">
+        {{realForm ? 'فرم حقیقی' : 'فرم مجازی'}}
+      </th>
+      <td mat-cell *matCellDef="let index = index" style="color: #ac98f2;" width="5%;">{{index + 1}}</td>
+    </ng-container>
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell style="text-align: center;color: black;font-size: medium;"  *matHeaderCellDef class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">
+        {{selectedFormUsername}}
+      </th>
+      <td mat-cell *matCellDef="let element" style="color: green;" width="10%;"> {{element.properties.date}} {{element.properties.time}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="league">
+      <th mat-header-cell style="text-align: center;color: black;font-size: medium;"  *matHeaderCellDef class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">
+        {{selectedFormName}}
+      </th>
+      <td mat-cell *matCellDef="let element" width="10%;"> {{element.properties.league}} {{element.properties.leagueCountry}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="homeCountry">
+      <th mat-header-cell *matHeaderCellDef class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">کشور میهمان</th>
+      <td mat-cell *matCellDef="let element" width="10%;"> {{element.properties.homeCountry}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="homeCountryFlag">
+      <th mat-header-cell *matHeaderCellDef class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}"></th>
+      <td mat-cell *matCellDef="let element">
+        {{element.properties.liveTime}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="homeName">
+      <th mat-header-cell *matHeaderCellDef style="text-align: left;" class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">تیم میزبان</th>
+      <td mat-cell *matCellDef="let element" style="text-align: left;" width="10%;">
+        {{element.properties.homeName}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="homeLogo">
+      <th mat-header-cell *matHeaderCellDef class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}"></th>
+      <td mat-cell *matCellDef="let element" width="3%;">
+        <img src="{{element.properties.homeLogo}}" title="test" alt="Smiley face" height="30" width="30">
+      </td>
+    </ng-container>
+
+    <!-- homeWin CheckBox Column -->
+    <ng-container matColumnDef="homeWin">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;" class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">برد میزبان</th>
+      <td mat-cell *matCellDef="let element" width="5%;">
+        <mat-checkbox disabled="true" [(ngModel)]="element.properties.homeWin"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- noWin CheckBox Column -->
+    <ng-container matColumnDef="noWin">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;" class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">مساوی</th>
+      <td mat-cell *matCellDef="let element" width="5%;">
+        <mat-checkbox disabled="true" [(ngModel)]="element.properties.noWin"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- awayWin CheckBox Column -->
+    <ng-container matColumnDef="awayWin" style="text-align: center;">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;" class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">برد میهمان</th>
+      <td mat-cell *matCellDef="let element" width="5%;">
+        <mat-checkbox disabled="true" [(ngModel)]="element.properties.awayWin"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="awayLogo">
+      <th mat-header-cell *matHeaderCellDef class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}"></th>
+      <td mat-cell *matCellDef="let element" width="3%;">
+        <img src="{{element.properties.awayLogo}}" title="test" alt="Smiley face" height="30" width="30">
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="awayName">
+      <th mat-header-cell *matHeaderCellDef style="text-align: right;" class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">تیم میهمان</th>
+      <td mat-cell *matCellDef="let element" style="text-align: right; " width="10%;">
+        {{element.properties.awayName}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="awayCountryFlag">
+      <th mat-header-cell *matHeaderCellDef class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}"></th>
+      <td mat-cell *matCellDef="let element" width="10%;">
+        <!--{{element.properties.awayCountryFlag}}-->
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="awayCountry">
+      <th mat-header-cell *matHeaderCellDef class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">کشور میزبان</th>
+      <td mat-cell *matCellDef="let element" width="10%;"> {{element.properties.awayCountry}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="matchScore">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;" class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">نتیحه نهایی</th>
+      <td mat-cell *matCellDef="let element" width="10%;"> {{element.properties.homeScore}} - {{element.properties.awayScore}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;" class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">وضعیت</th>
+      <td mat-cell *matCellDef="let element" width="10%;">
+        <img src="../../../../assets/img/fixture-status/{{element.properties.status}}.ico" width="30px" height="30px">
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="score">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;" class="{{selectedFormTemplateType == 'GOLD' ? 'gold' : selectedFormTemplateType == 'SILVER' ? 'silver' : 'bronze'}}">امتیاز</th>
+      <td mat-cell *matCellDef="let element" width="5%;"> {{element.properties.score ? '1' : '0'}}</td>
+    </ng-container>
+
+    <!-- Footer column -->
+    <ng-container matColumnDef="footer">
+
+      <td mat-footer-cell *matFooterCellDef colspan="100">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        مبلغ فرم:
+        <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;{{selectedFormValue | currencyPipe}} ساتوشی</label>
+        <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueBitcoin}} بیت
+          کوین </label>
+        <label style="color: cornflowerblue" *ngIf="formValueTooman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueTooman | currencyPipe}} تومان</label>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row class="header" *matHeaderRowDef="formColumns"></tr>
+    <tr mat-footer-row *matFooterRowDef="['footer']" style="background-color: #cee0c7;"></tr>
+    <tr mat-row [ngClass]="{'row1': rowStyle(row.properties, index) == 'row1', 'row2': rowStyle(row.properties, index) == 'row2', 'winRow': rowStyle(row.properties, index) == 'winRow', 'looseRow': rowStyle(row.properties, index) == 'looseRow' }" *matRowDef="let row; columns: formColumns; let index = index"></tr>
+  </table>
+</div>

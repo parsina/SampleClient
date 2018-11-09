@@ -1,15 +1,17 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {FormService} from '../../../service/form.service';
+import {merge} from 'rxjs';
+import {tap} from 'rxjs/operators';
+import {FinalizeFormsDatasourse} from '../../../datasources/finalizeForms.datasourse';
 import {DataStorage} from '../../../auth/data.storage';
-import {UserService} from '../../../service/user.service';
 
 @Component({
   selector: 'app-group-play',
   templateUrl: './group-play.component.html',
   styleUrls: ['./group-play.component.css']
 })
-export class GroupPlayComponent implements OnInit
+export class GroupPlayComponent implements OnInit, AfterViewInit
 {
   displayedColumns: string[] =
     [
@@ -29,23 +31,71 @@ export class GroupPlayComponent implements OnInit
       'status'
     ];
 
+  formsColumns: string[] =
+    [
+      'index',
+      'username',
+      'name',
+      'createdDate',
+      'value',
+      'score',
+      'real'
+    ];
+
+  formColumns: string[] =
+    [
+      'index',
+      'date',
+      'league',
+      // 'homeCountry',
+      // 'homeCountryFlag',
+      'homeName',
+      'homeLogo',
+      'homeWin',
+      'noWin',
+      'awayWin',
+      'awayLogo',
+      'awayName',
+      // 'awayCountryFlag',
+      // 'awayCountry',
+      'matchScore',
+      'status',
+      'score'
+    ];
+
   formTemplateList: any[];
   dataSource: MatTableDataSource<any>;
   selectedFormTemplateId: number;
   selectedFormTemplateName: string;
   selectedFormTemplateStatus: string;
   selectedFormTemplateType: string;
+  finalizeForms: FinalizeFormsDatasourse;
+  totalFormsSize: number;
   @Input() source: any;
 
-  constructor(private formService: FormService,
-              private userService: UserService,
-              private dataStorage: DataStorage)
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  selectedFormId: number;
+  selectedFormValue: number;
+  selectedFormStatus: number;
+  selectedFormName: string;
+  selectedFormUsername: string;
+  realForm: boolean;
+  formValueBitcoin: number;
+  formValueTooman: number;
+  formDataSource:MatTableDataSource<any>;
+
+  constructor(private formService: FormService, private dataStorage: DataStorage)
   {
     this.dataSource = new MatTableDataSource();
+    this.formDataSource = new MatTableDataSource();
   }
 
   ngOnInit()
   {
+    this.finalizeForms = new FinalizeFormsDatasourse(this.formService);
+
     this.formService.getFormTemplates().subscribe(data =>
     {
       this.formTemplateList = data;
@@ -68,23 +118,78 @@ export class GroupPlayComponent implements OnInit
       }
       if (matchData.length > 0)
         this.dataSource.data = matchData;
+
+      this.formService.getActiveFinalizeTotalFormsSize(this.selectedFormTemplateId).subscribe(count =>
+        this.totalFormsSize = count
+      );
+      this.finalizeForms.loadFinalizedForms(this.selectedFormTemplateId, '', this.sort ? this.sort.direction : 'asc', this.sort ? this.sort.active : 'createdDate', this.paginator.pageIndex, this.paginator.pageSize);
     });
+  }
+
+  ngAfterViewInit()
+  {
+    // reset the formTempalatePaginator after sorting
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    merge(this.sort.sortChange, this.paginator.page).pipe(tap(() => this.changeFormTemplate(this.formTemplateList[0].properties.id))).subscribe();
   }
 
   changeFormTemplate(id)
   {
+    this.selectedFormId = undefined;
+    this.selectedFormValue = undefined;
+    this.selectedFormStatus = undefined;
+    this.selectedFormName = undefined;
+    this.realForm = undefined;
+
     this.selectedFormTemplateId = id;
-    this.formService.getFormTemplateData(this.selectedFormTemplateId).subscribe(data =>
+    this.formService.getFormTemplateData(id).subscribe(data =>
     {
       this.selectedFormTemplateName = data.properties.name;
       this.selectedFormTemplateStatus = data.properties.status;
       this.selectedFormTemplateType = data.properties.type;
       this.dataSource.data = data.properties.matches;
+
+      this.formService.getActiveFinalizeTotalFormsSize(this.selectedFormTemplateId).subscribe(count =>
+        this.totalFormsSize = count
+      );
+      this.finalizeForms.loadFinalizedForms(this.selectedFormTemplateId, '', this.sort ? this.sort.direction : 'asc', this.sort ? this.sort.active : 'createdDate', this.paginator.pageIndex, this.paginator.pageSize);
+
     });
   }
 
   downloadPhotoCal()
   {
     this.formService.downloadPhotoCal(this.selectedFormTemplateId, this.selectedFormTemplateName);
+  }
+
+  onRowClicked(row)
+  {
+    this.selectedFormId = row.id;
+    this.selectedFormValue = row.value;
+    this.selectedFormStatus = row.status;
+    this.selectedFormName = row.name;
+    this.selectedFormUsername = row.username;
+    this.realForm = row.real;
+
+    // @ts-ignore
+    this.formValueBitcoin = this.selectedFormValue / 100000000;
+    const bitcoinValue = this.dataStorage.getBitCoinValueAsNumber();
+    if (bitcoinValue != null && bitcoinValue > 0)
+      this.formValueTooman = this.formValueBitcoin * bitcoinValue;
+    else
+      this.formValueTooman = null;
+    // @ts-ignore
+    this.formService.getUserFormData(this.selectedFormId).subscribe(data =>
+    {
+      this.formDataSource.data = data.properties.matches;
+    });
+  }
+
+  rowStyle(val, index): string
+  {
+    if( val.status != 'FT' )
+      return index%2 == 0 ? 'row1' : 'row2';
+    else
+      return val.score ? 'winRow' : 'looseRow';
   }
 }

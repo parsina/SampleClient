@@ -27,7 +27,6 @@ export class AppComponent implements OnInit
 
   ngOnInit(): void
   {
-
   }
 
 
@@ -43,6 +42,11 @@ export class AppComponent implements OnInit
     dialogRef.afterClosed().subscribe(result =>
     {
     });
+  }
+
+  closeDialog(): void
+  {
+    this.dialog.closeAll();
   }
 
   isUserLoggedIn()
@@ -61,7 +65,6 @@ export class AppComponent implements OnInit
         this.bitcoinValue = this.dataStorage.getBitCoinValue().value;
       else
         this.bitcoinValue = '';
-
       return true;
     }
     return false;
@@ -92,9 +95,7 @@ export class AppComponent implements OnInit
 
   updateAccountData()
   {
-    this.userService.getUserAccount().subscribe(data => {
-      this.dataStorage.updateUserAccountBalance(data.properties.balance);
-    });
+    this.userService.updateUserAccountBalance();
   }
 
 }
