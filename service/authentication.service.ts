@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
 import {User} from '../auth/model/user';
-import {Observable} from 'rxjs';
 import {DataStorage} from '../auth/data.storage';
+import {environment} from '../../environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService
 {
+  baseUrl = environment.baseUrl;
+
   constructor(private http: HttpClient, private dataStorage: DataStorage)
   {
   }
@@ -44,12 +45,12 @@ export class AuthenticationService
 
   login(user: User)
   {
-    return this.http.post<any>('//localhost:8090/auth/login/', {username: user.username, password: user.password});
+    return this.http.post<any>(this.baseUrl + 'auth/login/', {username: user.username, password: user.password});
   }
 
   logout()
   {
-    this.http.post('//localhost:8090/auth/logout/', {user: this.dataStorage.getUserJsonData()});
+    this.http.post(this.baseUrl + 'auth/logout/', {user: this.dataStorage.getUserJsonData()});
     this.dataStorage.signOut();
   }
 }

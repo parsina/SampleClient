@@ -183,6 +183,7 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
     {
       this.formDataSource.data = data.properties.matches;
     });
+    console.log("asdasda");
   }
 
   rowStyle(val, index): string

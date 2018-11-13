@@ -1,24 +1,33 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {HttpClient, HttpParams} from '../../../node_modules/@angular/common/http';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WinnerService
 {
+  baseUrl = environment.baseUrl;
+
   constructor(private http: HttpClient)
   {
   }
 
-  getWinnerListSize(formTemplateId: any):Observable<any>
+  getWinnerListSize(formTemplateId: any): Observable<any>
   {
-    const params = new HttpParams().set("formTemplateId",formTemplateId);
-    return this.http.get('//localhost:8090/winner/winnerListSize', {params: params});
+    return this.http.post(this.baseUrl + 'winner/winnerListSize', {formTemplateId: formTemplateId});
   }
 
   getWinnerList(formTemplateId: any, filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10): Observable<any>
   {
-    return this.http.post(`//localhost:8090/winner/winnerList`, {'formTemplateId': formTemplateId, filter , sortOrder, sortBy, pageNumber, pageSize});
+    return this.http.post(this.baseUrl + 'winner/winnerList', {
+      formTemplateId: formTemplateId,
+      filter,
+      sortOrder,
+      sortBy,
+      pageNumber,
+      pageSize
+    });
   }
 }

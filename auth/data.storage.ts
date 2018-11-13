@@ -3,22 +3,21 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class DataStorage
 {
-
   constructor()
   {
   }
 
   signOut()
   {
-    window.sessionStorage.removeItem('userData');
-    window.sessionStorage.removeItem('accountData');
-    window.sessionStorage.removeItem('bitCoinValue');
-    window.sessionStorage.clear();
+    window.localStorage.removeItem('userData');
+    window.localStorage.removeItem('accountData');
+    window.localStorage.removeItem('bitCoinValue');
+    window.localStorage.clear();
   }
 
   public saveLoggedInUserData(data: any)
   {
-    window.sessionStorage.setItem('userData', JSON.stringify({
+    window.localStorage.setItem('userData', JSON.stringify({
       userId: data.id,
       username: data.username,
       email: data.email,
@@ -30,44 +29,44 @@ export class DataStorage
 
   public saveLoggedInUserAccountData(data: any)
   {
-    window.sessionStorage.setItem('accountData', JSON.stringify({walletAddress: data.walletAddress, balance: data.balance}));
+    window.localStorage.setItem('accountData', JSON.stringify({walletAddress: data.walletAddress, balance: data.balance}));
   }
 
   public saveBitCoinValue(value: any)
   {
-    window.sessionStorage.setItem('bitCoinValue', JSON.stringify({value: value}));
+    window.localStorage.setItem('bitCoinValue', JSON.stringify({value: value}));
   }
 
   public getUserJsonData(): any
   {
-    return window.sessionStorage.getItem('userData') === null ? null : JSON.parse(window.sessionStorage.getItem('userData'));
+    return window.localStorage.getItem('userData') === null ? null : JSON.parse(window.localStorage.getItem('userData'));
   }
 
   public getUserStringData(): any
   {
-    return window.sessionStorage.getItem('userData');
+    return window.localStorage.getItem('userData');
   }
 
   public getUserAccountJsonData(): any
   {
-    return window.sessionStorage.getItem('accountData') === null ? null : JSON.parse(window.sessionStorage.getItem('accountData'));
+    return window.localStorage.getItem('accountData') === null ? null : JSON.parse(window.localStorage.getItem('accountData'));
   }
 
   public updateUserAccountBalance(balance)
   {
-    let data = JSON.parse(window.sessionStorage.getItem('accountData'));
+    let data = JSON.parse(window.localStorage.getItem('accountData'));
     data.balance = balance;
     this.saveLoggedInUserAccountData(data);
   }
 
   public getUserAccountStringData(): any
   {
-    return window.sessionStorage.getItem('accountData');
+    return window.localStorage.getItem('accountData');
   }
 
   public getBitCoinValue(): any
   {
-    return window.sessionStorage.getItem('bitCoinValue') === null ? null : JSON.parse(window.sessionStorage.getItem('bitCoinValue'));
+    return window.localStorage.getItem('bitCoinValue') === null ? null : JSON.parse(window.localStorage.getItem('bitCoinValue'));
   }
 
   public getBitCoinValueAsNumber(): number
