@@ -186,4 +186,46 @@ export class LoginComponent implements OnInit
   {
     this.dialog.closeAll();
   }
+
+  forgotPassword()
+  {
+    let hasDot = /./.test(this.loginForm.value.username);
+    let hasAt = /@/.test(this.loginForm.value.username);
+    if (!hasDot && !hasAt)
+    {
+      let title = 'ایمیل';
+      let message = 'خطا در ایمیل وارد شده.';
+      let info = 'لطفا ایمیل خود را به درستی وارد نمایید.';
+      MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
+        .subscribe(results =>
+        {
+
+        });
+    }
+    else this.authenticationService.forgotPassword(this.loginForm.value.username).subscribe(data =>
+    {
+      let title = 'بازبابی کلمه عبور';
+      if (data.success)
+      {
+        let message = 'کلمه عبور جدید به آدرس ایمیل شما ارسال گردید.';
+        let info = 'لطفا پس از ورود به سامانه، کلمه عبور خود را تغییر دهید.';
+        MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
+          .subscribe(results =>
+          {
+
+          });
+      }
+      else
+      {
+        let message = 'خطا در بازیابی کلمه عبور';
+        let info = data.message;
+        MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
+          .subscribe(results =>
+          {
+
+          });
+      }
+    });
+
+  }
 }

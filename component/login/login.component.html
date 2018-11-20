@@ -27,6 +27,8 @@
 		       <button [disabled]="loading" type="button" (click)="closeDialog();" class="btn btn-primary" style="width: 30%; margin: 10px;" cdkFocusInitial>انصراف</button>
 		   </div>
 
+      <label>در صورتی که کلمه عبور خود را فراموش کرده اید، پس از وارد کردن ایمیل خود <a style="color: blue" (click)="forgotPassword()">اینجا</a> را کلیک کنید</label>
+
       <div *ngIf="loginError" class="alert alert-danger" align="right">{{loginError}}</div>
 		</form>
 		 

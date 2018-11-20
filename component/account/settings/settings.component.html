@@ -1,0 +1,72 @@
+<br/>
+<mat-accordion dir="rtl">
+  <mat-expansion-panel expanded="true">
+    <mat-expansion-panel-header style="background-color: #60a3bc">
+      <mat-panel-title>
+        مشخصات کاربری
+      </mat-panel-title>
+      <!--<mat-panel-description>-->
+      <!--Type your name and age-->
+      <!--</mat-panel-description>-->
+    </mat-expansion-panel-header>
+    <br/>
+    <mat-form-field>
+      <input disabled matInput placeholder="نام کاربری" [value]="username" >
+    </mat-form-field>
+    <br/>
+    <mat-form-field>
+      <input disabled matInput placeholder="ایمیل" [value]="email">
+    </mat-form-field>
+    <br/>
+    <mat-form-field>
+      <input matInput type="password" placeholder="کلمه عبور" [(ngModel)]="password">
+    </mat-form-field>
+    <br>
+    <label style="color: red" *ngIf="passError === 'putPass'">لطفا کلمه عبور را وارد نمایید.</label>
+    <label style="color: red" *ngIf="passError === 'putPassErr'">کلمه عبور صحیح نمی باشد.</label>
+    <br/>
+    <mat-form-field>
+      <input matInput type="password" placeholder="کلمه عبور جدید" [(ngModel)]="newPassword">
+    </mat-form-field>
+    <br/>
+    <label style="color: red" *ngIf="passError === 'putNewPass'">لطفا کلمه عبور جدید را وارد نمایید.</label>
+    <label style="color: red" *ngIf="passError === 'equalNewOld'">کلمه عبور جدید با کلمه عبور فعلی شما یکسان است.</label>
+    <label style="color: red" *ngIf="passError === 'putNewPassErr'">کلمه عبور باید حداقل 8 کاراکتر بوده و شامل  یک حرف کوچک و یک حرف بزرگ انگلیسی  و یک عدد  باشد.</label>
+    <br/>
+    <mat-form-field>
+      <input matInput type="password" placeholder="تکرار کلمه عبور جدید" [(ngModel)]="newPasswordRepeat">
+    </mat-form-field>
+    <br/>
+    <label style="color: red" *ngIf="passError === 'putPassRep'">لطفا تکرار کلمه عبور  را وارد نمایید.</label>
+    <label style="color: red" *ngIf="passError === 'putPassRepErr'">کلمه عبور جدید با تکرار آن یکسان نیست.</label>
+    <br/>
+    <button mat-button matTooltip="بروزرسانی کلمه عبور" (click)="updatePassword()" style=" width:10%;background-color: #ac98f2">
+      <mat-icon>done</mat-icon>
+    </button>
+
+  </mat-expansion-panel>
+  <mat-expansion-panel style="text-align: center;">
+    <mat-expansion-panel-header style="background-color: #60a3bc;text-align: right;">
+      <mat-panel-title>
+        ارتباط با پشتیبانی
+      </mat-panel-title>
+      <!--<mat-panel-description>-->
+      <!--Currently I am {{panelOpenState ? 'open' : 'closed'}}-->
+      <!--</mat-panel-description>-->
+    </mat-expansion-panel-header>
+    <br/>
+    <mat-form-field style="width: 50%;">
+      <input matInput placeholder="موضوع" [(ngModel)]="subject">
+      <label style="color: red" *ngIf="supportError === 'subject'">لطفا موضوع مورد نظر خود را وارد نمایید.</label>
+    </mat-form-field>
+    <br/>
+    <mat-form-field style="width: 100%; background-color: #e8ecf9">
+      <textarea matInput style="height: 200px;" [(ngModel)]="description" placeholder="توضیحات"></textarea>
+      <label style="color: red" *ngIf="supportError === 'description'">لطفا برای موضوع مورد نظر خود، توضیحات مربوطه را ارائه نمایید.</label>
+    </mat-form-field>
+    <br/><br/>
+    <button mat-button matTooltip="ارسال" (click)="sendTicket()" style=" width:10%;background-color: #ac98f2">
+      <mat-icon>done</mat-icon>
+    </button>
+  </mat-expansion-panel>
+</mat-accordion>

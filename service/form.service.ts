@@ -62,7 +62,7 @@ export class FormService
 
   getFormList(formTemplateId: any, filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10): Observable<any>
   {
-    return this.http.post(`//localhost:8090/form/formList`, {
+    return this.http.post(this.baseUrl + `form/formList`, {
       'formTemplateId': formTemplateId,
       filter,
       sortOrder,
@@ -106,7 +106,7 @@ export class FormService
 
   createForm(formData: any, formTemplateId: any, real: boolean): Observable<any>
   {
-    return this.http.post(`//localhost:8090/form/createForm`, {
+    return this.http.post(this.baseUrl + `form/createForm`, {
       'formData': formData,
       'userId': this.dataStorage.getUserJsonData().userId,
       'formTemplateId': formTemplateId,
@@ -116,7 +116,7 @@ export class FormService
 
   updateForm(formData: any, formId: any, real: boolean): Observable<any>
   {
-    return this.http.post(`//localhost:8090/form/updateForm`, {
+    return this.http.post(this.baseUrl + `form/updateForm`, {
       'formData': formData,
       'userId': this.dataStorage.getUserJsonData().userId,
       'formId': formId,

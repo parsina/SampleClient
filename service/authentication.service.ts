@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {User} from '../auth/model/user';
 import {DataStorage} from '../auth/data.storage';
 import {environment} from '../../environments/environment';
+import {Observable} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class AuthenticationService
@@ -22,6 +23,21 @@ export class AuthenticationService
   getLoggedInUser(stringType:boolean):any
   {
     return stringType ? this.dataStorage.getUserStringData() : this.dataStorage.getUserJsonData();
+  }
+
+  checkLoggedInUser(password):Observable<any>
+  {
+    return this.http.post(this.baseUrl + 'auth/checkLoggedInUser/', {email: this.dataStorage.getUserJsonData().email, password: password});
+  }
+
+  forgotPassword(email):Observable<any>
+  {
+    return this.http.post(this.baseUrl + 'auth/forgotPassword/', {email: email});
+  }
+
+  changeUserPassword(password):Observable<any>
+  {
+    return this.http.post(this.baseUrl + 'auth/changeUserPassword/', {password: password});
   }
 
   getLoggedInUserAccount(stringType:boolean):any

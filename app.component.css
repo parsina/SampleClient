@@ -1,3 +1,8 @@
+.mat-toolbar
+{
+  height: 10%;
+}
+
 .sticky
 {
   position: sticky;
@@ -8,8 +13,6 @@
 
 .mainButton
 {
-  font:        bold;
-  font-size:   large;
   color:       white;
   font-family: 'Vazir', sans-serif;
 }
@@ -59,6 +62,6 @@
   font-weight: lighter;
   font-size:   small;
   font-family: 'Vazir', sans-serif;
-  color:       red;
+  color:       white;
   text-align:  center;
 }

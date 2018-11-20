@@ -25,12 +25,11 @@ import {
   MatSortModule,
   MatProgressSpinnerModule,
   MatChipsModule,
-  MatSlideToggleModule
+  MatSlideToggleModule, MatExpansionModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './component/account/account.component';
-import { ContactComponent } from './component/contact/contact.component';
 import { LoginComponent } from './component/login/login.component';
 import { MessageService } from "./service/message.service";
 import { SimpleDialogComponent } from './component/simple-dialog/simple-dialog.component';
@@ -54,6 +53,7 @@ import { TransactionComponent } from './component/account/transaction/transactio
 import { InitialiseDataComponent } from './component/admin/initialise-data/initialise-data.component';
 import { InvitationComponent } from './component/account/invitation/invitation.component';
 import { GuideComponent } from './component/guide/guide.component';
+import { SettingsComponent } from './component/account/settings/settings.component';
 
 
 const appRoutes: Routes = [
@@ -80,10 +80,6 @@ const appRoutes: Routes = [
     component: GuideComponent,
   },
   {
-    path: 'contact',
-    component: ContactComponent,
-  },
-  {
     path: 'administrator',
     component: AdminComponent,
     canActivate: [AuthGuard]
@@ -99,7 +95,6 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     AccountComponent,
-    ContactComponent,
     LoginComponent,
     SimpleDialogComponent,
     ConfirmRegistrationComponent,
@@ -118,6 +113,7 @@ const appRoutes: Routes = [
     InitialiseDataComponent,
     InvitationComponent,
     GuideComponent,
+    SettingsComponent,
   ],
   entryComponents: [
     SimpleDialogComponent
@@ -146,7 +142,8 @@ const appRoutes: Routes = [
     MatGridListModule,
     MatTooltipModule,
     MatChipsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatExpansionModule
   ],
   providers: [
     {provide: MatPaginatorIntl, useClass: MatPaginatorFarsi},

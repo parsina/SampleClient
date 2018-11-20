@@ -28,6 +28,11 @@ export class UserService
     return this.http.post(this.baseUrl + 'auth/sendInvitations/', {'emails': emails});
   }
 
+  sendTicket(subject:string, description:string):Observable<any>
+  {
+    return this.http.post(this.baseUrl + 'account/sendTicket/', {'subject': subject, 'description': description});
+  }
+
   confirmRegistration(token: string)
   {
     return this.http.post(this.baseUrl + 'auth/confirmActivationToken/', {'token': token});
@@ -40,7 +45,7 @@ export class UserService
 
   getTransactionsSize():Observable<any>
   {
-    return this.http.post('//localhost:8090/account/accountTransactionsSize', {});
+    return this.http.post(this.baseUrl + 'account/accountTransactionsSize', {});
   }
 
   getTransactions(filter = '', sortOrder = 'asc', sortBy = 'updateDate', pageNumber = 0, pageSize = 10):Observable<any>
