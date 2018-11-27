@@ -85,6 +85,7 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
   formValueBitcoin: number;
   formValueTooman: number;
   formDataSource:MatTableDataSource<any>;
+  formType: string = 'All';
 
   constructor(private formService: FormService, private dataStorage: DataStorage)
   {
@@ -119,10 +120,7 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
       if (matchData.length > 0)
         this.dataSource.data = matchData;
 
-      this.formService.getActiveFinalizeTotalFormsSize(this.selectedFormTemplateId).subscribe(count =>
-        this.totalFormsSize = count
-      );
-      this.finalizeForms.loadFinalizedForms(this.selectedFormTemplateId, '', this.sort ? this.sort.direction : 'asc', this.sort ? this.sort.active : 'createdDate', this.paginator.pageIndex, this.paginator.pageSize);
+      this.changeFormType();
     });
   }
 
@@ -149,10 +147,7 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
       this.selectedFormTemplateType = data.properties.type;
       this.dataSource.data = data.properties.matches;
 
-      this.formService.getActiveFinalizeTotalFormsSize(this.selectedFormTemplateId).subscribe(count =>
-        this.totalFormsSize = count
-      );
-      this.finalizeForms.loadFinalizedForms(this.selectedFormTemplateId, '', this.sort ? this.sort.direction : 'asc', this.sort ? this.sort.active : 'createdDate', this.paginator.pageIndex, this.paginator.pageSize);
+      this.changeFormType();
 
     });
   }
@@ -184,6 +179,16 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
       this.formDataSource.data = data.properties.matches;
     });
     console.log("asdasda");
+  }
+
+  changeFormType()
+  {
+    this.formService.getActiveFinalizeTotalFormsSize(this.selectedFormTemplateId, this.formType).subscribe(count =>
+      this.totalFormsSize = count
+    );
+    this.finalizeForms.loadFinalizedForms(this.selectedFormTemplateId, this.formType,'',
+      this.sort ? this.sort.direction : 'asc', this.sort ? this.sort.active : 'createdDate',
+                  this.paginator.pageIndex, this.paginator.pageSize);
   }
 
   rowStyle(val, index): string

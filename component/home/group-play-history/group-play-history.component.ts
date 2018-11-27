@@ -19,9 +19,11 @@ export class GroupPlayHistoryComponent implements OnInit
   totalFormsSize: number;
   selectedFormTemplate: any[];
   selectedFormTemplateIndex: number;
+  selectedFormTemplateType: string;
   userFormDataSource:MatTableDataSource<any>;
   selectedForm: any[];
   selectedFormIndex: number;
+  formType: string = "All";
 
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   @ViewChildren(MatSort) sort = new QueryList<MatSort>();
@@ -40,16 +42,15 @@ export class GroupPlayHistoryComponent implements OnInit
       'username',
       'name',
       'createdDate',
+      'real',
       'value',
-      'score',
-      'status'
+      'score'
     ];
 
   userFormColumns: string[] =
     [
       'index',
       'date',
-      'time',
       'league',
       // 'homeCountry',
       // 'homeCountryFlag',
@@ -63,7 +64,6 @@ export class GroupPlayHistoryComponent implements OnInit
       // 'awayCountryFlag',
       // 'awayCountry',
       'matchScore',
-      'status',
       'score'
     ];
 
@@ -109,6 +109,7 @@ export class GroupPlayHistoryComponent implements OnInit
   onFormTemplateClick(row)
   {
     this.selectedFormTemplateIndex = row.properties.id;
+    this.selectedFormTemplateType = row.properties.type;
     this.selectedFormTemplate = row;
     this.selectedFormIndex = undefined;
 
@@ -122,9 +123,9 @@ export class GroupPlayHistoryComponent implements OnInit
   changeForm()
   {
     // @ts-ignore
-    this.formService.getFormListSize(this.selectedFormTemplate.properties.id).subscribe(count => this.totalFormsSize = count);
+    this.formService.getFormListSize(this.selectedFormTemplate.properties.id, this.formType).subscribe(count => this.totalFormsSize = count);
     // @ts-ignore
-    this.formDataSource.loadForms(this.selectedFormTemplate.properties.id, '',
+    this.formDataSource.loadForms(this.selectedFormTemplate.properties.id, this.formType, '',
       this.sort.length > 1 ? this.sort.toArray()[1].direction : 'asc',
       this.sort.length > 1 ? this.sort.toArray()[1].active : 'id',
       this.paginator.length > 1 ? this.paginator.toArray()[1].pageIndex : 0, this.paginator.length > 1 ? this.paginator.toArray()[1].pageSize : 10);
@@ -145,5 +146,11 @@ export class GroupPlayHistoryComponent implements OnInit
     {
       this.userFormDataSource.data = data.properties.matches;
     });
+  }
+
+  downloadPhotoCal()
+  {
+    // @ts-ignore
+    this.formService.downloadPhotoCal(this.selectedFormTemplate.properties.id, this.selectedFormTemplate.properties.name);
   }
 }

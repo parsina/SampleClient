@@ -12,10 +12,11 @@ import {UserService} from '../../../service/user.service';
 })
 export class CreateFormComponent implements OnInit
 {
-  formList: any[];
+  formTemplateList: any[];
   formTemplateId: number;
   dataSource: MatTableDataSource<any>;
-  formName: string;
+  templateName: string;
+  templateType: string;
   formValue: number;
   formValueBitcoin: number;
   formValueTooman: number;
@@ -26,7 +27,6 @@ export class CreateFormComponent implements OnInit
     [
       'index',
       'date',
-      'time',
       'league',
       // 'homeCountry',
       // 'homeCountryFlag',
@@ -47,20 +47,21 @@ export class CreateFormComponent implements OnInit
               private dataStorage: DataStorage)
   {
     this.dataSource = new MatTableDataSource();
-    this.formValue = 100;
+    this.formValue = 1000;
   }
 
   ngOnInit()
   {
     this.formService.getOpenFormTemplates().subscribe(data =>
     {
-      this.formList = data;
-      if (this.formList.length > 0)
+      this.formTemplateList = data;
+      if (this.formTemplateList.length > 0)
       {
-        this.formTemplateId = this.formList[0].properties.id;
+        this.formTemplateId = this.formTemplateList[0].properties.id;
         this.formService.getFormTemplateData(this.formTemplateId).subscribe(data =>
         {
-          this.formName = data.properties.name;
+          this.templateName = data.properties.name;
+          this.templateType = data.properties.type;
           this.dataSource.data = data.properties.matches;
           this.resetForm();
           const bitcoinValue = this.dataStorage.getBitCoinValueAsNumber();
@@ -75,9 +76,14 @@ export class CreateFormComponent implements OnInit
 
   changeForm()
   {
-    this.formService.getFormTemplateData(this.formTemplateId).subscribe(data =>
+  }
+
+  changeFormTemplate(id)
+  {
+    this.formService.getFormTemplateData(id).subscribe(data =>
     {
-      this.formName = data.properties.name;
+      this.templateName = data.properties.name;
+      this.templateType = data.properties.type;
       this.dataSource.data = data.properties.matches;
       this.resetForm();
     });
@@ -85,8 +91,8 @@ export class CreateFormComponent implements OnInit
 
   calculateAmounts()
   {
-    this.formValue = 100;
-    this.formValueBitcoin = 0.000001;
+    this.formValue = 1000;
+    this.formValueBitcoin = 0.00001;
     this.counter = 0;
     for (let i = 0; i < this.dataSource.data.length; i++)
     {
@@ -102,8 +108,8 @@ export class CreateFormComponent implements OnInit
         this.counter++;
     }
 
-    if (this.counter > 18)
-      for (let i = this.counter; i > 18; i--)
+    if (this.counter > 20)
+      for (let i = this.counter; i > 20; i--)
       {
         this.formValue = this.formValue * 2;
         this.formValueBitcoin = this.formValueBitcoin * 2;
@@ -179,8 +185,8 @@ export class CreateFormComponent implements OnInit
 
   resetForm()
   {
-    this.formValue = 100;
-    this.formValueBitcoin = 0.000001;
+    this.formValue = 1000;
+    this.formValueBitcoin = 0.00001;
     this.counter = 0;
     const bitcoinValue = this.dataStorage.getBitCoinValueAsNumber();
     if (bitcoinValue != null && bitcoinValue > 0)

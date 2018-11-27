@@ -55,15 +55,16 @@ export class FormService
     });
   }
 
-  getFormListSize(formTemplateId: any): Observable<any>
+  getFormListSize(formTemplateId: any, formType: string): Observable<any>
   {
-    return this.http.post(this.baseUrl + 'form/formListSize', {formTemplateId: formTemplateId});
+    return this.http.post(this.baseUrl + 'form/formListSize', {formTemplateId: formTemplateId, formType: formType});
   }
 
-  getFormList(formTemplateId: any, filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10): Observable<any>
+  getFormList(formTemplateId: any, formType: string, filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10): Observable<any>
   {
     return this.http.post(this.baseUrl + `form/formList`, {
       'formTemplateId': formTemplateId,
+      'formType': formType,
       filter,
       sortOrder,
       sortBy,
@@ -144,10 +145,11 @@ export class FormService
     return this.http.post(this.baseUrl + 'form/deleteUserForm', {'formId': id});
   }
 
-  getActiveFinalizeFormsData(formTemplateId: number, filter = '', sortOrder = 'asc', sortBy = 'createdDate', pageNumber = 0, pageSize = 10): Observable<any>
+  getActiveFinalizeFormsData(formTemplateId: number, formType: string, filter = '', sortOrder = 'asc', sortBy = 'createdDate', pageNumber = 0, pageSize = 10): Observable<any>
   {
     return this.http.post(this.baseUrl + 'form/finalizeFormsData', {
       'templateId': formTemplateId,
+      'formType': formType,
       'filter': filter,
       'sortOrder': sortOrder,
       'sortBy': sortBy,
@@ -156,9 +158,9 @@ export class FormService
     });
   }
 
-  getActiveFinalizeTotalFormsSize(formTemplateId: number): Observable<any>
+  getActiveFinalizeTotalFormsSize(formTemplateId: number, formType: string): Observable<any>
   {
-    return this.http.post(this.baseUrl + 'form/finalizeFormsCount', {templateId: formTemplateId});
+    return this.http.post(this.baseUrl + 'form/finalizeFormsCount', {templateId: formTemplateId, formType: formType});
   }
 
   getUserForms(formType: string, filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10): Observable<any>

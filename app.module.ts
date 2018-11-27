@@ -54,6 +54,7 @@ import { InitialiseDataComponent } from './component/admin/initialise-data/initi
 import { InvitationComponent } from './component/account/invitation/invitation.component';
 import { GuideComponent } from './component/guide/guide.component';
 import { SettingsComponent } from './component/account/settings/settings.component';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 
 
 const appRoutes: Routes = [
@@ -88,7 +89,7 @@ const appRoutes: Routes = [
     path: 'login', 
     component: LoginComponent 
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '/home' }
 ];
 
 @NgModule({
@@ -147,12 +148,10 @@ const appRoutes: Routes = [
   ],
   providers: [
     {provide: MatPaginatorIntl, useClass: MatPaginatorFarsi},
-    {provide: MAT_DIALOG_DATA, useValue: {}},
-    MessageService,
-    CurrencyPipe,
-    DataStorage,
+    {provide: MAT_DIALOG_DATA, useValue: {}}, MessageService, CurrencyPipe, DataStorage,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

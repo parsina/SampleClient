@@ -1,6 +1,6 @@
 <br/>
-<div class="content-header">
-  <mat-select [(ngModel)]="challengeType" (selectionChange)="changeChallengeType();" dir="rtl">
+<div style="text-align: right; width: 100%;" dir="rtl">
+  <mat-select [(ngModel)]="challengeType" style="width: 20%;" (selectionChange)="changeChallengeType();" dir="rtl">
     <mat-option value="ALL">همه مسابقات</mat-option>
     <mat-option value="GOLD">مسابقات طلایی</mat-option>
     <mat-option value="SILVER">مسابقات نقره ای</mat-option>
@@ -19,21 +19,21 @@
   <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-    <td mat-cell *matCellDef="let element" style="text-align: right;"> {{element.properties.name}}</td>
+    <td mat-cell *matCellDef="let element"> {{element.properties.name}}</td>
   </ng-container>
 
   <!-- Date Column -->
   <ng-container matColumnDef="numberOfForms">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>تعداد فرم</th>
-    <td mat-cell *matCellDef="let element" style="color: green;text-align: right;">
+    <td mat-cell *matCellDef="let element" style="color: green;">
       {{element.createdDate}}{{element.properties.numberOfForms}}
     </td>
   </ng-container>
 
   <!-- Value Column -->
   <ng-container matColumnDef="totalValue">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: right">کل مبلغ</th>
-    <td mat-cell *matCellDef="let element" style="text-align: right"> {{element.properties.totalValue | currencyPipe}}
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>کل مبلغ</th>
+    <td mat-cell *matCellDef="let element"> {{element.properties.totalValue | currencyPipe}}
     </td>
   </ng-container>
 
@@ -42,7 +42,7 @@
 
 </table>
 <div style="display: flex !important;justify-content: center !important;background-color: #cee0c7;">
-  <mat-paginator *ngIf="totalTemplateFormsSize > 0" [showFirstLastButtons]="true" [length]="totalTemplateFormsSize" [pageSize]="10" [pageSizeOptions]="[5, 10, 50, 100]" dir="rtl" style="background-color: #cee0c7;"></mat-paginator>
+  <mat-paginator [showFirstLastButtons]="true" [length]="totalTemplateFormsSize" [pageSize]="10" [pageSizeOptions]="[5, 10, 50, 100]" dir="rtl" style="background-color: #cee0c7;"></mat-paginator>
 </div>
 
 <br/>
@@ -58,31 +58,31 @@
     <!-- selectedFormUsername Column -->
     <ng-container matColumnDef="username">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>کاربر</th>
-      <td mat-cell *matCellDef="let element" style="text-align: right;"> {{element.username}}</td>
+      <td mat-cell *matCellDef="let element"> {{element.username}}</td>
     </ng-container>
 
     <!-- formTemplateStatus Column -->
     <ng-container matColumnDef="formName">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>فرم</th>
-      <td mat-cell *matCellDef="let element" style="color: green;text-align: right;">{{element.formName}}</td>
+      <td mat-cell *matCellDef="let element" style="color: green;">{{element.farsiName}}</td>
     </ng-container>
 
     <!-- formTemplateValue Column -->
     <ng-container matColumnDef="formValue">
       <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: right">مبلغ فرم(ساتوشی)</th>
-      <td mat-cell *matCellDef="let element" style="text-align: right"> {{element.formValue | currencyPipe}}</td>
+      <td mat-cell *matCellDef="let element"> {{element.formValue | currencyPipe}}</td>
     </ng-container>
 
     <!-- formScore Column -->
     <ng-container matColumnDef="formScore">
       <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: right">امتیاز فرم</th>
-      <td mat-cell *matCellDef="let element" style="text-align: right"> {{element.formScore}}</td>
+      <td mat-cell *matCellDef="let element"> {{element.formScore}}</td>
     </ng-container>
 
     <!-- winnerPlace Column -->
     <ng-container matColumnDef="winnerPlace">
       <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: right">رتبه</th>
-      <td mat-cell *matCellDef="let element" style="text-align: right"> {{element.winnerPlace === "First" ? 'اول' :
+      <td mat-cell *matCellDef="let element"> {{element.winnerPlace === "First" ? 'اول' :
         element.winnerPlace === "Second" ? 'دوم' : 'سوم'}}
       </td>
     </ng-container>
@@ -90,7 +90,7 @@
     <!-- prize Column -->
     <ng-container matColumnDef="prize">
       <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: right">مبلغ جایزه(ساتوشی)</th>
-      <td mat-cell *matCellDef="let element" style="text-align: right"> {{element.prize | currencyPipe}}</td>
+      <td mat-cell *matCellDef="let element"> {{element.prize | currencyPipe}}</td>
     </ng-container>
 
     <tr mat-header-row class="header" *matHeaderRowDef="winnerColumns"></tr>

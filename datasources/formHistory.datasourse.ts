@@ -19,11 +19,11 @@ export class FormHistoryDataSource implements DataSource<Form>
   {
   }
 
-  loadForms(formTemplateId: number, filter: string, sortDirection: string, sortBy: string, pageIndex: number, pageSize: number)
+  loadForms(formTemplateId: number, formType: string, filter: string, sortDirection: string, sortBy: string, pageIndex: number, pageSize: number)
   {
     this.loadingSubject.next(true);
 
-    this.formService.getFormList(formTemplateId, filter, sortDirection, sortBy, pageIndex, pageSize)
+    this.formService.getFormList(formTemplateId, formType, filter, sortDirection, sortBy, pageIndex, pageSize)
       .pipe(
         catchError(() =>
           of([])),

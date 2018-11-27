@@ -18,11 +18,11 @@ export class FinalizeFormsDatasourse implements DataSource<UserForm>
   {
   }
 
-  loadFinalizedForms(templateFormId: number, filter: string, sortDirection: string, sortBy: string,pageIndex: number, pageSize: number)
+  loadFinalizedForms(templateFormId: number, formType: string, filter: string, sortDirection: string, sortBy: string,pageIndex: number, pageSize: number)
   {
     this.loadingSubject.next(true);
 
-    this.formService.getActiveFinalizeFormsData(templateFormId, filter, sortDirection, sortBy, pageIndex, pageSize)
+    this.formService.getActiveFinalizeFormsData(templateFormId, formType, filter, sortDirection, sortBy, pageIndex, pageSize)
       .pipe(
         catchError(() =>
           of([])),

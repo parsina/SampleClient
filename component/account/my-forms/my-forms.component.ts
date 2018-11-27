@@ -128,8 +128,8 @@ export class MyFormsComponent implements OnInit, AfterViewInit
   calculateAmounts()
   {
     // @ts-ignore
-    this.selectedFormValue = 100;
-    this.formValueBitcoin = 0.000001;
+    this.selectedFormValue = 1000;
+    this.formValueBitcoin = 0.00001;
     this.counter = 0;
     for (let i = 0; i < this.formDataSource.data.length; i++)
     {
@@ -145,8 +145,8 @@ export class MyFormsComponent implements OnInit, AfterViewInit
         this.counter++;
     }
 
-    if (this.counter > 18)
-      for (let i = this.counter; i > 18; i--)
+    if (this.counter > 20)
+      for (let i = this.counter; i > 20; i--)
       {
         // @ts-ignore
         this.selectedFormValue = this.selectedFormValue * 2;
@@ -226,8 +226,8 @@ export class MyFormsComponent implements OnInit, AfterViewInit
   resetForm()
   {
     // @ts-ignore
-    this.formValue = 100;
-    this.formValueBitcoin = 0.000001;
+    this.formValue = 1000;
+    this.formValueBitcoin = 0.00001;
     this.counter = 0;
     const bitcoinValue = this.dataStorage.getBitCoinValueAsNumber();
     if (bitcoinValue != null && bitcoinValue > 0)
