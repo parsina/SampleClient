@@ -42,7 +42,7 @@ export class InvitationComponent implements OnInit
     if (this.wrongEmails.length > 0)
     {
       let title = 'خطا';
-      let message = 'آدرس ایمیل های زیر صحیح نمی باشد، لطفا قبل از ارسال، آنها را تصحیح و یا حذف نمایید:';
+      let message = 'آدرس(های) زیر صحیح نمی باشند، و قبل از ارسال، باید تصحیح و یا حذف شوند:';
       // @ts-ignore
       MessageBox.show(this.dialog, message, title, this.wrongEmails, 0, false, 1, '30%')
         .subscribe(results =>
@@ -77,7 +77,7 @@ export class InvitationComponent implements OnInit
                     if (data.properties.wrongEmails.length > 0)
                     {
                       title = 'خطا';
-                      message = 'آدرس ایمیل های زیر صحیح نمی باشد:';
+                      message = 'آدرس (های) زیر صحیح نمی باشند:';
 
                       MessageBox.show(this.dialog, message, title, data.properties.wrongEmails, 0, false, 1, '30%')
                         .subscribe(results =>

@@ -38,7 +38,7 @@
     <th mat-header-cell *matHeaderCellDef style="text-align: center;color: black;font-size: medium;" class="{{templateType == 'GOLD' ? 'gold' : templateType == 'SILVER' ? 'silver' : 'bronze'}}">
       {{templateName}}
     </th>
-    <td mat-cell *matCellDef="let element" style="color: green;" width="5%;"> {{element.properties.date}} {{element.properties.time}}</td>
+    <td mat-cell *matCellDef="let element" style="color: green;" width="10%;"> {{element.properties.date}} {{element.properties.time}}</td>
   </ng-container>
 
   <ng-container matColumnDef="league">
@@ -125,20 +125,20 @@
   <!-- Footer column -->
   <ng-container matColumnDef="footer">
     <td mat-footer-cell *matFooterCellDef colspan="100">
-      <button (click)="resetForm()" mat-raised-button style="width: 10%;">پاک کردن فرم</button>
+      <button (click)="resetForm()" mat-raised-button color="primary" style="width: 10%;">پاک کردن فرم</button>
       &nbsp;&nbsp;&nbsp;
-      <button (click)="randomForm()" mat-raised-button style="width: 10%;">انتخاب تصادفی</button>
+      <button (click)="randomForm()" mat-raised-button color="primary" style="width: 10%;">انتخاب تصادفی</button>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       مبلغ فرم:
-      <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;{{formValue | currencyPipe}} ساتوشی</label>
-      <label style="color: cornflowerblue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueBitcoin}} بیت کوین </label>
-      <label style="color: cornflowerblue" *ngIf="formValueTooman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueTooman | currencyPipe}} تومان</label>
+      <label style="color: darkgreen">&nbsp;&nbsp;&nbsp;{{formValue | currencyPipe}} ساتوشی</label>
+      <label style="color: darkgreen">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueBitcoin}} بیت کوین </label>
+      <label style="color: darkgreen" *ngIf="formValueTooman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{formValueTooman | currencyPipe}} تومان</label>
 
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       فرم حقیقی
       <mat-slide-toggle [(ngModel)]="realForm"></mat-slide-toggle>
       &nbsp;&nbsp;&nbsp;
-      <button (click)="saveForm()" mat-raised-button style="width: 20%;">ثبت فرم</button>
+      <button (click)="saveForm()" mat-raised-button color="primary" style="width: 10%;">ثبت فرم</button>
 
     </td>
   </ng-container>

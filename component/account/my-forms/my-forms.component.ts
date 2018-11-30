@@ -101,7 +101,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
     this.selectedFormId = row.id;
     this.selectedFormValue = row.value;
     this.selectedFormStatus = row.status;
-    this.selectedFormName = row.name;
+    this.selectedFormName = row.farsiName;
     this.selectedFormTemplateName = row.templateName;
     this.selectedFormTemplateType = row.templateType;
     this.realForm = row.real;

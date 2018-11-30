@@ -23,11 +23,16 @@
 		   <div class="form-group" align="center">
 		       <button [disabled]="loading" class="btn btn-primary" style="width: 30%; margin: 10px;" cdkFocusInitial>ورود</button>
 		       <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+         <!--<mat-progress-spinner class="example-margin"-->
+                               <!--color="primary"-->
+                               <!--mode="indeterminate"-->
+                               <!--value="50">-->
+         <!--</mat-progress-spinner>-->
 		       
 		       <button [disabled]="loading" type="button" (click)="closeDialog();" class="btn btn-primary" style="width: 30%; margin: 10px;" cdkFocusInitial>انصراف</button>
 		   </div>
 
-      <label>در صورتی که کلمه عبور خود را فراموش کرده اید، پس از وارد کردن ایمیل خود <a style="color: blue" (click)="forgotPassword()">اینجا</a> را کلیک کنید</label>
+      <label style="text-align: right;">در صورتی که کلمه عبور خود را فراموش کرده اید، پس از وارد کردن ایمیل خود <a style="color: blue" (click)="forgotPassword()">اینجا</a> را کلیک کنید</label>
 
       <div *ngIf="loginError" class="alert alert-danger" align="right">{{loginError}}</div>
 		</form>

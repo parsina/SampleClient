@@ -142,7 +142,7 @@ export class LoginComponent implements OnInit
       {
         let title = 'ثبت نام';
         let message;
-        let info = 'تا چند دقیقه دیگر، لینک فعال سازی به آدرس ایمیل شما ارسال خواهد شد.';
+        let info = 'لینک فعال سازی به آدرس ایمیل شما ارسال گردید.';
 
         const result = JSON.parse(JSON.stringify(data));
         if (result.success)

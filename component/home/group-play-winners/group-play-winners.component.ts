@@ -39,7 +39,7 @@ export class GroupPlayWinnersComponent implements OnInit
     [
       'index',
       'username',
-      'templateName',
+      'formName',
       'formValue',
       'formScore',
       'winnerPlace',

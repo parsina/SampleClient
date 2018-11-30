@@ -14,10 +14,10 @@
 </div>
 <div>
   <mat-form-field style="width: 80%; background-color: #e8ecf9">
-    <textarea matInput [(ngModel)] = "emails" style="height: 200px;" placeholder="example1@gmail.com, example2@gmail.com, example3@gmail.com, example4@gmail.com"></textarea>
+    <textarea matInput [(ngModel)] = "emails" style="height: 200px;" placeholder="user01@example.com, user02@example.com, user03@example.com, user04@example.com" dir="ltr"></textarea>
   </mat-form-field>
 </div>
 <br/>
 <div>
-  <button (click)="sendInvitationEmail()" mat-raised-button style="width: 50%;">ارسال دعوتنامه</button>
+  <button (click)="sendInvitationEmail()" class="btn btn-primary" style="width: 50%;">ارسال دعوتنامه</button>
 </div>

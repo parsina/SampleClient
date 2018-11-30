@@ -1,6 +1,16 @@
 import {LoginComponent} from './component/login/login.component';
 import {AuthenticationService} from './service/authentication.service';
-import {Component, Inject, OnInit} from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterContentInit,
+  AfterViewChecked,
+  Component,
+  DoCheck,
+  Inject,
+  OnChanges,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {Router} from '@angular/router';
 import {DataStorage} from './auth/data.storage';
@@ -11,7 +21,7 @@ import {UserService} from './service/user.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit
+export class AppComponent implements OnInit, DoCheck
 {
   username: string;
   balance: string;
@@ -27,6 +37,7 @@ export class AppComponent implements OnInit
 
   ngOnInit(): void
   {
+    console.log('<<<<<< ngOnInit() >>>>>>');
   }
 
 
@@ -98,4 +109,8 @@ export class AppComponent implements OnInit
     this.userService.updateUserAccountBalance();
   }
 
+  ngDoCheck()
+  {
+    this.authenticationService.hideLoader();
+  }
 }

@@ -55,6 +55,7 @@ import { InvitationComponent } from './component/account/invitation/invitation.c
 import { GuideComponent } from './component/guide/guide.component';
 import { SettingsComponent } from './component/account/settings/settings.component';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
+import { ProgressLoaderComponent } from './component/progress-loader/progress-loader.component';
 
 
 const appRoutes: Routes = [
@@ -115,6 +116,7 @@ const appRoutes: Routes = [
     InvitationComponent,
     GuideComponent,
     SettingsComponent,
+    ProgressLoaderComponent,
   ],
   entryComponents: [
     SimpleDialogComponent
