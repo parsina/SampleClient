@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterContentInit, AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormService} from '../../service/form.service';
 import {AuthenticationService} from '../../service/authentication.service';
 

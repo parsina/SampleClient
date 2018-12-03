@@ -119,7 +119,8 @@ const appRoutes: Routes = [
     ProgressLoaderComponent,
   ],
   entryComponents: [
-    SimpleDialogComponent
+    SimpleDialogComponent,
+    ProgressLoaderComponent
   ],
   imports: [
     BrowserModule,

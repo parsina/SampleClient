@@ -1,10 +1,22 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import {
+  AfterContentChecked,
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {FormService} from '../../../service/form.service';
 import {merge} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {FinalizeFormsDatasourse} from '../../../datasources/finalizeForms.datasourse';
 import {DataStorage} from '../../../auth/data.storage';
+import {ProgressLoaderComponent} from '../../progress-loader/progress-loader.component';
+import {AuthenticationService} from '../../../service/authentication.service';
 
 @Component({
   selector: 'app-group-play',
@@ -87,7 +99,9 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
   formDataSource:MatTableDataSource<any>;
   formType: string = 'All';
 
-  constructor(private formService: FormService, private dataStorage: DataStorage)
+  constructor(private formService: FormService,
+              private dataStorage: DataStorage,
+              private auth:AuthenticationService)
   {
     this.dataSource = new MatTableDataSource();
     this.formDataSource = new MatTableDataSource();
@@ -96,6 +110,11 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
   ngOnInit()
   {
     this.finalizeForms = new FinalizeFormsDatasourse(this.formService);
+  }
+
+  ngAfterViewInit()
+  {
+    // this.auth.showLoader();
 
     this.formService.getFormTemplates().subscribe(data =>
     {
@@ -122,10 +141,7 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
 
       this.changeFormType();
     });
-  }
 
-  ngAfterViewInit()
-  {
     // reset the formTempalatePaginator after sorting
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     merge(this.sort.sortChange, this.paginator.page).pipe(tap(() => this.changeFormTemplate(this.formTemplateList[0].properties.id))).subscribe();
@@ -133,6 +149,8 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
 
   changeFormTemplate(id)
   {
+    // const dialogRef = this.loadingDialog.open(ProgressLoaderComponent, {panelClass: 'custom-dialog-container'});
+    // dialogRef.disableClose = true;
     this.selectedFormId = undefined;
     this.selectedFormValue = undefined;
     this.selectedFormStatus = undefined;
@@ -159,6 +177,9 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
 
   onRowClicked(row)
   {
+    // const dialogRef = this.loadingDialog.open(ProgressLoaderComponent, {panelClass: 'custom-dialog-container'});
+    // dialogRef.disableClose = true;
+
     this.selectedFormId = row.id;
     this.selectedFormValue = row.value;
     this.selectedFormStatus = row.status;
@@ -177,8 +198,8 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
     this.formService.getUserFormData(this.selectedFormId).subscribe(data =>
     {
       this.formDataSource.data = data.properties.matches;
+      // this.loadingDialog.closeAll();
     });
-    console.log("asdasda");
   }
 
   changeFormType()

@@ -1,8 +1,11 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient, HttpParams} from '../../../node_modules/@angular/common/http';
 import {Observable} from 'rxjs';
 import {DataStorage} from '../auth/data.storage';
 import {environment} from '../../environments/environment';
+import {ProgressLoaderComponent} from '../component/progress-loader/progress-loader.component';
+import {MatDialog} from '@angular/material';
+import {AuthenticationService} from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +18,8 @@ export class FormService
 
   emitterData: any;
 
-  constructor(private http: HttpClient, private dataStorage: DataStorage)
+  constructor(private http: HttpClient,
+              private dataStorage: DataStorage)
   {
   }
 

@@ -21,7 +21,7 @@ import {UserService} from './service/user.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, DoCheck
+export class AppComponent implements OnInit
 {
   username: string;
   balance: string;
@@ -37,7 +37,6 @@ export class AppComponent implements OnInit, DoCheck
 
   ngOnInit(): void
   {
-    console.log('<<<<<< ngOnInit() >>>>>>');
   }
 
 
@@ -107,10 +106,5 @@ export class AppComponent implements OnInit, DoCheck
   updateAccountData()
   {
     this.userService.updateUserAccountBalance();
-  }
-
-  ngDoCheck()
-  {
-    this.authenticationService.hideLoader();
   }
 }

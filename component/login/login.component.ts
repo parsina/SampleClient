@@ -10,6 +10,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {first, map} from 'rxjs/operators';
 import {DataStorage} from '../../auth/data.storage';
+import {ProgressLoaderComponent} from '../progress-loader/progress-loader.component';
 
 @Component({
   selector: 'app-login',

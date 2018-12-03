@@ -13,9 +13,7 @@ export class AuthenticationService
 {
   baseUrl = environment.baseUrl;
 
-  loading: boolean = false;
-
-  constructor(private http: HttpClient, private dataStorage: DataStorage, private progressDialog: MatDialog)
+  constructor(private http: HttpClient, private dataStorage: DataStorage)
   {
   }
 
@@ -73,24 +71,5 @@ export class AuthenticationService
   {
     this.http.post(this.baseUrl + 'auth/logout/', {user: this.dataStorage.getUserJsonData()});
     this.dataStorage.signOut();
-  }
-
-
-  showLoader(): void
-  {
-    // if (!this.loading)
-    // {
-    //   this.loading = true;
-    //   this.progressDialog.open(ProgressLoaderComponent,
-    //     {
-    //       width: '30%',
-    //     });
-    // }
-  }
-
-  hideLoader(): void
-  {
-    // this.progressDialog.closeAll();
-    // this.loading = false;
   }
 }
