@@ -3,6 +3,7 @@ import {UserService} from '../../../service/user.service';
 import {AuthenticationService} from '../../../service/authentication.service';
 import {MessageBox} from '../../../utils/messagebox';
 import {MatDialog} from '@angular/material';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-settings',
@@ -23,7 +24,10 @@ export class SettingsComponent implements OnInit
   description: string;
   supportError: string;
 
-  constructor(private authService: AuthenticationService, private dialog: MatDialog, private userService: UserService)
+  constructor(private authService: AuthenticationService,
+              private dialog: MatDialog,
+              private userService: UserService,
+              private readonly notifier: NotifierService)
   {
   }
 
@@ -59,15 +63,7 @@ export class SettingsComponent implements OnInit
             {
               if (data.success)
               {
-                let title = 'تغییر کلمه عبور';
-                let message = 'کلمه عبور شما با موفقیت تغییر کرد';
-                MessageBox.show(this.dialog, message, title, '', 0, false, 1, '30%')
-                  .subscribe(results =>
-                  {
-                    this.password = '';
-                    this.newPassword = '';
-                    this.newPasswordRepeat = '';
-                  });
+                this.notifier.notify('success', 'کلمه عبور شما با موفقیت به روزرسانی گردید.');
                 return;
               }
               else
@@ -102,15 +98,7 @@ export class SettingsComponent implements OnInit
       {
         if(data.success)
         {
-          let title = 'ارتباط با پشتیبانی';
-          let message = 'با تشکر از ارتباط شما با پشتیبانی';
-          let information = 'موضوع ارسالی شما بزودی بررسی و نتیجه به ایمیل شما ارسال می گردد.';
-          MessageBox.show(this.dialog, message, title, information, 0, false, 1, '30%')
-            .subscribe(results =>
-            {
-              this.subject = '';
-              this.description = '';
-            });
+          this.notifier.notify('info', 'موضوع ارسالی شما بزودی بررسی و نتیجه به ایمیل شما ارسال می گردد.');
         }
         else
           this.supportError = data.message;

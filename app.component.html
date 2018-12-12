@@ -16,6 +16,7 @@
           {{balance | currencyPipe}} ساتوشی
       </button>
     </span>
+
     <span class="toolbar">
   		<a mat-button [routerLink]="['/home']" class="mainButton" matTooltip="خانه">
         <mat-icon>home</mat-icon>
@@ -29,7 +30,8 @@
       <a mat-button [routerLink]="['/administrator']" *ngIf="accessibleByRole('ADMIN')" class="mainButton" matTooltip="مدیریت سیستم">
         <mat-icon>settings</mat-icon>
       </a>
-  </span>
+    </span>
+
     <span class="toolbar" *ngIf="isUserLoggedIn()">
       <mat-form-field floatPlaceholder="auto" matTooltip="جهت نمایش مبلغ فرم به تومان، قیمت مورد نظر خود برای هر بیت کوین را وارد نمایید">
         <input #btcValue type="text" matInput currencyFormatter [(ngModel)]="bitcoinValue" (blur)="setBitcoinValue(btcValue.value)"
@@ -39,6 +41,14 @@
         </button>
       </mat-form-field>
     </span>
+
+    <!--<span class="toolbar">-->
+      <button mat-button dir="ltr">
+        <!--<mat-icon>account_balance</mat-icon>-->
+          {{todayJalali}} {{today | date:'HH:mm:ss':'GMT+03:30' }}
+      </button>
+    <!--</span>-->
+
   </mat-toolbar>
   <mat-divider class="header-devider"></mat-divider>
   <mat-divider class="header-devider"></mat-divider>
@@ -46,6 +56,7 @@
 <!--<mat-progress-spinner color="primary" style="margin:0 auto;" mode="determinate" [value]="88"></mat-progress-spinner>-->
 <!--<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>-->
 <router-outlet></router-outlet>
+<notifier-container></notifier-container>
 
 <br/><br/><br/>
 

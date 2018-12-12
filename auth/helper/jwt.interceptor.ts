@@ -19,9 +19,7 @@ import {MatDialog, MatDialogRef} from '@angular/material';
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor
 {
-  loading: boolean = false;
-  dialogRef: MatDialogRef<ProgressLoaderComponent>;
-  constructor(private dataStorage: DataStorage, private loadingDialog: MatDialog)
+  constructor(private dataStorage: DataStorage)
   {
   }
 
@@ -38,7 +36,7 @@ export class JwtInterceptor implements HttpInterceptor
       });
     }
 
-    setTimeout(() => this.showLoader());
+    this.dataStorage.showLoader();
 
     return next.handle(request)
       .pipe(
@@ -55,30 +53,11 @@ export class JwtInterceptor implements HttpInterceptor
           // console.error(error.status);
           // console.error(error.message);
           // console.log('--- end of response---');
-          this.hideLoader();
+          this.dataStorage.hideLoader();
         }, () =>
         {
-          this.hideLoader();
+          this.dataStorage.hideLoader();
         })
       );
-  }
-
-  showLoader(): void
-  {
-    if (!this.loading)
-    {
-      this.loading = true;
-      this.dialogRef = this.loadingDialog.open(ProgressLoaderComponent, {panelClass: 'custom-dialog-container'});
-      this.dialogRef.disableClose = true;
-    }
-  }
-
-  hideLoader(): void
-  {
-    setTimeout(() =>
-    {
-      this.dialogRef.close();
-      this.loading = false;
-    });
   }
 }

@@ -3,14 +3,13 @@ import {UserService} from '../../service/user.service';
 import {MessageBox} from '../../utils/messagebox';
 import {EmailValidator} from '../../validator/email.validator';
 import {PasswordValidator} from '../../validator/password.validator';
-import {SimpleDialogComponent} from '../simple-dialog/simple-dialog.component';
-import {Component, OnInit, Inject} from '@angular/core';
-import {Router, ActivatedRoute} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from '@angular/material';
-import {first, map} from 'rxjs/operators';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {first} from 'rxjs/operators';
 import {DataStorage} from '../../auth/data.storage';
-import {ProgressLoaderComponent} from '../progress-loader/progress-loader.component';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-login',
@@ -21,12 +20,12 @@ export class LoginComponent implements OnInit
 {
   loginForm: FormGroup;
   registerForm: FormGroup;
-  loading = false;
   loginSubmitted = false;
   registerSubmitted = false;
   returnUrl: string;
   loginError = '';
-  registerError = '';
+  resendInvitation: boolean = false;
+  emailToResendActivation = '';
 
   constructor(
     public dialogRef: MatDialogRef<LoginComponent>,
@@ -36,7 +35,8 @@ export class LoginComponent implements OnInit
     private userService: UserService,
     private authenticationService: AuthenticationService,
     private dialog: MatDialog,
-    private dataStorage: DataStorage)
+    private dataStorage: DataStorage,
+    private readonly notifier: NotifierService)
   {
   }
 
@@ -97,7 +97,6 @@ export class LoginComponent implements OnInit
       return;
     }
 
-    this.loading = true;
     this.authenticationService.login(this.loginForm.value)
       .pipe(first())
       .subscribe(data =>
@@ -111,19 +110,24 @@ export class LoginComponent implements OnInit
           {
             this.dataStorage.saveLoggedInUserAccountData(accountData.properties);
           });
-          this.dialogRef.close();
+          this.closeDialog();
           this.router.navigate([this.returnUrl]);
         }
         else
         {
           this.loginError = result.message;
-          this.loading = false;
+          if(result.properties.reason == 'INVITED_USER')
+          {
+            this.resendInvitation = true;
+            this.emailToResendActivation = this.loginForm.value.username
+          }
         }
       }, error =>
       {
         this.loginError = error;
-        this.loading = false;
       });
+
+    this.dataStorage.hideLoader();
   }
 
   onRegister()
@@ -136,51 +140,42 @@ export class LoginComponent implements OnInit
       return;
     }
 
-    this.loading = true;
     this.userService.register(this.registerForm.value)
       .pipe(first())
       .subscribe(data =>
       {
-        let title = 'ثبت نام';
-        let message;
-        let info = 'لینک فعال سازی به آدرس ایمیل شما ارسال گردید.';
-
         const result = JSON.parse(JSON.stringify(data));
         if (result.success)
         {
-          message = 'ثبت نام شما با موفقیت انجام گردید.';
-          MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-            .subscribe(results =>
-            {
-              this.userService.sendActivationEmail(result.properties.userEmail)
-                .subscribe(
-                  result =>
-                  {
-                    console.log('Send !!!!');
-                    this.router.navigate(['/crypto-home']);
-                  },
-                  errors =>
-                  {
-                    console.log('Error !!!!');
-                  });
-            });
+          this.sendActivationEmail(result.properties.userEmail, true);
         }
         else
         {
-          message = 'خطا در ثبت نام';
-          MessageBox.show(this.dialog, message, title, result.message, 0, false, 1, '30%')
-            .subscribe(results =>
-            {
-              console.log(results);
-            });
+          this.notifier.notify("error", result.message);
         }
-      }, error =>
-      {
-//                    this.alertService.error(error);
-        alert('Error');
-        this.loading = false;
       });
-    this.closeDialog();
+    this.dataStorage.hideLoader();
+  }
+
+  resendActivationEmail()
+  {
+    this.sendActivationEmail(this.emailToResendActivation, false);
+  }
+
+
+  sendActivationEmail(email , withRegistration)
+  {
+    this.userService.sendActivationEmail(email)
+      .subscribe(
+        result =>
+        {
+          this.router.navigate(['/home']);
+          if(withRegistration)
+            this.notifier.notify("success", 'ثبت نام شما با موفقیت انجام و لینک فعال سازی به آدرس ایمیل شما ارسال گردید.');
+          else
+            this.notifier.notify("success", 'لینک فعال سازی به آدرس ایمیل شما ارسال گردید.');
+          this.closeDialog();
+        });
   }
 
   closeDialog(): void
@@ -193,39 +188,13 @@ export class LoginComponent implements OnInit
     let hasDot = /./.test(this.loginForm.value.username);
     let hasAt = /@/.test(this.loginForm.value.username);
     if (!hasDot && !hasAt)
-    {
-      let title = 'ایمیل';
-      let message = 'خطا در ایمیل وارد شده.';
-      let info = 'لطفا ایمیل خود را به درستی وارد نمایید.';
-      MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-        .subscribe(results =>
-        {
-
-        });
-    }
+      this.notifier.notify("error", 'لطفا ایمیل خود را به درستی وارد نمایید.');
     else this.authenticationService.forgotPassword(this.loginForm.value.username).subscribe(data =>
     {
-      let title = 'بازبابی کلمه عبور';
       if (data.success)
-      {
-        let message = 'کلمه عبور جدید به آدرس ایمیل شما ارسال گردید.';
-        let info = 'لطفا پس از ورود به سامانه، کلمه عبور خود را تغییر دهید.';
-        MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-          .subscribe(results =>
-          {
-
-          });
-      }
+        this.notifier.notify("info", 'کلمه عبور جدید به آدرس ایمیل شما ارسال گردید. لطفا پس از ورود به سامانه، کلمه عبور خود را تغییر دهید.');
       else
-      {
-        let message = 'خطا در بازیابی کلمه عبور';
-        let info = data.message;
-        MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-          .subscribe(results =>
-          {
-
-          });
-      }
+        this.notifier.notify("info", data.message);
     });
 
   }

@@ -15,6 +15,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {Router} from '@angular/router';
 import {DataStorage} from './auth/data.storage';
 import {UserService} from './service/user.service';
+import * as moment from 'jalali-moment';
 
 @Component({
   selector: 'app',
@@ -26,6 +27,8 @@ export class AppComponent implements OnInit
   username: string;
   balance: string;
   bitcoinValue: string;
+  today: number = Date.now();
+  todayJalali:any = moment().locale('fa').format('YYYY/M/D');
 
   constructor(private router: Router,
               private userService: UserService,
@@ -33,12 +36,16 @@ export class AppComponent implements OnInit
               private authenticationService: AuthenticationService,
               private dialog: MatDialog)
   {
+    setInterval(() =>
+    {
+      this.todayJalali = moment().locale('fa').format('YYYY/M/D');
+      this.today = Date.now();
+    }, 1);
   }
 
   ngOnInit(): void
   {
   }
-
 
   openDialog(): void
   {

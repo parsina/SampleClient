@@ -51,8 +51,7 @@ export class ConfirmRegistrationComponent implements OnInit
           MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
             .subscribe(results =>
             {
-              console.log(results);
-              this.router.navigate(['/crypto-home']);
+              this.router.navigate(['/home']);
             });
         },
         error =>

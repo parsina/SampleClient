@@ -4,6 +4,7 @@ import {FormService} from '../../../service/form.service';
 import {MessageBox} from '../../../utils/messagebox';
 import {DataStorage} from '../../../auth/data.storage';
 import {UserService} from '../../../service/user.service';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-create-form',
@@ -44,7 +45,8 @@ export class CreateFormComponent implements OnInit
   constructor(private formService: FormService,
               private dialog: MatDialog,
               private userService: UserService,
-              private dataStorage: DataStorage)
+              private dataStorage: DataStorage,
+              private readonly notifier: NotifierService)
   {
     this.dataSource = new MatTableDataSource();
     this.formValue = 1000;
@@ -125,14 +127,7 @@ export class CreateFormComponent implements OnInit
   {
     if (this.realForm && this.formValue > this.dataStorage.getUserAccountJsonData().balance)
     {
-      let title = 'خطا';
-      let message = 'موجودی حساب شما کافی نمی باشد.';
-      let info = 'لطفا جهت شرکت در مسابقه، موجودی حساب خود را افزایش دهید.';
-
-      MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-        .subscribe(results =>
-        {
-        });
+      this.notifier.notify("error", 'موجودی حساب شما کافی نمی باشد. لطفا جهت شرکت در مسابقه، موجودی حساب خود را افزایش دهید.');
       return;
     }
 
@@ -143,42 +138,24 @@ export class CreateFormComponent implements OnInit
       let noWin = this.dataSource.data[i].properties.noWin;
       if (!homeWin && !awayWin && !noWin)
       {
-        let title = 'خطا';
-        let message = 'کزینه ها به درستی انتخاب نشده اند.';
-        let info = 'لطفا حداقل یک گزینه برای ردیف ' + (i + 1) + ' انتخاب نمایید.';
-
-        MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-          .subscribe(results =>
-          {
-          });
+        this.notifier.notify("error", 'کزینه ها به درستی انتخاب نشده اند. لطفا حداقل یک گزینه برای ردیف ' + (i + 1) + ' انتخاب نمایید.');
         return;
       }
     }
 
     this.formService.createForm(this.dataSource.data, this.formTemplateId, this.realForm).subscribe(responce =>
     {
-      let title = 'ثبت فرم';
-      let message;
-      let info = 'جهت مشاهده همه فرم های خود، به بخش فرم های من مراجعه نمایید.';
-
       const result = JSON.parse(JSON.stringify(responce));
       if (result.success)
       {
+        this.notifier.notify("success", 'فرم ' + (result.properties.real ? 'حقیقی' : 'مجازی') + ' با نام ' + result.properties.formName + ' ثبت گردید.');
         this.resetForm();
-        message = 'فرم شما با موفقیت ثبت گردید.';
-        MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-          .subscribe(results =>
-          {
-            this.userService.updateUserAccountBalance();
-          });
+        if(result.properties.real)
+          this.userService.updateUserAccountBalance();
       }
       else
       {
-        message = 'خطا در ثبت فرم';
-        MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-          .subscribe(results =>
-          {
-          });
+        this.notifier.notify("error", "خطا در ثبت فرم. لطفا مجددا فرم را ثبت نمایید.");
       }
     });
   }

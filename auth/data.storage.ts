@@ -1,9 +1,14 @@
 import {Injectable} from '@angular/core';
+import {ProgressLoaderComponent} from '../component/progress-loader/progress-loader.component';
+import {MatDialog, MatDialogRef} from '@angular/material';
 
 @Injectable()
 export class DataStorage
 {
-  constructor()
+  loading: boolean = false;
+  dialogRef: MatDialogRef<ProgressLoaderComponent>;
+
+  constructor(private loadingDialog: MatDialog)
   {
   }
 
@@ -92,5 +97,27 @@ export class DataStorage
       str += value.split(',')[i];
     numberValue = +str;
     return numberValue;
+  }
+
+  showLoader(): void
+  {
+    setTimeout(() =>
+    {
+      if (!this.loading)
+      {
+        this.loading = true;
+        this.dialogRef = this.loadingDialog.open(ProgressLoaderComponent, {panelClass: 'custom-dialog-container'});
+        this.dialogRef.disableClose = true;
+      }
+    });
+  }
+
+  hideLoader(): void
+  {
+    setTimeout(() =>
+    {
+      this.dialogRef.close();
+      this.loading = false;
+    });
   }
 }

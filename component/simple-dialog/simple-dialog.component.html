@@ -1,5 +1,5 @@
 <div>
-  <mat-toolbar *ngIf="style==1" color="primary" class="mat-elevation-z2">
+  <mat-toolbar *ngIf="style==1" color="primary">
     <mat-card-header >{{title}}</mat-card-header>
   </mat-toolbar>
   <div class="message" align="right">
@@ -12,19 +12,19 @@
   </div>
   <div style="padding: 5px;float:left;">
     <div *ngIf="button==0">
-      <button mat-button color="accent" class="content" (click)="onOk()" tabindex="-1">تایید</button>
+      <button mat-button color="primary" class="content" style="width: 20%" (click)="onOk()" tabindex="-1">تایید</button>
     </div>
     <div *ngIf="button==1">
-      <button mat-button color="primary" class="content" (click)="onCancel()" tabindex="-1">انصراف</button>
-      <button mat-button color="primary" class="content" (click)="onOk()" tabindex="-1">تایید</button>
+      <button mat-button color="primary" class="content" style="width: 20%" (click)="onCancel()" tabindex="-1">انصراف</button>
+      <button mat-button color="primary" class="content" style="width: 20%" (click)="onOk()" tabindex="-1">تایید</button>
     </div>
     <div *ngIf="button==2">
-      <button mat-button color="accent" class="content" (click)="onNo()" tabindex="-1">خیر</button>
-      <button mat-button color="accent" class="content" (click)="onYes()" tabindex="-1">بله</button>
+      <button mat-button color="primary" class="content" style="width: 20%" (click)="onNo()" tabindex="-1">خیر</button>
+      <button mat-button color="primary" class="content" style="width: 20%" (click)="onYes()" tabindex="-1">بله</button>
     </div>
     <div *ngIf="button==3">
-      <button mat-button color="accent" class="content" (click)="onReject()" tabindex="-1">رد</button>
-      <button mat-button color="accent" class="content" (click)="onAccept()" tabindex="-1">قبول</button>
+      <button mat-button color="primary" class="content" style="width: 20%" (click)="onReject()" tabindex="-1">رد</button>
+      <button mat-button color="primary" class="content" style="width: 20%" (click)="onAccept()" tabindex="-1">قبول</button>
     </div>
   </div>
   

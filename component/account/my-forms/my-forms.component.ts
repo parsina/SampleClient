@@ -6,6 +6,7 @@ import {catchError, finalize, tap} from 'rxjs/operators';
 import {merge, of} from 'rxjs';
 import {MessageBox} from '../../../utils/messagebox';
 import {DataStorage} from '../../../auth/data.storage';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-my-forms',
@@ -17,7 +18,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
   formType: string = 'ACTIVE';
   formList: UserFormDataSource;
   totalFormsSize: number;
-  formDataSource:MatTableDataSource<any>;
+  formDataSource: MatTableDataSource<any>;
   selectedFormId: number;
   selectedFormValue: number;
   selectedFormStatus: number;
@@ -66,7 +67,10 @@ export class MyFormsComponent implements OnInit, AfterViewInit
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private formService: FormService, private dialog: MatDialog, private dataStorage: DataStorage)
+  constructor(private formService: FormService,
+              private dialog: MatDialog,
+              private dataStorage: DataStorage,
+              private readonly notifier: NotifierService)
   {
     this.formDataSource = new MatTableDataSource();
   }
@@ -106,7 +110,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
     this.selectedFormTemplateType = row.templateType;
     this.realForm = row.real;
 
-    if(this.realForm)
+    if (this.realForm)
       this.balance = +this.dataStorage.getUserAccountJsonData().balance + row.value;
     else
       this.balance = +this.dataStorage.getUserAccountJsonData().balance;
@@ -161,16 +165,9 @@ export class MyFormsComponent implements OnInit, AfterViewInit
 
   saveForm()
   {
-    if(this.realForm && this.selectedFormValue > this.balance)
+    if (this.realForm && this.selectedFormValue > this.balance)
     {
-      let title = 'خطا';
-      let message = 'موجودی حساب شما کافی نمی باشد.';
-      let info = 'لطفا جهت ویرایش فرم، موجودی حساب خود را افزایش دهید.';
-
-      MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-        .subscribe(results =>
-        {
-        });
+      this.notifier.notify("error", 'موجودی حساب شما کافی نمی باشد. لطفا جهت شرکت در مسابقه، موجودی حساب خود را افزایش دهید.');
       return;
     }
 
@@ -181,14 +178,7 @@ export class MyFormsComponent implements OnInit, AfterViewInit
       let noWin = this.formDataSource.data[i].properties.noWin;
       if (!homeWin && !awayWin && !noWin)
       {
-        let title = 'خطا';
-        let message = 'کزینه ها به درستی انتخاب نشده اند.';
-        let info = 'لطفا حداقل یک گزینه برای ردیف ' + (i + 1) + ' انتخاب نمایید.';
-
-        MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-          .subscribe(results =>
-          {
-          });
+        this.notifier.notify("error", 'کزینه ها به درستی انتخاب نشده اند. لطفا حداقل یک گزینه برای ردیف ' + (i + 1) + ' انتخاب نمایید.');
         return;
       }
     }
@@ -203,22 +193,13 @@ export class MyFormsComponent implements OnInit, AfterViewInit
       const result = JSON.parse(JSON.stringify(responce));
       if (result.success)
       {
-        message = 'فرم شما با موفقیت ویرایش گردید.';
-        MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-          .subscribe(results =>
-          {
-            this.dataStorage.updateUserAccountBalance(result.properties.accountBalance);
-            this.changeFormType();
-          });
+        this.notifier.notify("success", 'فرم ' + (result.properties.real ? 'حقیقی' : 'مجازی') + ' با نام ' + result.properties.formName + ' ویرایش گردید.');
+        this.dataStorage.updateUserAccountBalance(result.properties.accountBalance);
+        this.changeFormType();
       }
       else
       {
-        message = 'خطا در ویرایش فرم';
-        MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
-          .subscribe(results =>
-          {
-            this.changeFormType();
-          });
+        this.notifier.notify("error", "خطا در ویرایش فرم. لطفا مجددا فرم را ویرایش نمایید.");
       }
     });
   }
@@ -247,10 +228,10 @@ export class MyFormsComponent implements OnInit, AfterViewInit
     this.resetForm();
     for (let i = 0; i < this.formDataSource.data.length; i++)
     {
-      this.formDataSource.data[i].properties.homeWin =  Math.random() >= 0.5;
+      this.formDataSource.data[i].properties.homeWin = Math.random() >= 0.5;
       this.formDataSource.data[i].properties.noWin = Math.random() >= 0.5;
       this.formDataSource.data[i].properties.awayWin = Math.random() >= 0.5;
-      if( this.formDataSource.data[i].properties.homeWin == false && this.formDataSource.data[i].properties.noWin == false)
+      if (this.formDataSource.data[i].properties.homeWin == false && this.formDataSource.data[i].properties.noWin == false)
         this.formDataSource.data[i].properties.awayWin = true;
     }
     this.calculateAmounts();
@@ -259,25 +240,29 @@ export class MyFormsComponent implements OnInit, AfterViewInit
   deleteForm()
   {
     let title = 'حدف فرم';
-    let message = 'آیا از حدف فرم مورد نظر اطمینان دارید ؟';
+    let message = 'آیا از حدف فرم ' + this.selectedFormName + ' اطمینان دارید ؟';
     let info = '';
 
-    MessageBox.show(this.dialog, message, title, info, 2, false, 1, '30%')
+    MessageBox.show(this.dialog, message, title, info, 2, false, 2, '30%')
       .subscribe(results =>
       {
-        this.formService.deleteUserForm(this.selectedFormId).subscribe(data =>
+        if (results.result == 'yes')
         {
-          this.dataStorage.updateUserAccountBalance(data.properties.accountBalance);
-          this.changeFormType();
-        })
+          this.formService.deleteUserForm(this.selectedFormId).subscribe(data =>
+          {
+            this.notifier.notify("success", 'فرم ' + this.selectedFormName + ' حذف گردید.');
+            this.dataStorage.updateUserAccountBalance(data.properties.accountBalance);
+            this.changeFormType();
+          });
+        }
       });
     return;
   }
 
   rowStyle(val, index): string
   {
-    if( val.status != 'FT' )
-      return index%2 == 0 ? 'row1' : 'row2';
+    if (val.status != 'FT')
+      return index % 2 == 0 ? 'row1' : 'row2';
     else
       return val.score ? 'winRow' : 'looseRow';
   }
