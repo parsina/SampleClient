@@ -110,3 +110,78 @@
   <tr mat-row [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1}" *matRowDef="let row; columns: displayedColumns; let index = index"></tr>
 
 </table>
+<br/>
+<br/>
+<div style="text-align: right; width: 50%;" dir="rtl">
+  <mat-select [(ngModel)]="formType" (selectionChange)="changeFormType();" dir="rtl">
+    <mat-option value="All">همه</mat-option>
+    <mat-option value="Real">حقیقی</mat-option>
+    <mat-option value="Unreal">مجازی</mat-option>
+  </mat-select>
+</div>
+<div>
+  <br/>
+  <table mat-table [dataSource]="forms" matSort matSortActive="score" matSortDirection="desc" matSortDisableClear>
+    <!-- Index Column -->
+    <ng-container matColumnDef="index" style="width: 5%;">
+      <th mat-header-cell *matHeaderCellDef style="color: black;"></th>
+      <td mat-cell *matCellDef="let index = index" style="text-align: center;color: #ac98f2;">{{index + 1}}</td>
+    </ng-container>
+
+    <!-- Username Column -->
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        کاربر
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.username}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="justify-content: center;">
+        فرم
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.farsiName}}</td>
+    </ng-container>
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="createdDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="justify-content: center;">
+        ثبت
+      </th>
+      <td mat-cell *matCellDef="let element" style="color: green;text-align: center;">
+        {{element.createdDate}}{{element.createdTime}}
+      </td>
+    </ng-container>
+
+    <!-- Value Column -->
+    <ng-container matColumnDef="value">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="justify-content: center;">
+        مبلغ(ساتوشی)
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center"> {{element.value | currencyPipe}}</td>
+    </ng-container>
+
+    <!-- Score Column -->
+    <ng-container matColumnDef="score">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="justify-content: center;">
+        امتیاز
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.score}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="real">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="justify-content: center;">
+        نوع فرم
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center"> {{element.real ? 'حقیقی' : 'مجازی'}}</td>
+    </ng-container>
+
+    <tr mat-header-row class="header" *matHeaderRowDef="formsColumns"></tr>
+    <tr mat-row class="formRow" [ngClass]="{'row1': index%2 == 0, 'row2': index%2 == 1, 'highlight' : selectedFormId == row.id}" *matRowDef="let row; columns: formsColumns; let index = index"></tr>
+
+  </table>
+  <div style="display: flex !important;justify-content: center !important;background-color: #cee0c7;">
+    <mat-paginator [showFirstLastButtons]="true" [length]="totalFormsSize" [pageSize]="10" [pageSizeOptions]="[5, 10, 50, 100]" dir="rtl" style="background-color: #cee0c7;"></mat-paginator>
+  </div>
+</div>

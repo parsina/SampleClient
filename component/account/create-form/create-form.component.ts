@@ -82,6 +82,7 @@ export class CreateFormComponent implements OnInit
 
   changeFormTemplate(id)
   {
+    this.formTemplateId = id;
     this.formService.getFormTemplateData(id).subscribe(data =>
     {
       this.templateName = data.properties.name;

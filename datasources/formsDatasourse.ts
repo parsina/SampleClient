@@ -5,7 +5,7 @@ import {catchError, finalize} from 'rxjs/operators';
 import {UserForm} from '../model/userForm';
 
 
-export class FinalizeFormsDatasourse implements DataSource<UserForm>
+export class FormsDatasourse implements DataSource<UserForm>
 {
 
   private finalizeFormsSubject = new BehaviorSubject<UserForm[]>([]);
@@ -18,11 +18,11 @@ export class FinalizeFormsDatasourse implements DataSource<UserForm>
   {
   }
 
-  loadFinalizedForms(templateFormId: number, formType: string, filter: string, sortDirection: string, sortBy: string,pageIndex: number, pageSize: number)
+  loadForms(templateFormId: number, formType: string, formStatus: string, filter: string, sortDirection: string, sortBy: string, pageIndex: number, pageSize: number)
   {
     this.loadingSubject.next(true);
 
-    this.formService.getActiveFinalizeFormsData(templateFormId, formType, filter, sortDirection, sortBy, pageIndex, pageSize)
+    this.formService.getFormsData(templateFormId, formType, formStatus, filter, sortDirection, sortBy, pageIndex, pageSize)
       .pipe(
         catchError(() =>
           of([])),

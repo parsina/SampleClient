@@ -13,7 +13,7 @@ import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from '@angular/mat
 import {FormService} from '../../../service/form.service';
 import {merge} from 'rxjs';
 import {tap} from 'rxjs/operators';
-import {FinalizeFormsDatasourse} from '../../../datasources/finalizeForms.datasourse';
+import {FormsDatasourse} from '../../../datasources/formsDatasourse';
 import {DataStorage} from '../../../auth/data.storage';
 import {ProgressLoaderComponent} from '../../progress-loader/progress-loader.component';
 import {AuthenticationService} from '../../../service/authentication.service';
@@ -81,7 +81,7 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
   selectedFormTemplateName: string;
   selectedFormTemplateStatus: string;
   selectedFormTemplateType: string;
-  finalizeForms: FinalizeFormsDatasourse;
+  finalizeForms: FormsDatasourse;
   totalFormsSize: number;
   @Input() source: any;
 
@@ -109,7 +109,7 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
 
   ngOnInit()
   {
-    this.finalizeForms = new FinalizeFormsDatasourse(this.formService);
+    this.finalizeForms = new FormsDatasourse(this.formService);
   }
 
   ngAfterViewInit()
@@ -204,10 +204,10 @@ export class GroupPlayComponent implements OnInit, AfterViewInit
 
   changeFormType()
   {
-    this.formService.getActiveFinalizeTotalFormsSize(this.selectedFormTemplateId, this.formType).subscribe(count =>
+    this.formService.getTotalFormsSize(this.selectedFormTemplateId, this.formType, 'FINALIZED').subscribe(count =>
       this.totalFormsSize = count
     );
-    this.finalizeForms.loadFinalizedForms(this.selectedFormTemplateId, this.formType,'',
+    this.finalizeForms.loadForms(this.selectedFormTemplateId, this.formType,'FINALIZED', '',
       this.sort ? this.sort.direction : 'asc', this.sort ? this.sort.active : 'createdDate',
                   this.paginator.pageIndex, this.paginator.pageSize);
   }

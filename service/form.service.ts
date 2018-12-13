@@ -149,11 +149,12 @@ export class FormService
     return this.http.post(this.baseUrl + 'form/deleteUserForm', {'formId': id});
   }
 
-  getActiveFinalizeFormsData(formTemplateId: number, formType: string, filter = '', sortOrder = 'asc', sortBy = 'createdDate', pageNumber = 0, pageSize = 10): Observable<any>
+  getFormsData(formTemplateId: number, formType: string, formStatus: string, filter = '', sortOrder = 'asc', sortBy = 'createdDate', pageNumber = 0, pageSize = 10): Observable<any>
   {
-    return this.http.post(this.baseUrl + 'form/finalizeFormsData', {
+    return this.http.post(this.baseUrl + 'form/getFormsData', {
       'templateId': formTemplateId,
       'formType': formType,
+      'formStatus': formStatus,
       'filter': filter,
       'sortOrder': sortOrder,
       'sortBy': sortBy,
@@ -162,9 +163,9 @@ export class FormService
     });
   }
 
-  getActiveFinalizeTotalFormsSize(formTemplateId: number, formType: string): Observable<any>
+  getTotalFormsSize(formTemplateId: number, formType: string, formStatus: string): Observable<any>
   {
-    return this.http.post(this.baseUrl + 'form/finalizeFormsCount', {templateId: formTemplateId, formType: formType});
+    return this.http.post(this.baseUrl + 'form/getTotalFormsSize', {templateId: formTemplateId, formType: formType, formStatus: formStatus});
   }
 
   getUserForms(formType: string, filter = '', sortOrder = 'asc', sortBy = 'id', pageNumber = 0, pageSize = 10): Observable<any>
