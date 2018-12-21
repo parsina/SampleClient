@@ -31,16 +31,6 @@ export class InvitationComponent implements OnInit
   sendInvitationEmail()
   {
     this.emailList = this.emails.split(',');
-    // let regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    // this.correctEmails = [];
-    // this.wrongEmails = [];
-    // for (let email of this.emailList)
-    // {
-    //   if (regexp.test(String(email.trim()).toLowerCase()))
-    //     this.correctEmails.push(email.trim());
-    //   else
-    //     this.wrongEmails.push(email.trim() + ' ');
-    // }
 
     this.userService.sendInvitationEmails(this.emailList).subscribe(data =>
     {

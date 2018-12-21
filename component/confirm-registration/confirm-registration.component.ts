@@ -19,7 +19,6 @@ export class ConfirmRegistrationComponent implements OnInit
               private route: ActivatedRoute,
               private dialog: MatDialog)
   {
-    console.log("Constructing !");
   }
 
   ngOnInit()

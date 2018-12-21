@@ -57,6 +57,7 @@ import {SettingsComponent} from './component/account/settings/settings.component
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {ProgressLoaderComponent} from './component/progress-loader/progress-loader.component';
 import {NotifierModule} from 'angular-notifier';
+import { ITokComponent } from './component/i-tok/i-tok.component';
 
 
 const appRoutes: Routes = [
@@ -68,6 +69,10 @@ const appRoutes: Routes = [
   {
     path: 'confirmRegistration',
     component: ConfirmRegistrationComponent
+  },
+  {
+    path: 'itok',
+    component: ITokComponent
   },
   {
     path: 'home',
@@ -118,6 +123,7 @@ const appRoutes: Routes = [
     GuideComponent,
     SettingsComponent,
     ProgressLoaderComponent,
+    ITokComponent,
   ],
   entryComponents: [
     SimpleDialogComponent,

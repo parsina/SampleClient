@@ -43,6 +43,11 @@ export class UserService
     return this.http.post(this.baseUrl + 'account/userAccount/', {});
   }
 
+  getInvitedUser(token: string):Observable<any>
+  {
+    return this.http.post(this.baseUrl + 'auth/findInvitedUser/', {token: token});
+  }
+
   getTransactionsSize():Observable<any>
   {
     return this.http.post(this.baseUrl + 'account/accountTransactionsSize', {});

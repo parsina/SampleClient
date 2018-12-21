@@ -3,10 +3,10 @@ import {UserService} from '../../service/user.service';
 import {MessageBox} from '../../utils/messagebox';
 import {EmailValidator} from '../../validator/email.validator';
 import {PasswordValidator} from '../../validator/password.validator';
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {first} from 'rxjs/operators';
 import {DataStorage} from '../../auth/data.storage';
 import {NotifierService} from 'angular-notifier';
@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit
   returnUrl: string;
   loginError = '';
   resendInvitation: boolean = false;
+  selectedIndex: number = 0;
   emailToResendActivation = '';
 
   constructor(
@@ -36,38 +37,44 @@ export class LoginComponent implements OnInit
     private authenticationService: AuthenticationService,
     private dialog: MatDialog,
     private dataStorage: DataStorage,
-    private readonly notifier: NotifierService)
+    private readonly notifier: NotifierService,
+    @Inject(MAT_DIALOG_DATA) private invitedEmailData: any)
   {
   }
 
   ngOnInit()
   {
     this.loginForm = this.formBuilder.group({
-      username: [''],
-      password: ['']
-    });
-
-    this.registerForm = this.formBuilder.group({
-      username: [''],
-      email: [''],
-      password: [''],
-      repeatedPassword: ['']
-    });
-
-    this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, EmailValidator.validEmail]],
       password: ['', Validators.required]
     });
 
-    this.registerForm = this.formBuilder.group({
-        username: ['', [Validators.required]],
-        email: ['', [Validators.required, EmailValidator.validEmail]],
-        password: ['', [Validators.required, PasswordValidator.strong]],
-        repeatedPassword: ['', Validators.required]
-      },
-      {
-        validator: PasswordValidator.match.bind(this)
-      });
+    if(this.invitedEmailData)
+    {
+      this.registerForm = this.formBuilder.group({
+          username: ['', [Validators.required]],
+          email: [this.invitedEmailData.invitedEmail, [Validators.required, EmailValidator.validEmail]],
+          password: ['', [Validators.required, PasswordValidator.strong]],
+          repeatedPassword: ['', Validators.required]
+        },
+        {
+          validator: PasswordValidator.match.bind(this)
+        });
+      this.selectedIndex = 1;
+    }
+    else
+    {
+      this.registerForm = this.formBuilder.group({
+          username: ['', [Validators.required]],
+          email: ['', [Validators.required, EmailValidator.validEmail]],
+          password: ['', [Validators.required, PasswordValidator.strong]],
+          repeatedPassword: ['', Validators.required]
+        },
+        {
+          validator: PasswordValidator.match.bind(this)
+        });
+      this.selectedIndex = 0;
+    }
 
     // reset login status
     this.authenticationService.logout();
