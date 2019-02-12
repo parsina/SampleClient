@@ -1,0 +1,38 @@
+<div align="center" style="display: flex; justify-content: center; align-items: center; height: 80vh;">
+  <mat-card style="width: 300px;">
+    <mat-card-content>
+      <br/>
+      <div>
+        <label>Referenced by </label>
+        <label style="font-weight: bold;">{{reference}}</label>
+      </div>
+      <div>
+        <mat-form-field style="width: 100%;">
+          <input #username type="text" matInput placeholder="Username" [disabled]="success"/>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field style="width: 100%;">
+          <input #email type="text" matInput placeholder="Email" [disabled]="success"/>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field style="width: 100%;">
+          <input #password type="password" matInput placeholder="Password" [disabled]="success"/>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field style="width: 100%;">
+          <input #repeatedPassword type="password" matInput placeholder="Re-enter Password" [disabled]="success"/>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-stroked-button color="primary" style="width: 80%;" [disabled]="success" (click)="signup(username.value, email.value, password.value, repeatedPassword.value)">Sign Up</button>
+    </mat-card-actions>
+    <p style="font-size: small">
+      <a *ngIf="success" style="color: blue" (click)="resendVerification(email.value)">Resend verification email</a>
+    </p>
+
+  </mat-card>
+</div>

@@ -1,0 +1,29 @@
+
+<div align="center" style="display: flex; justify-content: center; align-items: center; height: 80vh;">
+  <mat-card style="width: 300px;">
+    <mat-card-content>
+      <br/>
+      <div>
+        <mat-form-field style="width: 100%;">
+          <input #email type="text" matInput placeholder="Email"/>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field style="width: 100%;">
+          <input #password type="password" matInput placeholder="Password"/>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-stroked-button color="primary" style="width: 80%;" (click)="login(email.value, password.value)">Login</button>
+    </mat-card-actions>
+    <p style="font-size: small">
+      Forget your password?
+    </p>
+    <p style="font-size: small">
+      Enter your email and click
+      <a style="color: blue" (click)="forgotPassword(email.value)">here</a>
+    </p>
+  </mat-card>
+</div>
+

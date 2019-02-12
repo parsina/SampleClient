@@ -1,0 +1,32 @@
+
+
+.mat-table {
+  overflow: auto;
+}
+
+.mat-header-cell, .mat-cell {
+  min-width: 150px;
+}
+
+.mat-header-row, .mat-row {
+  display: inline-flex;
+}
+
+
+.sticky
+{
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top:      0; /* Sets the sticky toolbar to be on top */
+  z-index:  1000; /* Ensure that your app's content doesn't overlap the toolbar */
+}
+
+.bitrixButton
+{
+  margin: 2px;
+  font-size: small;
+  font-weight: bold;
+  text-align: center;
+  white-space: normal;
+  background-color: #cee0c7;
+}
