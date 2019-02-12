@@ -50,7 +50,7 @@ export class ConfirmRegistrationComponent implements OnInit
           MessageBox.show(this.dialog, message, title, info, 0, false, 1, '30%')
             .subscribe(results =>
             {
-              this.router.navigate(['/home']);
+              this.router.navigate(['/homeOld']);
             });
         },
         error =>

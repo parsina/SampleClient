@@ -20,15 +20,32 @@ export class DataStorage
     window.localStorage.clear();
   }
 
-  public saveLoggedInUserData(data: any)
+  public saveLoggedInUserData(data: any, updateToken: boolean)
   {
+    let currentUser = this.getUserJsonData();
+    window.localStorage.removeItem('userData');
+
     window.localStorage.setItem('userData', JSON.stringify({
       userId: data.id,
       username: data.username,
       email: data.email,
       userRole: data.role,
-      userInfo: data.info,
-      token: data.token
+      // userInfo: data.info,
+      token: updateToken ? data.token : currentUser.token,
+
+
+      address: data.address,
+      reference: data.reference,
+      referee: data.referee,
+      refereeURL: data.refereeURL,
+      balance: data.balance / 100000000,
+      nodes: data.nodes,
+      plan: data.plan,
+      status: data.status,
+      step: data.step,
+      parentId: data.parentId,
+      leftNodeId: data.firstChildId,
+      rightNodeId: data.secondChildId
     }));
   }
 

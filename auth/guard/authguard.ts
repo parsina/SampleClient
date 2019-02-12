@@ -14,9 +14,14 @@ export class AuthGuard implements CanActivate
     let userData = this.dataStorage.getUserJsonData();
     if (userData != null && userData.userId != null)
     {
-      if(state.url == '/account' && (userData.userRole === 'ROLE_USER' || userData.userRole === 'ROLE_ADMIN'))
+      // if(state.url == '/account' && (userData.userRole === 'ROLE_USER' || userData.userRole === 'ROLE_ADMIN'))
+      //   return true;
+      // if(state.url == '/administrator' && userData.userRole === 'ROLE_ADMIN')
+      //   return true
+
+      if(state.url == '/Home' && (userData.userRole === 'ROLE_USER' || userData.userRole === 'ROLE_ADMIN'))
         return true;
-      if(state.url == '/administrator' && userData.userRole === 'ROLE_ADMIN')
+      if(state.url == '/Admin' && (userData.userRole === 'ROLE_ADMIN'))
         return true
     }
     // not logged in so redirect to login page with the return url

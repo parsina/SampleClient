@@ -4,10 +4,10 @@ import {AuthenticationService} from '../../service/authentication.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './homeOld.component.html',
+  styleUrls: ['./homeOld.component.css']
 })
-export class HomeComponent implements OnInit
+export class HomeOldComponent implements OnInit
 {
   source: any;
 

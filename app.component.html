@@ -1,63 +1,74 @@
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch" class="sticky">
-  <mat-divider class="header-devider"></mat-divider>
-  <mat-divider class="header-devider"></mat-divider>
-  <mat-toolbar color="primary">
-    <a mat-button (loginEvent)="closeDialog()" (click)="openDialog()" *ngIf="!isUserLoggedIn()" class="mainButton">
-      <mat-icon matTooltip="ورود">person</mat-icon>
-    </a>
-    <button mat-button matTooltip="خروج" (click)="logout()" *ngIf="isUserLoggedIn()" class="mainButton">
-      <mat-icon>exit_to_app</mat-icon>
-      {{username}}
-    </button>
+<!--<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start stretch" class="sticky">-->
+<!--<mat-divider class="header-devider"></mat-divider>-->
+<!--<mat-divider class="header-devider"></mat-divider>-->
+<!--<mat-toolbar color="primary">-->
+<!--<a mat-button (loginEvent)="closeDialog()" (click)="openDialog()" *ngIf="!isUserLoggedIn()" class="mainButton">-->
+<!--<mat-icon matTooltip="ورود">person</mat-icon>-->
+<!--</a>-->
+<!--<button mat-button matTooltip="خروج" (click)="logout()" *ngIf="isUserLoggedIn()" class="mainButton">-->
+<!--<mat-icon>exit_to_app</mat-icon>-->
+<!--{{username}}-->
+<!--</button>-->
 
-    <span class="toolbar" *ngIf="isUserLoggedIn()">
-      <button mat-button (click)="updateAccountData()" matTooltip="جهت بروزرسانی موجودی حساب، کلیک کنید.">
-        <mat-icon>account_balance</mat-icon>
-          {{balance | currencyPipe}} ساتوشی
-      </button>
-    </span>
+<!--<span class="toolbar" *ngIf="isUserLoggedIn()">-->
+<!--<button mat-button (click)="updateAccountData()" matTooltip="جهت بروزرسانی موجودی حساب، کلیک کنید.">-->
+<!--<mat-icon>account_balance</mat-icon>-->
+<!--{{balance | currencyPipe}} ساتوشی-->
+<!--</button>-->
+<!--</span>-->
 
-    <span class="toolbar">
-  		<a mat-button [routerLink]="['/home']" class="mainButton" matTooltip="خانه">
-        <mat-icon>home</mat-icon>
-      </a>
-      <a mat-button [routerLink]="['/account']" *ngIf="accessibleByRole('USER_ADMIN')" class="mainButton" matTooltip="حساب کاربری">
-        <mat-icon>account_box</mat-icon>
-      </a>
-      <a mat-button [routerLink]="['/guide']" class="mainButton" matTooltip="راهنما">
-        <mat-icon>contact_support</mat-icon>
-      </a>
-      <a mat-button [routerLink]="['/administrator']" *ngIf="accessibleByRole('ADMIN')" class="mainButton" matTooltip="مدیریت سیستم">
-        <mat-icon>settings</mat-icon>
-      </a>
-    </span>
+<!--<span class="toolbar">-->
+<!--<a mat-button [routerLink]="['/homeOld']" class="mainButton" matTooltip="خانه">-->
+<!--<mat-icon>homeOld</mat-icon>-->
+<!--</a>-->
+<!--<a mat-button [routerLink]="['/account']" *ngIf="accessibleByRole('USER_ADMIN')" class="mainButton" matTooltip="حساب کاربری">-->
+<!--<mat-icon>account_box</mat-icon>-->
+<!--</a>-->
+<!--<a mat-button [routerLink]="['/guide']" class="mainButton" matTooltip="راهنما">-->
+<!--<mat-icon>contact_support</mat-icon>-->
+<!--</a>-->
+<!--<a mat-button [routerLink]="['/administrator']" *ngIf="accessibleByRole('ADMIN')" class="mainButton" matTooltip="مدیریت سیستم">-->
+<!--<mat-icon>settings</mat-icon>-->
+<!--</a>-->
+<!--</span>-->
 
-    <span class="toolbar" *ngIf="isUserLoggedIn()">
-      <mat-form-field floatPlaceholder="auto" matTooltip="جهت نمایش مبلغ فرم به تومان، قیمت مورد نظر خود برای هر بیت کوین را وارد نمایید">
-        <input #btcValue type="text" matInput currencyFormatter [(ngModel)]="bitcoinValue" (blur)="setBitcoinValue(btcValue.value)"
-               placeholder="قیمت هر بیت کوین(تومان)">
-        <button mat-button *ngIf="bitcoinValue" matSuffix mat-icon-button aria-label="حذف" (click)="setBitcoinValue('');">
-          <mat-icon>close</mat-icon>
-        </button>
-      </mat-form-field>
-    </span>
+<!--<span class="toolbar" *ngIf="isUserLoggedIn()">-->
+<!--<mat-form-field floatPlaceholder="auto" matTooltip="جهت نمایش مبلغ فرم به تومان، قیمت مورد نظر خود برای هر بیت کوین را وارد نمایید">-->
+<!--<input #btcValue type="text" matInput currencyFormatter [(ngModel)]="bitcoinValue" (blur)="setBitcoinValue(btcValue.value)"-->
+<!--placeholder="قیمت هر بیت کوین(تومان)">-->
+<!--<button mat-button *ngIf="bitcoinValue" matSuffix mat-icon-button aria-label="حذف" (click)="setBitcoinValue('');">-->
+<!--<mat-icon>close</mat-icon>-->
+<!--</button>-->
+<!--</mat-form-field>-->
+<!--</span>-->
 
-    <!--<span class="toolbar">-->
-      <button mat-button dir="ltr">
-        <!--<mat-icon>account_balance</mat-icon>-->
-          {{todayJalali}} {{today | date:'HH:mm:ss':'GMT+03:30' }}
-      </button>
-    <!--</span>-->
+<!--&lt;!&ndash;<span class="toolbar">&ndash;&gt;-->
+<!--<button mat-button dir="ltr">-->
+<!--&lt;!&ndash;<mat-icon>account_balance</mat-icon>&ndash;&gt;-->
+<!--{{todayJalali}} {{today | date:'HH:mm:ss':'GMT+03:30' }}-->
+<!--</button>-->
+<!--&lt;!&ndash;</span>&ndash;&gt;-->
 
-  </mat-toolbar>
-  <mat-divider class="header-devider"></mat-divider>
-  <mat-divider class="header-devider"></mat-divider>
-</div>
-<!--<mat-progress-spinner color="primary" style="margin:0 auto;" mode="determinate" [value]="88"></mat-progress-spinner>-->
-<!--<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>-->
+<!--</mat-toolbar>-->
+<!--<mat-divider class="header-devider"></mat-divider>-->
+<!--<mat-divider class="header-devider"></mat-divider>-->
+<!--</div>-->
+<!--&lt;!&ndash;<mat-progress-spinner color="primary" style="margin:0 auto;" mode="determinate" [value]="88"></mat-progress-spinner>&ndash;&gt;-->
+<!--&lt;!&ndash;<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>&ndash;&gt;-->
+<!--<router-outlet></router-outlet>-->
+<!--<notifier-container></notifier-container>-->
+
+<!--<br/><br/><br/>-->
+
+
+
+
+
+
+
+
+
 <router-outlet></router-outlet>
 <notifier-container></notifier-container>
-
-<br/><br/><br/>
 
 

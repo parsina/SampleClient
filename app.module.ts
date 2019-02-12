@@ -2,7 +2,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {AuthGuard} from './auth/guard/authguard';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {
@@ -25,7 +24,8 @@ import {
   MatSortModule,
   MatProgressSpinnerModule,
   MatChipsModule,
-  MatSlideToggleModule, MatExpansionModule
+  MatSlideToggleModule,
+  MatExpansionModule, MatSnackBarModule, MatProgressBarModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule, Routes} from '@angular/router';
@@ -34,9 +34,7 @@ import {LoginComponent} from './component/login/login.component';
 import {MessageService} from './service/message.service';
 import {SimpleDialogComponent} from './component/simple-dialog/simple-dialog.component';
 import {ConfirmRegistrationComponent} from './component/confirm-registration/confirm-registration.component';
-import {HomeComponent} from './component/home/home.component';
 import {FormCreateComponent} from './component/admin/form-create/form-create.component';
-import {MatPaginatorFarsi} from './utils/mat-paginator-farsi';
 import {CurrencyPipe} from './utils/pipes/currency.pipe';
 import {CurrencyFormatterDirective} from './utils/directives/currency-formatter.directive';
 import {DataStorage} from './auth/data.storage';
@@ -44,9 +42,9 @@ import {JwtInterceptor} from './auth/helper/jwt.interceptor';
 import {ErrorInterceptor} from './auth/helper/error.interceptor';
 import {CreateFormComponent} from './component/account/create-form/create-form.component';
 import {MyFormsComponent} from './component/account/my-forms/my-forms.component';
-import {GroupPlayComponent} from './component/home/group-play/group-play.component';
-import {GroupPlayHistoryComponent} from './component/home/group-play-history/group-play-history.component';
-import {GroupPlayWinnersComponent} from './component/home/group-play-winners/group-play-winners.component';
+import {GroupPlayComponent} from './component/homeOld/group-play/group-play.component';
+import {GroupPlayHistoryComponent} from './component/homeOld/group-play-history/group-play-history.component';
+import {GroupPlayWinnersComponent} from './component/homeOld/group-play-winners/group-play-winners.component';
 import {AdminComponent} from './component/admin/admin.component';
 import {EditTemplateFormComponent} from './component/admin/edit-template-form/edit-template-form.component';
 import {TransactionComponent} from './component/account/transaction/transaction.component';
@@ -58,45 +56,82 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {ProgressLoaderComponent} from './component/progress-loader/progress-loader.component';
 import {NotifierModule} from 'angular-notifier';
 import { ITokComponent } from './component/i-tok/i-tok.component';
+import { LoginRixComponent } from './component/bitrix/login-rix/login-rix.component';
+import { RegisterRixComponent } from './component/bitrix/register-rix/register-rix.component';
+import {AuthGuard} from './auth/guard/authguard';
+import {HomeComponent} from './component/bitrix/home/home.component';
+import { HelpComponent } from './component/bitrix/help/help.component';
+import { ConfirmVerificationComponent } from './component/bitrix/confirm-verification/confirm-verification.component';
+import { ChangePasswordRixComponent } from './component/bitrix/change-password-rix/change-password-rix.component';
+import {HomeOldComponent} from './component/homeOld/homeOld.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import { MessageComponent } from './component/bitrix/message/message.component';
+import { AdministratorComponent } from './component/bitrix/administrator/administrator.component';
 
 
 const appRoutes: Routes = [
   {
+    path: 'Home',
+    component: HomeComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'Admin',
+    component: AdministratorComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'confirmVerification',
+    component: ConfirmVerificationComponent
+  },
+  {
+    path: 'Register',
+    component: RegisterRixComponent
+  },
+  {
+    path: 'Login',
+    component: LoginRixComponent
+  },
+  {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/Login',
     pathMatch: 'full'
   },
-  {
-    path: 'confirmRegistration',
-    component: ConfirmRegistrationComponent
-  },
-  {
-    path: 'itok',
-    component: ITokComponent
-  },
-  {
-    path: 'home',
-    component: HomeComponent
-  },
-  {
-    path: 'account',
-    component: AccountComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'guide',
-    component: GuideComponent,
-  },
-  {
-    path: 'administrator',
-    component: AdminComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {path: '**', redirectTo: '/home'}
+  {path: '**', redirectTo: '/Login'}
+
+
+
+  // {
+  //   path: 'confirmRegistration',
+  //   component: ConfirmRegistrationComponent
+  // },
+  // {
+  //   path: 'itok',
+  //   component: ITokComponent
+  // },
+  // {
+  //   path: 'homeOld',
+  //   component: HomeOldComponent
+  // },
+  // {
+  //   path: 'account',
+  //   component: AccountComponent,
+  //   canActivate: [AuthGuard]
+  // },
+  // {
+  //   path: 'guide',
+  //   component: GuideComponent,
+  // },
+  // {
+  //   path: 'administrator',
+  //   component: AdminComponent,
+  //   canActivate: [AuthGuard]
+  // },
+  // {
+  //   path: 'login',
+  //   component: LoginComponent
+  // },
+  // {path: '**', redirectTo: '/homeOld'}
 ];
 
 @NgModule({
@@ -107,6 +142,7 @@ const appRoutes: Routes = [
     SimpleDialogComponent,
     ConfirmRegistrationComponent,
     HomeComponent,
+    HomeOldComponent,
     FormCreateComponent,
     CurrencyPipe,
     CurrencyFormatterDirective,
@@ -124,8 +160,16 @@ const appRoutes: Routes = [
     SettingsComponent,
     ProgressLoaderComponent,
     ITokComponent,
+    LoginRixComponent,
+    RegisterRixComponent,
+    HelpComponent,
+    ConfirmVerificationComponent,
+    ChangePasswordRixComponent,
+    MessageComponent,
+    AdministratorComponent
   ],
   entryComponents: [
+    ChangePasswordRixComponent,
     SimpleDialogComponent,
     ProgressLoaderComponent
   ],
@@ -155,6 +199,9 @@ const appRoutes: Routes = [
     MatChipsModule,
     MatSlideToggleModule,
     MatExpansionModule,
+    MatProgressBarModule,
+    FlexLayoutModule,
+    MatSnackBarModule,
     NotifierModule.withConfig({
       theme: 'material',
       position: {
@@ -165,13 +212,13 @@ const appRoutes: Routes = [
            * Defines the horizontal position on the screen
            * @type {'left' | 'middle' | 'right'}
            */
-          position: 'right',
+          position: 'middle',
 
           /**
            * Defines the horizontal distance to the screen edge (in px)
            * @type {number}
            */
-          distance: 12
+          distance: 500
 
         },
 
@@ -187,13 +234,13 @@ const appRoutes: Routes = [
            * Defines the vertical distance to the screen edge (in px)
            * @type {number}
            */
-          distance: 70,
+          distance: 100,
 
           /**
            * Defines the vertical gap, existing between multiple notifications (in px)
            * @type {number}
            */
-          gap: 10
+          gap: 5
 
         }
 
@@ -251,13 +298,13 @@ const appRoutes: Routes = [
            * Defines how long it will take to animate a new notification in (in ms)
            * @type {number}
            */
-          speed: 300,
+          speed: 500,
 
           /**
            * Defines which easing method will be used when animating a new notification in
            * @type {'linear' | 'ease' | 'ease-in' | 'ease-out' | 'ease-in-out'}
            */
-          easing: 'ease'
+          easing: 'ease-in'
 
         },
 
@@ -273,7 +320,7 @@ const appRoutes: Routes = [
            * Defines how long it will take to animate a new notification out (in ms)
            * @type {number}
            */
-          speed: 300,
+          speed: 500,
 
           /**
            * Defines which easing method will be used when animating a new notification out
@@ -285,7 +332,7 @@ const appRoutes: Routes = [
            * Defines the animation offset used when hiding multiple notifications at once (in ms)
            * @type {number | false}
            */
-          offset: 50
+          offset: 100
 
         },
 
@@ -295,7 +342,7 @@ const appRoutes: Routes = [
            * Defines how long it will take to shift a notification around (in ms)
            * @type {number}
            */
-          speed: 300,
+          speed: 500,
 
           /**
            * Defines which easing method will be used when shifting a notification around
@@ -315,7 +362,7 @@ const appRoutes: Routes = [
     })
   ],
   providers: [
-    {provide: MatPaginatorIntl, useClass: MatPaginatorFarsi},
+    // {provide: MatPaginatorIntl, useClass: MatPaginatorFarsi},
     {provide: MAT_DIALOG_DATA, useValue: {}}, MessageService, CurrencyPipe, DataStorage,
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},

@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit
         if (result.success)
         {
           // store selectedFormUsername and jwt dataStorage in local storage to keep user logged in between page refreshes
-          this.dataStorage.saveLoggedInUserData(data.properties);
+          this.dataStorage.saveLoggedInUserData(data.properties, false);
           this.userService.getUserAccount().subscribe(accountData =>
           {
             this.dataStorage.saveLoggedInUserAccountData(accountData.properties);
@@ -176,7 +176,7 @@ export class LoginComponent implements OnInit
       .subscribe(
         result =>
         {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/homeOld']);
           if(withRegistration)
             this.notifier.notify("success", 'ثبت نام شما با موفقیت انجام و لینک فعال سازی به آدرس ایمیل شما ارسال گردید.');
           else
